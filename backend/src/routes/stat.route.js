@@ -1,10 +1,9 @@
 import { Router } from "express";
 import { protectRoute, requireAdmin } from "../middleware/auth.middleware.js";
-import { getAllUsers } from "../controller/user.controller.js";
+import { getStats } from "../controller/stat.controller.js";
 
 const router = Router();
 
-router.get("/", protectRoute, requireAdmin, getAllUsers);
-
+router.get("/", protectRoute, requireAdmin, getStats);
 
 export default router;

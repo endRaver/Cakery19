@@ -1,29 +1,33 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
+const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
     },
-    price: {
-      type: Number,
-      required: true,
-    },
-    portionSize: {
-      from: {
-        type: Number,
-        required: true,
+    variants: [
+      {
+        size: {
+          type: String,
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+        portionSize: {
+          from: {
+            type: Number,
+            required: true,
+          },
+          to: {
+            type: Number,
+            required: true,
+          },
+        },
       },
-      to: {
-        type: Number,
-        required: true,
-      },
-    },
-    size: {
-      type: String,
-      required: true,
-    },
+    ],
     description: {
       type: String,
       required: true,
@@ -42,4 +46,4 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-export const User = mongoose.model("User", userSchema);
+export const Product = mongoose.model("Product", productSchema);
