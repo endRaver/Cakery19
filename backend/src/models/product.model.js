@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema(
     variants: [
       {
         size: {
-          type: String,
+          type: Number,
           required: true,
         },
         price: {
@@ -38,9 +38,15 @@ const productSchema = new mongoose.Schema(
         required: false,
       },
     ],
-    imageUrl: {
-      type: String,
-      required: true,
+    imageUrl: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+    signature: {
+      type: Boolean,
+      default: false,
     },
   },
   {

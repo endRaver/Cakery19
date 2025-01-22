@@ -29,6 +29,9 @@ export const getSignature = async (req, res, next) => {
   try {
     const products = await Product.aggregate([
       {
+        $match: { signature: true },
+      },
+      {
         $sample: { size: 3 },
       },
       {

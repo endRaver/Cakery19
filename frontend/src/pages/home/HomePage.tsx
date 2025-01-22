@@ -7,7 +7,9 @@ const HomePage = () => {
         <BannerCarousel />
       </section>
 
-      <section className="container mx-auto">{/* Other content that needs container */}</section>
+      <section className="container mx-auto">
+        
+      </section>
     </>
   );
 };
