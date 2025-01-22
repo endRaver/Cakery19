@@ -10,7 +10,7 @@ import { connectDB } from "./lib/db.js";
 import userRoutes from "./routes/user.route.js";
 import adminRoutes from "./routes/admin.route.js";
 import authRoutes from "./routes/auth.route.js";
-import productRoutes from "./routes/admin.route.js";
+import productRoutes from "./routes/product.route.js";
 import statRoutes from "./routes/stat.route.js";
 
 dotenv.config();

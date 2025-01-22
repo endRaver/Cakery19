@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 
 const linkStyle =
-  "my-1 text-nowrap border border-transparent px-3 py-1 text-sm uppercase leading-6 tracking-wider duration-300 ease-in-out";
+  "my-1 text-nowrap font-medium border border-transparent px-3 py-1 text-sm uppercase leading-6 tracking-wider duration-300 ease-in-out";
 
 const TopNavigationBar = () => {
   const location = useLocation().pathname;

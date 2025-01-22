@@ -8,7 +8,7 @@ import {
 const router = Router();
 
 router.get("/", getAllProducts);
-router.get("/:productId", getProductById);
 router.get("/signature", getSignature);
+router.get("/:productId", getProductById);
 
 export default router;

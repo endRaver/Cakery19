@@ -1,16 +1,16 @@
 import BannerCarousel from "./components/BannerCarousel";
+import SignatureProductSection from "./components/SignatureProductSection";
+import VideoSection from "./components/VideoSection";
 
 const HomePage = () => {
   return (
-    <>
-      <section className="w-full">
-        <BannerCarousel />
-      </section>
+    <div className="space-y-[60px]">
+      <BannerCarousel />
 
-      <section className="container mx-auto">
-        
-      </section>
-    </>
+      <SignatureProductSection />
+
+      <VideoSection />
+    </div>
   );
 };
 
