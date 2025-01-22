@@ -1,10 +1,14 @@
-import Topbar from "@/components/Topbar";
+import BannerCarousel from "./components/BannerCarousel";
 
 const HomePage = () => {
   return (
-    <div>
-      <Topbar />
-    </div>
+    <>
+      <section className="w-full">
+        <BannerCarousel />
+      </section>
+
+      <section className="container mx-auto">{/* Other content that needs container */}</section>
+    </>
   );
 };
 

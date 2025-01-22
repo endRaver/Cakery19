@@ -38,8 +38,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   if (loading)
     // TODO: add loader match with theme of the app
     return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <Loader className="size-8 text-emerald-500 animate-spin" />
+      <div className="flex h-screen w-full items-center justify-center">
+        <Loader className="size-8 animate-spin text-emerald-500" />
       </div>
     );
 

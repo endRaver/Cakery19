@@ -11,14 +11,11 @@ const Topbar = () => {
   const isAdmin = true;
 
   return (
-    <div className="flex items-center justify-between p-4 sticky top-0 bg-zinc-900/75 backdrop-blur-md z-10">
+    <div className="sticky top-0 z-10 flex items-center justify-between bg-zinc-900/75 p-4 backdrop-blur-md">
       <div className="flex items-center gap-4">
         {isAdmin && (
-          <Link
-            to={"/admin"}
-            className={cn(buttonVariants({ variant: "outline" }))}
-          >
-            <LayoutDashboardIcon className="size-4 mr-2" /> Admin Dashboard
+          <Link to={"/admin"} className={cn(buttonVariants({ variant: "outline" }))}>
+            <LayoutDashboardIcon className="mr-2 size-4" /> Admin Dashboard
           </Link>
         )}
 
