@@ -139,10 +139,7 @@ const products = [
     ],
     description: "Refreshing lemon cake with zesty frosting.",
     category: [],
-    imageUrl: [
-      "/cakes/Schoggi_glee/SchoggiGleeCake1.jpg",
-      "/cakes/Schoggi_glee/SchoggiGleeCake2.jpg",
-    ],
+    imageUrl: ["/cakes/Schoggi_glee/SchoggiGleeCake1.jpg"],
     signature: false,
   },
   {

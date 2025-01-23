@@ -8,7 +8,7 @@ const AboutUsPage = () => {
   const windowWidth = useWindowWidth();
 
   return (
-    <div className="my-10 space-y-10 text-primary-500">
+    <main className="my-10 space-y-10 text-primary-500">
       <section className="container mx-auto flex gap-20 py-11">
         <div className="mt-10 flex-1">
           <h2 className="text-4xl font-medium">About Our Sweet Story</h2>
@@ -58,7 +58,7 @@ const AboutUsPage = () => {
 
         <ValueSlider />
       </section>
-    </div>
+    </main>
   );
 };
 

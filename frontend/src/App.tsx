@@ -5,6 +5,8 @@ import AuthCallbackPage from "./pages/auth-callback/AuthCallbackPage";
 import AdminPage from "./pages/admin/AdminPage";
 import MainLayout from "./layout/MainLayout";
 import AboutUsPage from "./pages/aboutUs/AboutUsPage";
+import ShopPage from "./pages/shop/ShopPage";
+import ProductDetailPage from "./pages/productDetail/ProductDetailPage";
 
 function App() {
   return (
@@ -16,6 +18,9 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/shop" element={<ShopPage />} />
+          <Route path="/shop/:id" element={<ProductDetailPage />} />
+          <Route path="*" element={<div>404</div>} />
         </Route>
       </Routes>
     </>

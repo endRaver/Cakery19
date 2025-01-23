@@ -18,9 +18,9 @@ const SignatureProductList = () => {
         {signatureProducts.map((product) => (
           <CarouselItem key={product._id} className="sm:basis-1/2 lg:basis-1/3">
             <Link to={`/shop/${product._id}`}>
-              <div className="relative aspect-square flex-1 overflow-hidden text-primary-50">
+              <div className="group relative aspect-square flex-1 overflow-hidden text-primary-50">
                 <div
-                  className="group h-full w-full bg-cover bg-center bg-no-repeat duration-500 hover:scale-125"
+                  className="group h-full w-full bg-cover bg-center bg-no-repeat duration-500 ease-in-out group-hover:scale-125"
                   style={{ backgroundImage: `url("${product.imageUrl[0]}")` }}
                 >
                   <div className="absolute inset-0 bg-black bg-opacity-0 duration-500 group-hover:bg-opacity-30"></div>
