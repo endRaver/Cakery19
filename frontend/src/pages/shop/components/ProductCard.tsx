@@ -1,11 +1,19 @@
 import { Product } from "@/types";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({
+  product,
+  isSquareImage = false,
+}: {
+  product: Product;
+  isSquareImage?: boolean;
+}) => {
   return (
     <Link to={`/shop/${product._id}`}>
       <div className="group relative flex-1 lg:max-w-[309px] xl:max-w-[373px] 2xl:max-w-[448px]">
-        <div className="relative h-[380px] w-full overflow-hidden">
+        <div
+          className={`relative w-full overflow-hidden ${isSquareImage ? "aspect-square" : "h-[380px]"}`}
+        >
           <div className="absolute top-[200px] z-20 h-[180px] w-full bg-gradient-to-t from-black/80 to-transparent opacity-0 duration-500 ease-in-out group-hover:opacity-100"></div>
           <div
             className="absolute top-0 h-full w-full bg-cover bg-center bg-no-repeat duration-500 ease-in-out group-hover:scale-110"
@@ -23,7 +31,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           <p className="italic">From {product.variants[0].price.toFixed(2)} CHF</p>
         </div>
 
-        <p className="mt-2 text-sm tracking-wider opacity-0 duration-500 ease-in-out group-hover:opacity-100">
+        <p className="mt-2 line-clamp-2 min-h-10 overflow-hidden text-ellipsis text-sm tracking-wider opacity-0 duration-500 ease-in-out group-hover:opacity-100">
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </p>
       </div>
