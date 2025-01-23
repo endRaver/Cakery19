@@ -1,10 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
+import useWindowWidth from "@/context/useWindowWidth";
+import { ValueSlider } from "./components/ValueSlider";
+
 const AboutUsPage = () => {
+  const windowWidth = useWindowWidth();
+
   return (
-    <div className="my-10 text-primary-500">
-      <div className="container mx-auto flex gap-20 py-11">
+    <div className="my-10 space-y-10 text-primary-500">
+      <section className="container mx-auto flex gap-20 py-11">
         <div className="mt-10 flex-1">
           <h2 className="text-4xl font-medium">About Our Sweet Story</h2>
           <div className="mt-[18px] border-l-4 border-[#89896E]">
@@ -39,7 +44,20 @@ const AboutUsPage = () => {
             className="h-full max-h-[700px] w-full object-cover object-center"
           />
         </div>
-      </div>
+      </section>
+
+      <section className="container mx-auto flex justify-center py-14">
+        <p className="w-fit overflow-hidden rounded bg-[#D9BEA7] px-10 py-5 text-center text-2xl font-light italic text-[#69693F]">
+          “” It is a long established fact that a reader will be distracted by the <br />
+          readable content of a page when looking at its layout. “”
+        </p>
+      </section>
+
+      <section className={windowWidth > 1280 ? "container mx-auto" : ""}>
+        <h2 className="text-center text-4xl font-medium">Our Value</h2>
+
+        <ValueSlider />
+      </section>
     </div>
   );
 };
