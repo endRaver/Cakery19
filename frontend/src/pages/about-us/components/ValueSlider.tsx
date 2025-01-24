@@ -5,10 +5,10 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { next, prev } from "@/assets/icons";
-import useWindowWidth from "@/context/useWindowWidth";
 
 import sliders from "@/assets/slider_image";
 import "./slider_style.css";
+import useWindowWidth from "@/hooks/useWindowWidth";
 
 export const ValueSlider = () => {
   const windowWidth = useWindowWidth();

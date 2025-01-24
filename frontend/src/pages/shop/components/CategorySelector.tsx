@@ -9,7 +9,13 @@ const CategorySelector = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   return (
-    <Carousel className="flex w-full select-none justify-center mb-8 py-3">
+    <Carousel
+      className="mb-8 flex w-full select-none justify-center py-3"
+      opts={{
+        dragFree: true,
+        loop: false,
+      }}
+    >
       <CarouselContent className="ml-0 gap-10">
         <CarouselItem className="flex-shrink-0 basis-auto pl-0">
           <Button

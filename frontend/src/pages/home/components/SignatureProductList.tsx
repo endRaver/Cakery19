@@ -13,7 +13,7 @@ const SignatureProductList = () => {
   }, [fetchSignatureProducts]);
 
   return (
-    <Carousel className="w-full">
+    <Carousel className="w-full" opts={{ dragFree: true, loop: false }}>
       <CarouselContent className="">
         {signatureProducts.map((product) => (
           <CarouselItem key={product._id} className="sm:basis-1/2 lg:basis-1/3">

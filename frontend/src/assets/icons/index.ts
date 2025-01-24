@@ -13,6 +13,10 @@ import whatsapp_dark from "./whatsapp_dark.svg";
 import instagram_light from "./instagram_light.svg";
 import instagram_dark from "./instagram_dark.svg";
 
+import menu from "./menu_dark.svg";
+import search from "./search_dark.svg";
+import search_light from "./search_light.svg";
+
 export {
   play,
   next,
@@ -26,4 +30,7 @@ export {
   whatsapp_light,
   instagram_light,
   instagram_dark,
+  menu,
+  search,
+  search_light,
 };

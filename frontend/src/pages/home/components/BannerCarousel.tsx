@@ -15,20 +15,21 @@ const BannerCarousel = () => {
             delay: 5000,
           }),
         ]}
+        opts={{ loop: true }}
       >
-        <CarouselContent>
+        <CarouselContent className="select-none">
           <CarouselItem className="pl-0">
             <div
-              className="relative h-[734px] w-full overflow-hidden bg-cover bg-center bg-no-repeat"
+              className="relative h-[680px] w-full overflow-hidden bg-cover bg-center bg-no-repeat lg:h-[734px]"
               style={{ backgroundImage: 'url("/images/cakery_banner_1.jpg")' }}
             >
-              <div className="absolute bottom-[146px] left-[50px] max-w-[697px] space-y-6">
-                <h1 className="text-[54px] font-light leading-[68px] tracking-wide text-[#F8F4F0]">
-                  <span className="font-medium">Baker</span> with love, <br /> served with a{" "}
-                  <span className="font-medium">Smile</span>
+              <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[697px] -translate-x-1/2 flex-col items-center space-y-6 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start">
+                <h1 className="min-w-[360px] text-center text-4xl font-light leading-[46px] tracking-wide text-[#F8F4F0] sm:text-left sm:text-[54px] sm:leading-[68px]">
+                  <span className="font-medium">Baker</span> with love,
+                  <br /> served with a <span className="font-medium">Smile</span>
                 </h1>
 
-                <p className="text-lg font-light text-[#F8F4F0]">
+                <p className="hidden text-lg font-light text-[#F8F4F0] sm:block">
                   Baked with passion, delivered with joy, our artisanal treats embody the essence of
                   our bakery. A delightful blend of love and warmth, served with a smile, inviting
                   you to savor every moment of indulgence.
@@ -55,16 +56,16 @@ const BannerCarousel = () => {
           </CarouselItem>
           <CarouselItem className="pl-0">
             <div
-              className="relative h-[734px] w-full bg-cover bg-center bg-no-repeat"
+              className="relative h-[680px] w-full bg-cover bg-center bg-no-repeat lg:h-[734px]"
               style={{ backgroundImage: 'url("/images/menu_banner.jpg")' }}
             >
-              <div className="absolute bottom-[146px] left-[50px] max-w-[697px] space-y-6 p-2.5">
-                <h1 className="text-[54px] font-light leading-[68px] tracking-wide text-[#F8F4F0]">
+              <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[697px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start">
+                <h1 className="min-w-[360px] text-center text-4xl font-light leading-[46px] tracking-wide text-[#F8F4F0] sm:text-left sm:text-[54px] sm:leading-[68px]">
                   <span className="font-medium">Baker</span> with love, <br /> served with a{" "}
                   <span className="font-medium">Smile</span>
                 </h1>
 
-                <p className="text-lg font-light text-[#F8F4F0]">
+                <p className="hidden text-lg font-light text-[#F8F4F0] sm:block">
                   Baked with passion, delivered with joy, our artisanal treats embody the essence of
                   our bakery. A delightful blend of love and warmth, served with a smile, inviting
                   you to savor every moment of indulgence.

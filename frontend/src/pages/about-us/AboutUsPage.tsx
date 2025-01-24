@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-import useWindowWidth from "@/context/useWindowWidth";
 import { ValueSlider } from "./components/ValueSlider";
+import useWindowWidth from "@/hooks/useWindowWidth";
 
 const AboutUsPage = () => {
   const windowWidth = useWindowWidth();
