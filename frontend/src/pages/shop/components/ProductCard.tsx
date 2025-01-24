@@ -8,8 +8,12 @@ const ProductCard = ({
   product: Product;
   isSquareImage?: boolean;
 }) => {
+  const createSlug = (name: string) => {
+    return name.toLowerCase().replace(/\s+/g, "-"); // Replace spaces with hyphens
+  };
+
   return (
-    <Link to={`/shop/${product._id}`}>
+    <Link to={`/shop/${createSlug(product.name)}?id=${product._id}`}>
       <div className="group relative flex-1 lg:max-w-[309px] xl:max-w-[373px] 2xl:max-w-[448px]">
         <div
           className={`relative w-full overflow-hidden ${isSquareImage ? "aspect-square" : "h-[380px]"}`}

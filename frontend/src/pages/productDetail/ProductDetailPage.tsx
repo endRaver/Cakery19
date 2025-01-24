@@ -1,6 +1,6 @@
 import { useProductStore } from "@/stores/useProductStore";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import TagBreadcrumb from "./components/TagBreadcrumb";
 import ProductImageDisplay from "./components/ProductImageDisplay";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,9 @@ const buttonStyle =
   "px-5 py-2 rounded-md border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 font-normal tracking-wider";
 
 const ProductDetailPage = () => {
-  const { productId } = useParams();
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
+
   const {
     isLoading,
     currentProduct,
@@ -23,10 +25,10 @@ const ProductDetailPage = () => {
   const [selectedVariants, setSelectedVariants] = useState(currentProduct?.variants[0]);
 
   useEffect(() => {
-    if (productId) {
-      fetchProductsById(productId);
+    if (id) {
+      fetchProductsById(id);
     }
-  }, [fetchProductsById, productId]);
+  }, [fetchProductsById, id]);
 
   useEffect(() => {
     fetchSignatureProducts();

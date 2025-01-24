@@ -7,9 +7,9 @@ import Autoplay from "embla-carousel-autoplay";
 
 const BannerCarousel = () => {
   return (
-    <section className="h-[594px] w-full overflow-hidden">
+    <section className="h-full w-full overflow-hidden">
       <Carousel
-        className="absolute left-0 top-0 w-full"
+        className="w-full"
         plugins={[
           Autoplay({
             delay: 5000,

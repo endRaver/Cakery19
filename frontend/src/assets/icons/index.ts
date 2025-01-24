@@ -8,4 +8,22 @@ import gluten_free from "./gluten_free.svg";
 import soy from "./soy.svg";
 import sugar_free from "./sugar_free.svg";
 
-export { play, next, prev, plant_based, nuts, gluten_free, soy, sugar_free };
+import whatsapp_light from "./whatsapp_light.svg";
+import whatsapp_dark from "./whatsapp_dark.svg";
+import instagram_light from "./instagram_light.svg";
+import instagram_dark from "./instagram_dark.svg";
+
+export {
+  play,
+  next,
+  prev,
+  plant_based,
+  nuts,
+  gluten_free,
+  soy,
+  sugar_free,
+  whatsapp_dark,
+  whatsapp_light,
+  instagram_light,
+  instagram_dark,
+};
