@@ -11,16 +11,16 @@ type Slider = {
 
 const sliders: Slider[] = [
   {
-    title: "Natural",
-    description:
-      "Additives and preservatives are never on our menu - memories last better without them.",
-    image: slider2,
-  },
-  {
     title: "Handmade",
     description:
       "One small atelier creates all our delectable products entirely by hand and with the heart.",
     image: slider1,
+  },
+  {
+    title: "Natural",
+    description:
+      "Additives and preservatives are never on our menu - memories last better without them.",
+    image: slider2,
   },
   {
     title: "Swiss",
@@ -31,6 +31,12 @@ const sliders: Slider[] = [
     title: "Swiss",
     description: "The heart and soul of Sweden - in bite-sized pieces.",
     image: slider4,
+  },
+  {
+    title: "Handmade",
+    description:
+      "One small atelier creates all our delectable products entirely by hand and with the heart.",
+    image: slider2,
   },
 ];
 

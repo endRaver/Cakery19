@@ -5,7 +5,9 @@ import TagBreadcrumb from "./components/TagBreadcrumb";
 import ProductImageDisplay from "./components/ProductImageDisplay";
 import { Button } from "@/components/ui/button";
 import { gluten_free, nuts, plant_based, soy, sugar_free } from "@/assets/icons";
-import ProductCard from "../shop/components/ProductCard";
+import ProductImageDisplayMobile from "./components/ProductImageDisplayMobile";
+import useWindowWidth from "@/hooks/useWindowWidth";
+import RecommendationProducts from "@/components/RecommendationProducts";
 
 const buttonStyle =
   "px-5 py-2 rounded-md border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 font-normal tracking-wider";
@@ -13,6 +15,7 @@ const buttonStyle =
 const ProductDetailPage = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
+  const windowWidth = useWindowWidth();
 
   const {
     isLoading,
@@ -42,19 +45,25 @@ const ProductDetailPage = () => {
 
   if (!isLoading && currentProduct)
     return (
-      <main className="mb-10 space-y-10">
-        <section className="container mx-auto space-y-10">
-          <TagBreadcrumb product={currentProduct} />
+      <main className="mb-10 space-y-8 lg:space-y-10">
+        {windowWidth <= 640 && (
+          <ProductImageDisplayMobile productImages={currentProduct.imageUrl} />
+        )}
 
-          <div className="flex gap-4">
-            <div className="flex-1 space-y-6">
-              <ProductImageDisplay product={currentProduct} />
-            </div>
+        <section className="container mx-auto space-y-10">
+          {windowWidth > 640 && <TagBreadcrumb product={currentProduct} />}
+
+          <div className="flex flex-col gap-x-4 gap-y-8 md:flex-row lg:gap-x-10 2xl:gap-x-20">
+            {windowWidth > 640 && (
+              <div className="flex-1 space-y-6">
+                <ProductImageDisplay product={currentProduct} />
+              </div>
+            )}
 
             {/* Product details */}
             <div className="flex-1 space-y-8">
               <div className="space-y-3 text-primary-400">
-                <h1 className="mb-2 text-3xl text-[51px] font-medium uppercase leading-[51px]">
+                <h1 className="mb-2 text-4xl font-medium uppercase lg:text-[51px] lg:leading-[51px]">
                   {currentProduct.name}
                 </h1>
 
@@ -125,19 +134,17 @@ const ProductDetailPage = () => {
           ></div>
         </section>
 
-        <section className="container mx-auto space-y-10 py-10">
+        <section className="container mx-auto space-y-6 py-10 lg:space-y-10">
           <div>
-            <h2 className="li text-center text-3xl leading-[46px] text-primary-500">
+            <h2 className="text-center text-2xl text-primary-500 sm:text-3xl sm:leading-[46px]">
               Our recommendations
             </h2>
-            <p className="text-center text-lg font-light text-primary-300">You might also like</p>
+            <p className="text-center font-light tracking-wider text-primary-300 sm:text-sm lg:text-lg">
+              You might also like
+            </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            {signatureProducts.map((product) => (
-              <ProductCard key={product._id} product={product} isSquareImage={true} />
-            ))}
-          </div>
+          <RecommendationProducts products={signatureProducts} />
         </section>
       </main>
     );

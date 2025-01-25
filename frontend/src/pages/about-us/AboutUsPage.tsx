@@ -8,12 +8,12 @@ const AboutUsPage = () => {
   const windowWidth = useWindowWidth();
 
   return (
-    <main className="my-10 space-y-10 text-primary-500">
-      <section className="container mx-auto flex gap-20 py-11">
-        <div className="mt-10 flex-1">
+    <main className="my-5 space-y-5 text-primary-500 md:my-10 md:space-y-10">
+      <section className="container mx-auto flex flex-col gap-x-10 gap-y-8 md:flex-row md:py-11 lg:gap-x-20">
+        <div className="flex-1 md:mt-10">
           <h2 className="text-4xl font-medium">About Our Sweet Story</h2>
-          <div className="mt-[18px] border-l-4 border-[#89896E]">
-            <p className="max-w-[466px] ps-10 tracking-wider lg:max-w-[600px]">
+          <div className="mt-[18px] border-[#89896E] md:border-l-4">
+            <p className="leading-7 tracking-wider md:ps-10 lg:max-w-[600px]">
               It is a long established fact that a reader will be distracted by the readable content
               of a page when looking at its layout. The point of using Lorem Ipsum is that it has a
               more-or-less normal distribution of letters, as opposed to using 'Content here,
@@ -26,7 +26,7 @@ const AboutUsPage = () => {
               sometimes on purpose (injected humour and the like).
             </p>
 
-            <Button className="ms-10 mt-6 h-[35px] rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn">
+            <Button className="mt-6 h-[35px] rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn md:ms-10">
               <Link
                 to="/"
                 className="rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium"
@@ -41,20 +41,20 @@ const AboutUsPage = () => {
           <img
             src="/images/about_me.jpg"
             alt="about_me"
-            className="h-full max-h-[700px] w-full object-cover object-center"
+            className="h-full max-h-[640px] w-full object-cover object-center md:max-h-[700px]"
           />
         </div>
       </section>
 
-      <section className="container mx-auto flex justify-center py-14">
-        <p className="w-fit overflow-hidden rounded bg-[#D9BEA7] px-10 py-5 text-center text-2xl font-light italic text-[#69693F]">
-          “” It is a long established fact that a reader will be distracted by the <br />
-          readable content of a page when looking at its layout. “”
+      <section className="container mx-auto flex justify-center py-5 lg:py-14">
+        <p className="w-fit overflow-hidden rounded bg-[#D9BEA7] px-5 md:px-10 py-5 text-center text-sm font-light italic text-[#69693F] sm:text-lg md:text-2xl">
+          “” It is a long established fact that a reader will be distracted by the readable content
+          of a page when looking at its layout. “”
         </p>
       </section>
 
       <section className={windowWidth > 1280 ? "container mx-auto" : ""}>
-        <h2 className="text-center text-4xl font-medium">Our Value</h2>
+        <h2 className="text-center text-4xl font-medium mb-10">Our Value</h2>
 
         <ValueSlider />
       </section>

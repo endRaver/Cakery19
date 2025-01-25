@@ -1,26 +1,34 @@
 import { Link } from "react-router-dom";
 import BannerCarousel from "./components/BannerCarousel";
-import SignatureProductList from "./components/SignatureProductList";
 import VideoBanner from "./components/VideoBanner";
 import InstaVideoList from "./components/InstaVideoList";
 import useWindowWidth from "@/hooks/useWindowWidth";
+import RecommendationProducts from "@/components/RecommendationProducts";
+import { useProductStore } from "@/stores/useProductStore";
+import { useEffect } from "react";
 
 const HomePage = () => {
   const windowWidth = useWindowWidth();
+  const { signatureProducts, fetchSignatureProducts } = useProductStore();
+
+  useEffect(() => {
+    fetchSignatureProducts();
+  }, [fetchSignatureProducts]);
+
   return (
     <div className="space-y-10 lg:space-y-[60px]">
       <BannerCarousel />
 
       <section className="container mx-auto space-y-10">
         <div>
-          <h2 className="li text-center text-2xl leading-[46px] text-primary-500 sm:text-3xl">
+          <h2 className="text-center text-2xl text-primary-500 sm:text-3xl sm:leading-[46px]">
             Discover our signature
           </h2>
           <p className="text-center font-light tracking-wider text-primary-300 sm:text-sm lg:text-lg">
             Best seller of all time
           </p>
         </div>
-        <SignatureProductList />
+        <RecommendationProducts products={signatureProducts} />
 
         <div className="flex items-center justify-center gap-1.5">
           <div className="h-[1px] w-full max-w-[320px] border-t border-primary-400"></div>
@@ -37,7 +45,7 @@ const HomePage = () => {
 
       <section className="container mx-auto space-y-10">
         <div>
-          <h2 className="text-center text-2xl leading-[46px] text-primary-500 sm:text-3xl">
+          <h2 className="text-center text-2xl text-primary-500 sm:text-3xl sm:leading-[46px]">
             Our cake creation videos
           </h2>
           <p className="text-center font-light tracking-wider text-primary-300 sm:text-sm lg:text-lg">

@@ -25,7 +25,7 @@ const TopNavigationBar = () => {
     <>
       {(!isHome || windowWidth <= 1024) && (
         <div
-          className={`h-[${windowWidth > 1024 ? "140" : windowWidth > 640 ? "96" : "84"}px]`}
+          className={`${windowWidth > 1024 ? "h-[140px]" : windowWidth > 640 ? "h-[96px]" : "h-[84px]"}`}
         ></div>
       )}
 

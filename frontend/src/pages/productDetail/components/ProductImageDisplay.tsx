@@ -11,7 +11,7 @@ const ProductImageDisplay = ({ product }: { product: Product }) => {
   return (
     <>
       <div
-        className="h-[592px] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+        className="h-[480px] w-full rounded-lg bg-cover bg-center bg-no-repeat xl:h-[592px]"
         style={{ backgroundImage: `url(${selectedImage})` }}
       ></div>
 
@@ -23,7 +23,7 @@ const ProductImageDisplay = ({ product }: { product: Product }) => {
             onMouseOver={() => setSelectedImage(image)}
           >
             <div
-              className={`relative aspect-square h-[130px] bg-cover bg-center bg-no-repeat p-1`}
+              className={`relative aspect-square h-[80px] bg-cover bg-center bg-no-repeat p-1 xl:h-[130px]`}
               style={{ backgroundImage: `url(${image})` }}
             ></div>
           </div>

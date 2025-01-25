@@ -66,7 +66,7 @@ const Footer = () => {
 
           <div className="space-y-2 text-sm leading-6 tracking-wider text-primary-500">
             <h4 className="font-medium">Opening Hours</h4>
-            <div className="grid grid-cols-2 gap-x-6 gap-y-2">
+            <div className="grid w-fit grid-cols-2 gap-x-10 gap-y-2 lg:gap-x-14">
               <p className="text-nowrap">Monday - Friday</p>
               <p className="text-nowrap">8.00 - 18.30</p>
               <p className="text-nowrap">Saturday</p>
