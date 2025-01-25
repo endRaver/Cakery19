@@ -4,9 +4,11 @@ import { useProductStore } from "@/stores/useProductStore";
 import { Product } from "@/types";
 import ProductCard from "./components/ProductCard";
 import ProductItemSkeleton from "@/components/skeletons/ProductItemSkeleton";
+import useWindowWidth from "@/hooks/useWindowWidth";
 
 const ShopPage = () => {
   const { products, fetchProducts, isLoading } = useProductStore();
+  const windowWidth = useWindowWidth();
 
   useEffect(() => {
     fetchProducts();
@@ -22,7 +24,7 @@ const ShopPage = () => {
       <section className="container mx-auto">
         <CategorySelector />
 
-        <div className="flex flex-wrap gap-y-10">
+        <div className="flex flex-wrap gap-8 sm:gap-y-10">
           {isLoading ? (
             <>
               <div className="flex w-full justify-center gap-x-4">
@@ -40,7 +42,7 @@ const ShopPage = () => {
             products
               .reduce<Array<Array<Product>>>((acc, product, index) => {
                 // Create a new row every 3 items
-                if (index % 3 === 0) {
+                if (index % (windowWidth > 1024 ? 3 : windowWidth > 640 ? 2 : 1) === 0) {
                   acc.push([]); // Start a new row
                 }
                 acc[acc.length - 1].push(product); // Add the product to the current row

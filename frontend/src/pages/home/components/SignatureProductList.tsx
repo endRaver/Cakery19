@@ -8,17 +8,24 @@ import { Link } from "react-router-dom";
 const SignatureProductList = () => {
   const { signatureProducts, fetchSignatureProducts } = useProductStore();
 
+  const createSlug = (name: string) => {
+    return name.toLowerCase().replace(/\s+/g, "-"); // Replace spaces with hyphens
+  };
+
   useEffect(() => {
     fetchSignatureProducts();
   }, [fetchSignatureProducts]);
 
   return (
     <Carousel className="w-full" opts={{ dragFree: true, loop: false }}>
-      <CarouselContent className="">
+      <CarouselContent className="ml-0 gap-2.5">
         {signatureProducts.map((product) => (
-          <CarouselItem key={product._id} className="sm:basis-1/2 lg:basis-1/3">
-            <Link to={`/shop/${product._id}`}>
-              <div className="group relative aspect-square flex-1 overflow-hidden text-primary-50">
+          <CarouselItem
+            key={product._id}
+            className="flex-shrink-0 basis-auto select-none pl-0 sm:basis-1/2 lg:basis-1/3"
+          >
+            <Link to={`/shop/${createSlug(product.name)}?id=${product._id}`}>
+              <div className="group relative aspect-square min-h-[260px] flex-1 overflow-hidden text-primary-50">
                 <div
                   className="group h-full w-full bg-cover bg-center bg-no-repeat duration-500 ease-in-out group-hover:scale-125"
                   style={{ backgroundImage: `url("${product.imageUrl[0]}")` }}

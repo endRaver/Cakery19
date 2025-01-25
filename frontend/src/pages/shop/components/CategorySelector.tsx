@@ -16,7 +16,7 @@ const CategorySelector = () => {
         loop: false,
       }}
     >
-      <CarouselContent className="ml-0 gap-10">
+      <CarouselContent className="ml-0 gap-4 sm:gap-6 lg:gap-10">
         <CarouselItem className="flex-shrink-0 basis-auto pl-0">
           <Button
             variant="outline"

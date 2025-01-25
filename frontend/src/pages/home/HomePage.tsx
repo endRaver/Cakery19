@@ -3,18 +3,22 @@ import BannerCarousel from "./components/BannerCarousel";
 import SignatureProductList from "./components/SignatureProductList";
 import VideoBanner from "./components/VideoBanner";
 import InstaVideoList from "./components/InstaVideoList";
+import useWindowWidth from "@/hooks/useWindowWidth";
 
 const HomePage = () => {
+  const windowWidth = useWindowWidth();
   return (
-    <div className="space-y-[60px]">
+    <div className="space-y-10 lg:space-y-[60px]">
       <BannerCarousel />
 
       <section className="container mx-auto space-y-10">
         <div>
-          <h2 className="li text-center text-3xl leading-[46px] text-primary-500">
+          <h2 className="li text-center text-2xl leading-[46px] text-primary-500 sm:text-3xl">
             Discover our signature
           </h2>
-          <p className="text-center text-lg font-light text-primary-300">Best seller of all time</p>
+          <p className="text-center font-light tracking-wider text-primary-300 sm:text-sm lg:text-lg">
+            Best seller of all time
+          </p>
         </div>
         <SignatureProductList />
 
@@ -33,21 +37,24 @@ const HomePage = () => {
 
       <section className="container mx-auto space-y-10">
         <div>
-          <h2 className="li text-center text-3xl leading-[46px] text-primary-500">
+          <h2 className="text-center text-2xl leading-[46px] text-primary-500 sm:text-3xl">
             Our cake creation videos
           </h2>
-          <p className="text-center text-lg font-light text-primary-300">Discover our process</p>
+          <p className="text-center font-light tracking-wider text-primary-300 sm:text-sm lg:text-lg">
+            Discover our process
+          </p>
         </div>
         <InstaVideoList />
       </section>
 
       <section>
-        <div className="container mx-auto flex justify-center gap-14 py-10">
-          <h2 className="text-4xl font-light leading-[56px] tracking-widest text-primary-500">
-            THE KNOW - <br /> <span className="text-nowrap">HOW CAKERY 19</span>
+        <div className="container mx-auto flex flex-col justify-center gap-x-6 gap-y-5 pb-8 lg:flex-row lg:gap-14 lg:py-10">
+          <h2 className="text-2xl font-light tracking-widest text-primary-500 lg:text-4xl lg:leading-[56px]">
+            THE KNOW - {(windowWidth > 1024 || windowWidth <= 640) && <br />}
+            <span className="text-nowrap">HOW CAKERY 19</span>
           </h2>
 
-          <p className="max-w-[564px] text-justify text-sm leading-6 tracking-wide text-primary-500">
+          <p className="text-justify text-sm leading-6 tracking-wide text-primary-500 lg:max-w-[564px]">
             Passed by renowned restaurants and starred palaces, he invents a pastry where sweet and
             savory borrow the same codes of cooking, seasoning, condiments. Quickly his creations of
             high flight are praised by the critics and his name circulates very quickly from mouths

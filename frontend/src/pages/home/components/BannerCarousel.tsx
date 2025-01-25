@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 
 import Autoplay from "embla-carousel-autoplay";
 
+const quoteStyle =
+  "min-w-[360px] text-center text-4xl font-light leading-[46px] tracking-wide text-[#F8F4F0] sm:text-left sm:text-5xl lg:text-[54px] sm:text-[54px] sm:leading-[54px] lg:leading-[68px]";
+
 const BannerCarousel = () => {
   return (
     <section className="h-full w-full overflow-hidden">
@@ -23,13 +26,13 @@ const BannerCarousel = () => {
               className="relative h-[680px] w-full overflow-hidden bg-cover bg-center bg-no-repeat lg:h-[734px]"
               style={{ backgroundImage: 'url("/images/cakery_banner_1.jpg")' }}
             >
-              <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[697px] -translate-x-1/2 flex-col items-center space-y-6 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start">
-                <h1 className="min-w-[360px] text-center text-4xl font-light leading-[46px] tracking-wide text-[#F8F4F0] sm:text-left sm:text-[54px] sm:leading-[68px]">
+              <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[540px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start lg:max-w-[697px]">
+                <h1 className={quoteStyle}>
                   <span className="font-medium">Baker</span> with love,
                   <br /> served with a <span className="font-medium">Smile</span>
                 </h1>
 
-                <p className="hidden text-lg font-light text-[#F8F4F0] sm:block">
+                <p className="hidden text-justify text-lg font-light text-[#F8F4F0] sm:block">
                   Baked with passion, delivered with joy, our artisanal treats embody the essence of
                   our bakery. A delightful blend of love and warmth, served with a smile, inviting
                   you to savor every moment of indulgence.
@@ -59,13 +62,13 @@ const BannerCarousel = () => {
               className="relative h-[680px] w-full bg-cover bg-center bg-no-repeat lg:h-[734px]"
               style={{ backgroundImage: 'url("/images/menu_banner.jpg")' }}
             >
-              <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[697px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start">
-                <h1 className="min-w-[360px] text-center text-4xl font-light leading-[46px] tracking-wide text-[#F8F4F0] sm:text-left sm:text-[54px] sm:leading-[68px]">
+              <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[540px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start lg:max-w-[697px]">
+                <h1 className={quoteStyle}>
                   <span className="font-medium">Baker</span> with love, <br /> served with a{" "}
                   <span className="font-medium">Smile</span>
                 </h1>
 
-                <p className="hidden text-lg font-light text-[#F8F4F0] sm:block">
+                <p className="hidden text-justify text-lg font-light text-[#F8F4F0] sm:block">
                   Baked with passion, delivered with joy, our artisanal treats embody the essence of
                   our bakery. A delightful blend of love and warmth, served with a smile, inviting
                   you to savor every moment of indulgence.

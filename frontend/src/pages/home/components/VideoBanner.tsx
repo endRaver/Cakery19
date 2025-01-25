@@ -43,12 +43,12 @@ const VideoBanner = () => {
       </div>
 
       <ReactPlayer
+        loop
         url={video}
         width="100%"
         height="100%"
         playing={isPlaying}
         controls={isPlaying}
-        loop
         onPause={handlePause} // Call handlePause when paused
         onPlay={handlePlay}
       />

@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div className="border-t border-[#4A1D1F38]">
-      <footer className="container relative mx-auto pb-20 pt-9">
-        <div className="flex justify-between gap-8">
-          <ul className="space-y-2 text-sm font-medium leading-6 tracking-wider text-primary-500">
-            <li className="text-nowrap">
+      <footer className="container relative mx-auto pb-20 pt-5 lg:pt-9">
+        <div className="flex flex-col flex-wrap justify-between gap-8 sm:flex-row">
+          <ul className="grid grid-cols-2 gap-2 text-sm font-medium leading-6 tracking-wider text-primary-500 sm:grid-cols-1">
+            <li className="text-nowrap text-center sm:text-left">
               <Link
                 to={"/"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
@@ -16,7 +16,7 @@ const Footer = () => {
                 Home
               </Link>
             </li>
-            <li className="text-nowrap">
+            <li className="text-nowrap text-center sm:text-left">
               <Link
                 to={"/shop"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
@@ -24,7 +24,7 @@ const Footer = () => {
                 Shop
               </Link>
             </li>
-            <li className="text-nowrap">
+            <li className="text-nowrap text-center sm:text-left">
               <Link
                 to={"/event"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
@@ -32,7 +32,7 @@ const Footer = () => {
                 Event
               </Link>
             </li>
-            <li className="text-nowrap">
+            <li className="text-nowrap text-center sm:text-left">
               <Link
                 to={"/about-us"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
@@ -40,7 +40,7 @@ const Footer = () => {
                 About Us
               </Link>
             </li>
-            <li className="text-nowrap">
+            <li className="text-nowrap text-center sm:text-left">
               <Link
                 to={"/faqs"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
@@ -48,7 +48,7 @@ const Footer = () => {
                 FAQs
               </Link>
             </li>
-            <li className="text-nowrap">
+            <li className="text-nowrap text-center sm:text-left">
               <Link
                 to={"/contact"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
@@ -76,9 +76,11 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="max-w-[250px] space-y-4 text-justify text-sm leading-6 tracking-wider text-primary-500">
+          <div className="space-y-4 text-justify text-sm leading-6 tracking-wider text-primary-500 sm:max-w-[250px]">
             <h4 className="font-medium">Newsletter</h4>
-            <p>Subscribe to receive updates, access to exclusive deals, and more.</p>
+            <p className="max-w-[291px]">
+              Subscribe to receive updates, access to exclusive deals, and more.
+            </p>
             <Input
               type="email"
               placeholder="Email"
@@ -89,7 +91,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center">
+        <div className="bottom-8 left-1/2 flex flex-col items-center pt-10 lg:absolute lg:-translate-x-1/2">
           <img src="/images/cakery_logo_dark.svg" alt="logo" className="w-[100px]" />
           <div className="mt-2 flex gap-3 text-xs text-primary-200">Website by Cakery</div>
         </div>

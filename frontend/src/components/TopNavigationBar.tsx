@@ -10,6 +10,8 @@ import {
   whatsapp_light,
 } from "@/assets/icons";
 import useWindowWidth from "@/hooks/useWindowWidth";
+import { useState } from "react";
+import Sidebar from "./Sidebar";
 
 const linkStyle =
   "my-1 text-nowrap font-medium border border-transparent px-1.5 lg:px-3 py-1 text-sm leading-6 tracking-wider duration-300 ease-in-out ";
@@ -21,12 +23,11 @@ const TopNavigationBar = () => {
 
   return (
     <>
-      {!isHome ||
-        (windowWidth <= 1024 && (
-          <div
-            className={`${windowWidth > 1024 && "h-[140px]"} ${windowWidth > 640 && "h-[96px]"}`}
-          ></div>
-        ))}
+      {(!isHome || windowWidth <= 1024) && (
+        <div
+          className={`h-[${windowWidth > 1024 ? "140" : windowWidth > 640 ? "96" : "84"}px]`}
+        ></div>
+      )}
 
       {windowWidth > 1024 ? <NavbarDesktop /> : <NavbarMobile />}
     </>
@@ -40,7 +41,7 @@ const NavbarDesktop = () => {
 
   return (
     <div
-      className={`fixed top-0 z-50 mx-auto w-full duration-500 ${scrollY > 200 && "shadow-lg"} ${isHome && scrollY < 200 ? "bg-transparent" : "bg-primary-50"} ${scrollDirection === "down" && "-top-[150px]"}`}
+      className={`fixed top-0 z-50 mx-auto w-full duration-500 ${scrollY > 200 && "shadow-lg"} ${isHome && scrollY < 200 ? "bg-transparent" : "bg-primary-50"} ${scrollDirection === "down" && "-top-[140px]"}`}
     >
       <div className="container relative mx-auto flex justify-between gap-3 py-5">
         <div
@@ -123,28 +124,36 @@ const NavbarDesktop = () => {
 
 const NavbarMobile = () => {
   const { scrollY, scrollDirection } = useScroll();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div
-      className={`fixed top-0 z-50 mx-auto w-full py-2 duration-500 ${scrollY > 200 && "shadow-lg"} bg-primary-50 ${scrollDirection === "down" && "-top-[96px]"}`}
-    >
-      <div className="mx-4 flex items-center justify-between md:mx-8">
-        <Button className="bg-transparent p-2 duration-300 hover:bg-primary-75">
-          <img src={menu} alt="menu" className="size-5 md:size-7" />
-        </Button>
+    <>
+      <div
+        className={`fixed top-0 z-30 mx-auto w-full py-2 duration-500 ${scrollY > 200 && "shadow-lg"} bg-primary-50 ${scrollDirection === "down" && "-top-[97px]"}`}
+      >
+        <div className="mx-4 flex items-center justify-between sm:mx-8">
+          <Button
+            className="bg-transparent p-2 duration-300 hover:bg-primary-75"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          >
+            <img src={menu} alt="menu" className="size-5 sm:size-7" />
+          </Button>
 
-        <a href="/">
-          <img
-            src={"/images/cakery_logo_dark.svg"}
-            alt="logo"
-            className="size-[68px] md:size-[80px]"
-          />
-        </a>
-        <Button className="bg-transparent p-2 duration-300 hover:bg-primary-75">
-          <img src={search} alt="search" className="size-5 md:size-7" />
-        </Button>
+          <a href="/">
+            <img
+              src={"/images/cakery_logo_dark.svg"}
+              alt="logo"
+              className="size-[68px] sm:size-[80px]"
+            />
+          </a>
+          <Button className="bg-transparent p-2 duration-300 hover:bg-primary-75">
+            <img src={search} alt="search" className="size-5 sm:size-7" />
+          </Button>
+        </div>
       </div>
-    </div>
+
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+    </>
   );
 };
 
