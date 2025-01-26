@@ -13,6 +13,8 @@ import useWindowWidth from "@/hooks/useWindowWidth";
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/clerk-react";
+import { LayoutDashboardIcon } from "lucide-react";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const linkStyle =
   "my-1 text-nowrap font-medium border border-transparent px-1.5 lg:px-3 py-1 text-sm leading-6 tracking-wider duration-300 ease-in-out ";
@@ -40,6 +42,7 @@ const NavbarDesktop = () => {
   const isHome = location === "/";
   const { scrollY, scrollDirection } = useScroll();
   const { user } = useUser();
+  const { isAdmin } = useAuthStore();
 
   return (
     <div
@@ -155,6 +158,18 @@ const NavbarDesktop = () => {
               <img src={whatsapp_dark} className="size-5" />
             )}
           </a>
+
+          <SignedIn>
+            {isAdmin && (
+              <a
+                href="/admin"
+                className={`flex items-center gap-2 border-b border-transparent duration-300 ${isHome && scrollY < 200 ? "text-primary-50 hover:border-primary-50" : "text-primary-500 hover:border-primary-500"} ms-10`}
+              >
+                <LayoutDashboardIcon className="mr-1 size-4" />
+                Dashboard
+              </a>
+            )}
+          </SignedIn>
         </div>
       </div>
     </div>

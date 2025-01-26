@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import { LogOutIcon, User2 } from "lucide-react";
+import { LayoutDashboardIcon, LogOutIcon, User2 } from "lucide-react";
 import { instagram_dark, whatsapp_dark } from "@/assets/icons";
 import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/clerk-react";
 import { Button } from "./ui/button";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const linkStyle =
   "mx-6 mb-6 w-fit text-nowrap border border-transparent text-lg font-medium leading-6 tracking-wider text-[#73573F] duration-300 ease-in-out hover:border-b-primary-500";
@@ -15,6 +16,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
   const location = useLocation().pathname;
 
   const { user } = useUser();
+  const { isAdmin } = useAuthStore();
 
   useEffect(() => {
     onClose();
@@ -99,6 +101,16 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
         </div>
 
         <SignedIn>
+          {isAdmin && (
+            <a
+              href="/admin"
+              className={`absolute bottom-6 left-3 flex items-center gap-2 border-b border-transparent text-primary-500 duration-300 hover:border-primary-500`}
+            >
+              <LayoutDashboardIcon className="mr-1 size-4" />
+              Dashboard
+            </a>
+          )}
+
           <SignOutButton redirectUrl="/login">
             <Button className="absolute bottom-3 right-3 rounded-full bg-primary-100 !py-6 hover:bg-primary-300">
               <LogOutIcon />

@@ -1,5 +1,6 @@
 import FullpageLoader from "@/components/FullpageLoader";
 import { axiosInstance } from "@/lib/axios";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { useAuth } from "@clerk/clerk-react";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -14,6 +15,7 @@ const updateApiToken = (token: string | null) => {
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { getToken } = useAuth();
   const [loading, setLoading] = useState(true);
+  const { checkAdminStatus } = useAuthStore();
 
   useEffect(() => {
     const initAuth = async () => {
@@ -23,6 +25,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         if (token) {
           // TODO: update user profile
+          await checkAdminStatus();
         }
       } catch (error) {
         updateApiToken(null);
@@ -33,7 +36,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     initAuth();
-  }, [getToken]);
+  }, [checkAdminStatus, getToken]);
 
   if (loading) return <FullpageLoader />;
 
