@@ -81,14 +81,14 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             <img src={whatsapp_dark} className="size-4" />
             Whatsapp
           </a>
-          <SignedIn>
-            <div className="flex w-[110px] flex-nowrap items-center justify-end gap-1">
+          <div className="flex w-[110px] flex-nowrap items-center justify-end gap-1">
+            <SignedIn>
               <User2 className="size-4 flex-shrink-0" />
               <p className="truncate capitalize">
                 {user?.fullName || user?.emailAddresses[0]?.emailAddress.split("@")[0] || "N/a"}
               </p>
-            </div>
-          </SignedIn>
+            </SignedIn>
+          </div>
 
           <SignedOut>
             <div className="">

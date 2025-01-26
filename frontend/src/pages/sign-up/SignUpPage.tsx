@@ -75,8 +75,8 @@ const SignUpPage = () => {
   };
 
   return (
-    <main className="container mx-auto my-10 space-y-10 text-primary-300">
-      <section className="flex justify-between gap-10">
+    <main className="my-10 space-y-10 text-primary-300">
+      <section className="container mx-auto flex flex-col justify-between gap-10 md:flex-row">
         <div
           style={{ backgroundImage: `url("/images/login_banner.jpg")` }}
           className="aspect-square w-full flex-1 bg-cover bg-center bg-no-repeat"
@@ -203,6 +203,13 @@ const SignUpPage = () => {
             </a>
           </div>
         </div>
+      </section>
+
+      <section>
+        <div
+          className="h-[425px] w-full bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url("/images/menu_banner.jpg")' }}
+        ></div>
       </section>
 
       <VerificationCodeDialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} />

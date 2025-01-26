@@ -40,8 +40,8 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="container mx-auto my-10 space-y-10 text-primary-300">
-      <section className="flex justify-between gap-10">
+    <main className="mt-10 space-y-10 text-primary-400">
+      <section className="container mx-auto flex flex-col justify-between gap-10 md:flex-row">
         <div
           style={{ backgroundImage: `url("/images/login_banner.jpg")` }}
           className="aspect-square w-full flex-1 bg-cover bg-center bg-no-repeat"
@@ -130,19 +130,31 @@ const LoginPage = () => {
           <div className="flex w-fit flex-col gap-y-3">
             <a
               href="/sign-up"
-              className="border-b border-transparent text-sm tracking-wider text-[#b3801a] duration-300 hover:border-[#b3801a]"
+              className="w-fit border-b border-transparent text-sm tracking-wider text-[#b3801a] duration-300 hover:border-[#b3801a]"
             >
               Forgot your password?
             </a>
 
             <a
               href="/sign-up"
-              className="border-b border-transparent text-sm tracking-wider duration-300 hover:border-primary-500"
+              className="w-fit border-b border-transparent text-sm tracking-wider duration-300 hover:border-primary-500"
             >
               CREATE AN ACCOUNT
             </a>
+
+            <p className="text-justify text-sm">
+              Log in to track orders, save favorites, and connect with us easily. Enjoy a seamless
+              shopping experience with exclusive benefits!
+            </p>
           </div>
         </div>
+      </section>
+
+      <section>
+        <div
+          className="h-[425px] w-full bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url("/images/menu_banner.jpg")' }}
+        ></div>
       </section>
     </main>
   );

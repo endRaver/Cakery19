@@ -12,6 +12,7 @@ import ProductDetailPage from "./pages/productDetail/ProductDetailPage";
 import FaqsPage from "./pages/faqs/FaqsPage";
 import LoginPage from "./pages/login/LoginPage";
 import SignUpPage from "./pages/sign-up/SignUpPage";
+import NotFoundPage from "./pages/not-found/NotFoundPage";
 
 function App() {
   const { isSignedIn } = useAuth();
@@ -38,7 +39,7 @@ function App() {
             element={isSignedIn ? <Navigate to="/" replace /> : <SignUpPage />}
           />
 
-          <Route path="*" element={<div>404</div>} />
+          <Route path="*" element={<NotFoundPage/>} />
         </Route>
       </Routes>
 
