@@ -1,19 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { useProductStore } from "@/stores/useProductStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const buttonStyle =
   "rounded-[2px] border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 uppercase";
 
 const CategorySelector = ({ categories }: { categories: string[] }) => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
   const { fetchProductsByCategory } = useProductStore();
 
+  // Derive the selected category from the search params
+  const selectedCategory = searchParams.get("category") || "";
+
   useEffect(() => {
-    if (selectedCategory === "") fetchProductsByCategory([]);
-    else fetchProductsByCategory([selectedCategory]);
+    if (!selectedCategory) {
+      fetchProductsByCategory([]);
+    } else {
+      fetchProductsByCategory([selectedCategory]);
+    }
   }, [fetchProductsByCategory, selectedCategory]);
+
+  const handleSelectedCategory = (category: string) => {
+    // Update search params when a new category is selected
+    setSearchParams({ category });
+  };
 
   return (
     <Carousel
@@ -28,7 +40,7 @@ const CategorySelector = ({ categories }: { categories: string[] }) => {
           <Button
             variant="outline"
             className={`${buttonStyle} ${selectedCategory === "" && "bg-primary-300 text-white"}`}
-            onClick={() => setSelectedCategory("")}
+            onClick={() => handleSelectedCategory("")}
           >
             ALL OF PRODUCT
           </Button>
@@ -39,7 +51,7 @@ const CategorySelector = ({ categories }: { categories: string[] }) => {
             <Button
               variant="outline"
               className={`${buttonStyle} ${selectedCategory === category && "bg-primary-300 text-white"}`}
-              onClick={() => setSelectedCategory(category)}
+              onClick={() => handleSelectedCategory(category)}
             >
               {category}
             </Button>

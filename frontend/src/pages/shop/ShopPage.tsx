@@ -7,15 +7,13 @@ import ProductItemSkeleton from "@/components/skeletons/ProductItemSkeleton";
 import useWindowWidth from "@/hooks/useWindowWidth";
 
 const ShopPage = () => {
-  const { products, fetchProducts, isLoading, filteredProducts, fetchProductsByCategory } =
-    useProductStore();
-  const categories = Array.from(new Set(products.flatMap((item) => item.category)));
   const windowWidth = useWindowWidth();
+  const { products, fetchProducts, isLoading, filteredProducts } = useProductStore();
+  const categories = Array.from(new Set(products.flatMap((item) => item.category)));
 
   useEffect(() => {
     fetchProducts();
-    fetchProductsByCategory([]);
-  }, [fetchProducts, fetchProductsByCategory]);
+  }, [fetchProducts]);
 
   return (
     <main className="mb-8 space-y-8 text-primary-500">
@@ -29,18 +27,11 @@ const ShopPage = () => {
 
         <div className="flex flex-wrap gap-8 sm:gap-y-10">
           {isLoading ? (
-            <>
-              <div className="flex w-full justify-center gap-x-4">
-                <ProductItemSkeleton />
-                <ProductItemSkeleton />
-                <ProductItemSkeleton />
-              </div>
-              <div className="flex w-full justify-center gap-x-4">
-                <ProductItemSkeleton />
-                <ProductItemSkeleton />
-                <ProductItemSkeleton />
-              </div>
-            </>
+            <div className="grid w-full grid-cols-1 justify-center gap-x-4 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }, (_, index) => (
+                <ProductItemSkeleton key={index} />
+              ))}
+            </div>
           ) : (
             filteredProducts
               .reduce<Array<Array<Product>>>((acc, product, index) => {

@@ -41,7 +41,7 @@ const NavbarDesktop = () => {
 
   return (
     <div
-      className={`fixed top-0 z-50 mx-auto w-full duration-500 ${scrollY > 200 && "shadow-lg"} ${isHome && scrollY < 200 ? "bg-transparent" : "bg-primary-50"} ${scrollDirection === "down" && "-top-[140px]"}`}
+      className={`fixed top-0 z-50 mx-auto w-full duration-500 ${scrollY > 200 && "shadow-lg"} ${isHome && scrollY < 200 ? "bg-transparent" : "bg-primary-50"} ${scrollDirection === "down" && "!-top-[140px]"}`}
     >
       <div className="container relative mx-auto flex justify-between gap-3 py-5">
         <div
@@ -129,7 +129,7 @@ const NavbarMobile = () => {
   return (
     <>
       <div
-        className={`fixed top-0 z-30 mx-auto w-full py-2 duration-500 ${scrollY > 200 && "shadow-lg"} bg-primary-50 ${scrollDirection === "down" && "-top-[97px]"}`}
+        className={`fixed top-0 z-30 mx-auto w-full py-2 duration-500 ${scrollY > 200 && "shadow-lg"} bg-primary-50 ${scrollDirection === "down" && "!-top-[97px]"}`}
       >
         <div className="mx-4 flex items-center justify-between sm:mx-8">
           <Button
