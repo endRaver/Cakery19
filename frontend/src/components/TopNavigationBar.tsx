@@ -89,7 +89,7 @@ const NavbarDesktop = () => {
             href="/faqs"
             className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/faqs" ? "border-b-primary-500" : ""}`}
           >
-            FAQs
+            FAQS
           </a>
           <a
             href="/contact"
@@ -102,10 +102,9 @@ const NavbarDesktop = () => {
         <div className="absolute right-8 top-4 flex items-center gap-2">
           <SignedIn>
             <span
-              className={`${linkStyle} !p-0 font-normal leading-none ${isHome && scrollY < 200 ? "text-primary-50" : "text-primary-500"}`}
+              className={`${linkStyle} max-w-[200px] truncate text-nowrap !p-0 font-normal capitalize leading-none ${isHome && scrollY < 200 ? "text-primary-50" : "text-primary-500"}`}
             >
-              Hello,{" "}
-              {user?.fullName || user?.emailAddresses[0]?.emailAddress.split("@")[0] || "N/a"}
+              {`Hello, ${user?.fullName || user?.emailAddresses[0]?.emailAddress.split("@")[0] || "N/a"}`}
             </span>
 
             <div
@@ -124,7 +123,7 @@ const NavbarDesktop = () => {
           <SignedOut>
             <a
               href="/login"
-              className={`${linkStyle} !p-0 font-normal leading-none ${isHome && scrollY < 200 ? "text-primary-50" : "text-primary-500"}`}
+              className={`${linkStyle} !p-0 font-normal leading-none ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"}`}
             >
               Sign in
             </a>
@@ -132,7 +131,11 @@ const NavbarDesktop = () => {
         </div>
 
         <div className="absolute left-8 top-6 flex items-center gap-4">
-          <a href={"https://www.instagram.com/cakery19.ch/"}>
+          <a
+            href={"https://www.instagram.com/cakery19.ch/"}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {isHome && scrollY < 200 ? (
               <img src={instagram_light} className="size-5" />
             ) : (
@@ -143,6 +146,8 @@ const NavbarDesktop = () => {
             href={
               "https://api.whatsapp.com/send?phone=41764598116&text=Hi%20My%2C%0A%0AI%20would%20like%20to%20make%20an%20order%20"
             }
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {isHome && scrollY < 200 ? (
               <img src={whatsapp_light} className="size-5" />
