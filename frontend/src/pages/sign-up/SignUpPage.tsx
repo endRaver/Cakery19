@@ -1,41 +1,76 @@
-import { useState } from "react";
-import { SignedOut, useSignIn } from "@clerk/clerk-react";
+import React, { useState } from "react";
+import { SignedOut, useSignUp } from "@clerk/clerk-react";
 
 import SignInOAuthButtons from "@/components/SignInOAuthButtons";
 import { Button } from "@/components/ui/button";
-import { Lock, Mail, EyeOff, Eye, Loader2 } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
+import toast from "react-hot-toast";
+import VerificationCodeDialog from "./components/VerificationCodeDialog";
 
-const LoginPage = () => {
+const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { signUp, isLoaded } = useSignUp();
   const [formData, setFormData] = useState({
-    email: "lazypeesh254@gmail.com",
-    password: "InaPain#254",
+    email: "",
+    password: "",
   });
-  const { signIn, isLoaded } = useSignIn();
   const [isLoading, setIsLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const validateForm = () => {
+    if (!formData.email.trim()) {
+      toast.error("Email is required");
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      toast.error("Invalid email format");
+      return false;
+    }
+    if (formData.password.length < 8) {
+      toast.error("Password must be at least 8 characters");
+      return false;
+    }
+    if (formData.password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSignUp = async () => {
+    setIsLoading(true);
     if (!isLoaded) return;
 
     try {
-      setIsLoading(true);
-      const result = await signIn.create({
-        identifier: formData.email,
+      // Create signup with email and password
+      const result = await signUp.create({
+        emailAddress: formData.email,
         password: formData.password,
       });
 
-      if (result.status === "complete") {
-        toast.success("Signed in successfully");
-        window.location.href = "/auth-callback";
-      }
+      // // Prepare email verification
+      await result.prepareEmailAddressVerification();
+      toast.success("Verification code sent. Please check your email.");
+
+      // Open the dialog after successful sign-up
+      setIsDialogOpen(true);
     } catch (error: unknown) {
-      const err = error as { errors?: { message: string }[] };
-      const errorMessage = err.errors?.[0]?.message || "Sign-in failed";
+      const err = error as { response?: { data?: { message?: string } } };
+      const errorMessage = err?.response?.data?.message || "An unexpected error occurred.";
       toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
+    }
+    setIsLoading(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const isValid = validateForm();
+    if (isValid) {
+      handleSignUp();
     }
   };
 
@@ -48,18 +83,16 @@ const LoginPage = () => {
         />
 
         <div className="flex-1 space-y-3">
-          <h1 className="mb-2 text-center text-4xl font-medium">Log in to your account</h1>
+          <h1 className="mb-2 text-center text-4xl font-medium">Create account</h1>
 
           <SignedOut>
             <SignInOAuthButtons />
           </SignedOut>
 
-          {/* <UserButton afterSignOutUrl="/login" /> */}
-
           <div className="flex items-center justify-center gap-1.5">
             <div className="h-[1px] w-full max-w-[320px] border-t border-primary-400"></div>
 
-            <span className="text-nowrap px-1 py-2 text-primary-400">or use Email</span>
+            <span className="text-nowrap px-1 py-2 text-primary-400">or</span>
 
             <div className="h-[1px] w-full max-w-[320px] border-t border-primary-400"></div>
           </div>
@@ -117,35 +150,64 @@ const LoginPage = () => {
               </div>
             </div>
 
+            {/* Confirm Password input */}
+            <div className="form-control space-y-1">
+              <label className="label">
+                <span className="label-text font-medium">Confirm Password</span>
+              </label>
+              <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
+                  <Lock className="text-base-content/40 size-5 text-primary-200" />
+                </div>
+
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  className="input w-full border-b border-primary-200 bg-transparent py-1 pl-8 text-sm font-medium tracking-widest outline-none placeholder:text-xs placeholder:text-primary-100"
+                  placeholder="CONFIRM PASSWORD"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? (
+                    <Eye className="text-base-content/40 size-5" />
+                  ) : (
+                    <EyeOff className="text-base-content/40 size-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* <div id="clerk-captcha" /> */}
             <Button
               className="h-[35px] w-32 rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn"
               disabled={isLoading}
             >
               <p className="flex w-full items-center justify-center rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium">
-                {isLoading ? <Loader2 className="animate-spin" /> : "Login"}
+                {isLoading ? <Loader2 className="animate-spin" /> : "Sign Up"}
               </p>
             </Button>
           </form>
 
-          <div className="flex w-fit flex-col gap-y-3">
+          <div>
+            <span className="text-sm tracking-wider">Already have an account? </span>
             <a
-              href="/sign-up"
-              className="border-b border-transparent text-sm tracking-wider text-[#b3801a] duration-300 hover:border-[#b3801a]"
+              href="/login"
+              className="border-b border-transparent text-sm font-medium tracking-wider duration-300 hover:border-primary-500"
             >
-              Forgot your password?
-            </a>
-
-            <a
-              href="/sign-up"
-              className="border-b border-transparent text-sm tracking-wider duration-300 hover:border-primary-500"
-            >
-              CREATE AN ACCOUNT
+              SIGN IN
             </a>
           </div>
         </div>
       </section>
+
+      <VerificationCodeDialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
     </main>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

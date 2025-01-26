@@ -18,14 +18,14 @@ const AuthCallbackPage = () => {
 
         await axiosInstance.post("/auth/callback", {
           id: user.id,
-          firstName: user.firstName,
           lastName: user.lastName,
+          email: user.emailAddresses[0].emailAddress,
           imageUrl: user.imageUrl,
         });
       } catch (error) {
         console.log("Error in auth callback", error);
       } finally {
-        navigate("/", { replace: true });
+        navigate("/");
       }
     };
 

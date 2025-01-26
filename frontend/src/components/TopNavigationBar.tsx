@@ -12,6 +12,7 @@ import {
 import useWindowWidth from "@/hooks/useWindowWidth";
 import { useState } from "react";
 import Sidebar from "./Sidebar";
+import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/clerk-react";
 
 const linkStyle =
   "my-1 text-nowrap font-medium border border-transparent px-1.5 lg:px-3 py-1 text-sm leading-6 tracking-wider duration-300 ease-in-out ";
@@ -38,6 +39,7 @@ const NavbarDesktop = () => {
   const location = useLocation().pathname;
   const isHome = location === "/";
   const { scrollY, scrollDirection } = useScroll();
+  const { user } = useUser();
 
   return (
     <div
@@ -97,7 +99,39 @@ const NavbarDesktop = () => {
           </a>
         </div>
 
-        <div className="absolute right-8 top-4 flex gap-4">
+        <div className="absolute right-8 top-4 flex items-center gap-2">
+          <SignedIn>
+            <span
+              className={`${linkStyle} !p-0 font-normal leading-none ${isHome && scrollY < 200 ? "text-primary-50" : "text-primary-500"}`}
+            >
+              Hello,{" "}
+              {user?.fullName || user?.emailAddresses[0]?.emailAddress.split("@")[0] || "N/a"}
+            </span>
+
+            <div
+              className={`duration-300 ${isHome && scrollY < 200 ? "text-primary-50" : "text-primary-500"}`}
+            >
+              |
+            </div>
+
+            <span
+              className={`${linkStyle} !px-0 font-normal leading-none ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"}`}
+            >
+              <SignOutButton redirectUrl="/login" />
+            </span>
+          </SignedIn>
+
+          <SignedOut>
+            <a
+              href="/login"
+              className={`${linkStyle} !p-0 font-normal leading-none ${isHome && scrollY < 200 ? "text-primary-50" : "text-primary-500"}`}
+            >
+              Sign in
+            </a>
+          </SignedOut>
+        </div>
+
+        <div className="absolute left-8 top-6 flex items-center gap-4">
           <a href={"https://www.instagram.com/cakery19.ch/"}>
             {isHome && scrollY < 200 ? (
               <img src={instagram_light} className="size-5" />

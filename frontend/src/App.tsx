@@ -9,11 +9,18 @@ import ShopPage from "./pages/shop/ShopPage";
 import ProductDetailPage from "./pages/productDetail/ProductDetailPage";
 import FaqsPage from "./pages/faqs/FaqsPage";
 import LoginPage from "./pages/login/LoginPage";
+import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react";
+import SignUpPage from "./pages/sign-up/SignUpPage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
       <Routes>
+        <Route
+          path="/sso-callback"
+          element={<AuthenticateWithRedirectCallback signUpForceRedirectUrl={"/auth-callback"} />}
+        />
         <Route path="/auth-callback" element={<AuthCallbackPage />} />
         <Route path="/admin" element={<AdminPage />} />
 
@@ -24,11 +31,13 @@ function App() {
           <Route path="/shop/:productId" element={<ProductDetailPage />} />
           <Route path="/faqs" element={<FaqsPage />} />
           <Route path="/login" element={<LoginPage />} />
-          
+          <Route path="/sign-up" element={<SignUpPage />} />
 
           <Route path="*" element={<div>404</div>} />
         </Route>
       </Routes>
+
+      <Toaster />
     </>
   );
 }
