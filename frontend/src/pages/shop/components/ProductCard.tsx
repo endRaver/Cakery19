@@ -1,5 +1,4 @@
 import { Product } from "@/types";
-import { Link } from "react-router-dom";
 
 const ProductCard = ({
   product,
@@ -13,12 +12,12 @@ const ProductCard = ({
   };
 
   return (
-    <Link to={`/shop/${createSlug(product.name)}?id=${product._id}`}>
+    <a href={`/shop/${createSlug(product.name)}?id=${product._id}`}>
       <div className="group relative flex-1 lg:max-w-[309px] xl:max-w-[373px] 2xl:max-w-[448px]">
         <div
           className={`relative w-full overflow-hidden ${isSquareImage ? "aspect-square" : "h-[380px]"}`}
         >
-          <div className="absolute top-[200px] z-20 h-[180px] w-full bg-gradient-to-t from-black/80 to-transparent opacity-0 duration-500 ease-in-out group-hover:opacity-100"></div>
+          <div className="absolute bottom-0 z-20 h-[180px] w-full bg-gradient-to-t from-black/80 to-transparent opacity-0 duration-500 ease-in-out group-hover:opacity-100"></div>
           <div
             className="absolute top-0 h-full w-full bg-cover bg-center bg-no-repeat duration-500 ease-in-out group-hover:scale-110"
             style={{
@@ -39,7 +38,7 @@ const ProductCard = ({
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </p>
       </div>
-    </Link>
+    </a>
   );
 };
 

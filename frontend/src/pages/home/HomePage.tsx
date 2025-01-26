@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import BannerCarousel from "./components/BannerCarousel";
 import VideoBanner from "./components/VideoBanner";
 import InstaVideoList from "./components/InstaVideoList";
@@ -34,9 +33,9 @@ const HomePage = () => {
           <div className="h-[1px] w-full max-w-[320px] border-t border-primary-400"></div>
           <div className="group flex flex-col">
             <div className="h-[1px] w-1/3 bg-primary-400 duration-300 group-hover:w-full"></div>
-            <Link to="/shop" className="text-nowrap px-3 py-2 text-primary-400">
+            <a href="/shop" className="text-nowrap px-3 py-2 text-primary-400">
               <p>Explore Our Menu</p>
-            </Link>
+            </a>
             <div className="ml-auto h-[1px] w-1/3 bg-primary-400 duration-300 group-hover:w-full"></div>
           </div>
           <div className="h-[1px] w-full max-w-[320px] border-t border-primary-400"></div>

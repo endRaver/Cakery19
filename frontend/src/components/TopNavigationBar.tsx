@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import useScroll from "@/hooks/useScroll";
 import {
@@ -47,24 +47,24 @@ const NavbarDesktop = () => {
         <div
           className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end border-y lg:gap-10 ${isHome && scrollY < 200 ? "border-transparent" : "border-primary-400"}`}
         >
-          <Link
-            to="/"
+          <a
+            href="/"
             className={`${linkStyle} ${isHome && scrollY < 200 ? "border-b-primary-50 text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/" ? "border-b-primary-50" : ""}`}
           >
             HOME
-          </Link>
-          <Link
-            to="/shop"
+          </a>
+          <a
+            href="/shop"
             className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/shop" ? "border-b-primary-500" : ""}`}
           >
             SHOP
-          </Link>
-          <Link
-            to="/event"
+          </a>
+          <a
+            href="/event"
             className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/event" ? "border-b-primary-500" : ""}`}
           >
             EVENT
-          </Link>
+          </a>
         </div>
 
         <a href="/">
@@ -77,24 +77,24 @@ const NavbarDesktop = () => {
         <div
           className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end border-y lg:gap-10 ${isHome && scrollY < 200 ? "border-transparent" : "border-primary-400"}`}
         >
-          <Link
-            to="/about-us"
+          <a
+            href="/about-us"
             className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/about-us" ? "border-b-primary-500" : ""}`}
           >
             ABOUT US
-          </Link>
-          <Link
-            to="/faqs"
+          </a>
+          <a
+            href="/faqs"
             className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/faqs" ? "border-b-primary-500" : ""}`}
           >
             FAQs
-          </Link>
-          <Link
-            to="/contact"
+          </a>
+          <a
+            href="/contact"
             className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/contact" ? "border-b-primary-500" : ""}`}
           >
             CONTACT
-          </Link>
+          </a>
         </div>
 
         <div className="absolute right-8 top-4 flex gap-4">

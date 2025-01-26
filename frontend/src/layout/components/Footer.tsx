@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -9,52 +8,52 @@ const Footer = () => {
         <div className="flex flex-col flex-wrap justify-between gap-8 sm:flex-row">
           <ul className="grid grid-cols-2 gap-2 text-sm font-medium leading-6 tracking-wider text-primary-500 sm:grid-cols-1">
             <li className="text-nowrap text-center sm:text-left">
-              <Link
-                to={"/"}
+              <a
+                href={"/"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
               >
                 Home
-              </Link>
+              </a>
             </li>
             <li className="text-nowrap text-center sm:text-left">
-              <Link
-                to={"/shop"}
+              <a
+                href={"/shop"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
               >
                 Shop
-              </Link>
+              </a>
             </li>
             <li className="text-nowrap text-center sm:text-left">
-              <Link
-                to={"/event"}
+              <a
+                href={"/event"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
               >
                 Event
-              </Link>
+              </a>
             </li>
             <li className="text-nowrap text-center sm:text-left">
-              <Link
-                to={"/about-us"}
+              <a
+                href={"/about-us"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
               >
                 About Us
-              </Link>
+              </a>
             </li>
             <li className="text-nowrap text-center sm:text-left">
-              <Link
-                to={"/faqs"}
+              <a
+                href={"/faqs"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
               >
                 FAQs
-              </Link>
+              </a>
             </li>
             <li className="text-nowrap text-center sm:text-left">
-              <Link
-                to={"/contact"}
+              <a
+                href={"/contact"}
                 className="border-b border-transparent duration-300 hover:border-primary-500"
               >
                 Contact
-              </Link>
+              </a>
             </li>
           </ul>
 

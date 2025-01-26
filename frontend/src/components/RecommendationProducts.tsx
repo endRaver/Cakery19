@@ -2,7 +2,6 @@ import { CarouselItem } from "@/components/ui/carousel";
 import { CarouselContent } from "@/components/ui/carousel";
 import { Carousel } from "@/components/ui/carousel";
 import { Product } from "@/types";
-import { Link } from "react-router-dom";
 
 const RecommendationProducts = ({ products }: { products: Product[] }) => {
   const createSlug = (name: string) => {
@@ -17,7 +16,7 @@ const RecommendationProducts = ({ products }: { products: Product[] }) => {
             key={product._id}
             className="flex-shrink-0 basis-auto select-none pl-0 sm:basis-1/2 lg:basis-1/3"
           >
-            <Link to={`/shop/${createSlug(product.name)}?id=${product._id}`}>
+            <a href={`/shop/${createSlug(product.name)}?id=${product._id}`}>
               <div className="group relative aspect-square min-h-[260px] flex-1 overflow-hidden text-primary-50">
                 <div
                   className="group h-full w-full bg-cover bg-center bg-no-repeat duration-500 ease-in-out group-hover:scale-125"
@@ -30,7 +29,7 @@ const RecommendationProducts = ({ products }: { products: Product[] }) => {
                   <p className="text-sm italic">From ${product.variants[0].price.toFixed(2)}</p>
                 </div>
               </div>
-            </Link>
+            </a>
           </CarouselItem>
         ))}
       </CarouselContent>
