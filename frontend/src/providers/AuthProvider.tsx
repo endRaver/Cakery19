@@ -1,6 +1,5 @@
 import { axiosInstance } from "@/lib/axios";
 import { useAuth } from "@clerk/clerk-react";
-import { Loader } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 
 const updateApiToken = (token: string | null) => {
@@ -36,10 +35,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [getToken]);
 
   if (loading)
-    // TODO: add loader match with theme of the app
     return (
       <div className="flex h-screen w-full items-center justify-center">
-        <Loader className="size-8 animate-spin text-emerald-500" />
+        <div className="animate-ping rounded-full bg-primary-500 p-8 duration-1000">
+          <img src="/images/cakery_logo_light.svg" className="size-20" alt="logo" />
+        </div>
       </div>
     );
 
