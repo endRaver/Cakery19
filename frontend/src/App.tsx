@@ -1,5 +1,7 @@
-import { Route } from "react-router-dom";
-import { Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
+import { AuthenticateWithRedirectCallback, useAuth } from "@clerk/clerk-react";
+import { Toaster } from "react-hot-toast";
+
 import HomePage from "./pages/home/HomePage";
 import AuthCallbackPage from "./pages/auth-callback/AuthCallbackPage";
 import AdminPage from "./pages/admin/AdminPage";
@@ -9,11 +11,11 @@ import ShopPage from "./pages/shop/ShopPage";
 import ProductDetailPage from "./pages/productDetail/ProductDetailPage";
 import FaqsPage from "./pages/faqs/FaqsPage";
 import LoginPage from "./pages/login/LoginPage";
-import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react";
 import SignUpPage from "./pages/sign-up/SignUpPage";
-import { Toaster } from "react-hot-toast";
 
 function App() {
+  const { isSignedIn } = useAuth();
+
   return (
     <>
       <Routes>
@@ -30,8 +32,11 @@ function App() {
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/shop/:productId" element={<ProductDetailPage />} />
           <Route path="/faqs" element={<FaqsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/login" element={isSignedIn ? <Navigate to="/" replace /> : <LoginPage />} />
+          <Route
+            path="/sign-up"
+            element={isSignedIn ? <Navigate to="/" replace /> : <SignUpPage />}
+          />
 
           <Route path="*" element={<div>404</div>} />
         </Route>
