@@ -1,3 +1,4 @@
+import FullpageLoader from "@/components/FullpageLoader";
 import { axiosInstance } from "@/lib/axios";
 import { useAuth } from "@clerk/clerk-react";
 import { ReactNode, useEffect, useState } from "react";
@@ -34,14 +35,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     initAuth();
   }, [getToken]);
 
-  if (loading)
-    return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <div className="animate-ping rounded-full bg-primary-500 p-8 duration-1000">
-          <img src="/images/cakery_logo_light.svg" className="size-20" alt="logo" />
-        </div>
-      </div>
-    );
+  if (loading) return <FullpageLoader />;
 
   return <div>{children}</div>;
 };

@@ -15,7 +15,8 @@ import instagram_dark from "./instagram_dark.svg";
 
 import menu from "./menu_dark.svg";
 import search from "./search_dark.svg";
-import search_light from "./search_light.svg";
+
+import google from "./google.svg";
 
 export {
   play,
@@ -32,5 +33,5 @@ export {
   instagram_dark,
   menu,
   search,
-  search_light,
+  google,
 };

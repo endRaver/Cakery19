@@ -1,5 +1,6 @@
 import { useSignIn } from "@clerk/clerk-react";
 import { Button } from "./ui/button";
+import { google } from "@/assets/icons";
 
 const SignInOAuthButtons = () => {
   const { signIn, isLoaded } = useSignIn();
@@ -19,9 +20,10 @@ const SignInOAuthButtons = () => {
   return (
     <Button
       onClick={signInWithGoogle}
-      variant={"secondary"}
-      className="h-11 w-full border-zinc-200 text-white"
+      variant={"outline"}
+      className="h-11 w-full border border-primary-400 bg-white text-black hover:bg-[#f4f4f4]"
     >
+      <img src={google} alt="google" className="size-8" />
       Continue with Google
     </Button>
   );

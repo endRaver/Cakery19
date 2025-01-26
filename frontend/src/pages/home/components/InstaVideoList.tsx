@@ -44,7 +44,7 @@ const InstaVideoList = () => {
                     url={`${v.video}`}
                     width={windowWidth > 640 ? `100%` : `220px`}
                     height={windowWidth > 640 ? `100%` : `383px`}
-                    playing={isHovered === index}
+                    playing={isHovered === index || windowWidth <= 640}
                     controls={false}
                     loop
                     muted
