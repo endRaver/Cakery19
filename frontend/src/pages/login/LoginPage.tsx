@@ -9,8 +9,8 @@ import { toast } from "react-hot-toast";
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: "lazypeesh254@gmail.com",
-    password: "InaPain#254",
+    email: "",
+    password: "",
   });
   const { signIn, isLoaded } = useSignIn();
   const [isLoading, setIsLoading] = useState(false);
