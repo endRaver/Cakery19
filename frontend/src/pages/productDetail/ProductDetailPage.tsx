@@ -20,9 +20,9 @@ const ProductDetailPage = () => {
   const {
     isLoading,
     currentProduct,
-    signatureProducts,
+    filteredProducts,
     fetchProductsById,
-    fetchSignatureProducts,
+    fetchProductsByCategory,
   } = useProductStore();
 
   const [selectedVariants, setSelectedVariants] = useState(currentProduct?.variants[0]);
@@ -34,8 +34,12 @@ const ProductDetailPage = () => {
   }, [fetchProductsById, id]);
 
   useEffect(() => {
-    fetchSignatureProducts();
-  }, [fetchSignatureProducts]);
+    if (currentProduct?.category && currentProduct?.category.length > 0) {
+      fetchProductsByCategory(currentProduct.category, 3);
+    } else {
+      fetchProductsByCategory(["signature"], 3);
+    }
+  }, [currentProduct, fetchProductsByCategory]);
 
   useEffect(() => {
     setSelectedVariants(currentProduct?.variants[0]);
@@ -85,7 +89,7 @@ const ProductDetailPage = () => {
                       onClick={() => setSelectedVariants(variant)}
                       key={index}
                     >
-                      {variant.size} cm
+                      {variant.size}
                     </Button>
                   ))}
                 </div>
@@ -144,7 +148,7 @@ const ProductDetailPage = () => {
             </p>
           </div>
 
-          <RecommendationProducts products={signatureProducts} />
+          <RecommendationProducts products={filteredProducts} />
         </section>
       </main>
     );

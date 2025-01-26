@@ -2,13 +2,13 @@ import { Router } from "express";
 import {
   getAllProducts,
   getProductById,
-  getSignature,
+  getProductsByCategory,
 } from "../controller/product.controller.js";
 
 const router = Router();
 
 router.get("/", getAllProducts);
-router.get("/signature", getSignature);
 router.get("/:productId", getProductById);
+router.post("/category", getProductsByCategory);
 
 export default router;

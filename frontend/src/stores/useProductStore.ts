@@ -7,17 +7,17 @@ interface ProductStore {
   products: Product[];
   isLoading: boolean;
   error: string | null;
-  signatureProducts: Product[];
+  filteredProducts: Product[];
 
   fetchProducts: () => Promise<void>;
   fetchProductsById: (id: string) => Promise<void>;
-  fetchSignatureProducts: () => Promise<void>;
+  fetchProductsByCategory: (category: string[], amount?: number) => Promise<void>;
 }
 
 export const useProductStore = create<ProductStore>((set) => ({
   currentProduct: null,
   products: [],
-  signatureProducts: [],
+  filteredProducts: [],
   isLoading: false,
   error: null,
 
@@ -49,10 +49,20 @@ export const useProductStore = create<ProductStore>((set) => ({
     }
   },
 
-  fetchSignatureProducts: async () => {
+  fetchProductsByCategory: async (categories: string[], amount = 0) => {
+    set({ isLoading: true, error: null });
+
     try {
-      const response = await axiosInstance.get("/products/signature");
-      set({ signatureProducts: response.data });
+      const response = await axiosInstance.post(
+        `/products/category`,
+        { categories, amount },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      set({ filteredProducts: response.data });
     } catch (error: unknown) {
       const err = error as { response: { data: { message: string } } };
       set({ error: err.response.data.message });

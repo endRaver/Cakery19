@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema(
     variants: [
       {
         size: {
-          type: Number,
+          type: String,
           required: true,
         },
         price: {
@@ -44,10 +44,6 @@ const productSchema = new mongoose.Schema(
         required: true,
       },
     ],
-    signature: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     timestamps: true,

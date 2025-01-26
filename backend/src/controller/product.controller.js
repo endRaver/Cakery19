@@ -25,25 +25,35 @@ export const getProductById = async (req, res, next) => {
   }
 };
 
-export const getSignature = async (req, res, next) => {
-  try {
-    const products = await Product.aggregate([
-      {
-        $match: { signature: true },
-      },
-      {
-        $sample: { size: 3 },
-      },
-      {
-        $project: {
-          _id: 1,
-          name: 1,
-          variants: 1,
-          imageUrl: 1,
-        },
-      },
-    ]);
+export const getProductsByCategory = async (req, res, next) => {
+  const { categories, amount } = req.body;
 
+  try {
+    const pipeline = [];
+
+    // If categories is not empty, add the $match stage
+    if (categories && categories.length > 0) {
+      pipeline.push({
+        $match: { category: { $in: categories } },
+      });
+    }
+
+    // If amount is greater than 0, add the $sample stage
+    if (amount > 0) {
+      pipeline.push({ $sample: { size: amount } });
+    }
+
+    pipeline.push({
+      $project: {
+        _id: 1,
+        name: 1,
+        variants: 1,
+        imageUrl: 1,
+        description: 1,
+      },
+    });
+
+    const products = await Product.aggregate(pipeline);
     res.json(products);
   } catch (error) {
     next(error);

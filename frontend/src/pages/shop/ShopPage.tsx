@@ -7,12 +7,15 @@ import ProductItemSkeleton from "@/components/skeletons/ProductItemSkeleton";
 import useWindowWidth from "@/hooks/useWindowWidth";
 
 const ShopPage = () => {
-  const { products, fetchProducts, isLoading } = useProductStore();
+  const { products, fetchProducts, isLoading, filteredProducts, fetchProductsByCategory } =
+    useProductStore();
+  const categories = Array.from(new Set(products.flatMap((item) => item.category)));
   const windowWidth = useWindowWidth();
 
   useEffect(() => {
     fetchProducts();
-  }, [fetchProducts]);
+    fetchProductsByCategory([]);
+  }, [fetchProducts, fetchProductsByCategory]);
 
   return (
     <main className="mb-8 space-y-8 text-primary-500">
@@ -22,7 +25,7 @@ const ShopPage = () => {
       ></div>
 
       <section className="container mx-auto">
-        <CategorySelector />
+        <CategorySelector categories={categories} />
 
         <div className="flex flex-wrap gap-8 sm:gap-y-10">
           {isLoading ? (
@@ -39,7 +42,7 @@ const ShopPage = () => {
               </div>
             </>
           ) : (
-            products
+            filteredProducts
               .reduce<Array<Array<Product>>>((acc, product, index) => {
                 // Create a new row every 3 items
                 if (index % (windowWidth > 1024 ? 3 : windowWidth > 640 ? 2 : 1) === 0) {

@@ -1,12 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { useState } from "react";
+import { useProductStore } from "@/stores/useProductStore";
+import { useEffect, useState } from "react";
 
 const buttonStyle =
-  "rounded-[2px] border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50";
+  "rounded-[2px] border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 uppercase";
 
-const CategorySelector = () => {
+const CategorySelector = ({ categories }: { categories: string[] }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const { fetchProductsByCategory } = useProductStore();
+
+  useEffect(() => {
+    if (selectedCategory === "") fetchProductsByCategory([]);
+    else fetchProductsByCategory([selectedCategory]);
+  }, [fetchProductsByCategory, selectedCategory]);
 
   return (
     <Carousel
@@ -27,45 +34,17 @@ const CategorySelector = () => {
           </Button>
         </CarouselItem>
 
-        <CarouselItem className="flex-shrink-0 basis-auto pl-0">
-          <Button
-            variant="outline"
-            className={`${buttonStyle} ${selectedCategory === "christmas" && "bg-primary-300 text-white"}`}
-            onClick={() => setSelectedCategory("christmas")}
-          >
-            CHRISTMAS
-          </Button>
-        </CarouselItem>
-
-        <CarouselItem className="flex-shrink-0 basis-auto pl-0">
-          <Button
-            variant="outline"
-            className={`${buttonStyle} ${selectedCategory === "signature" && "bg-primary-300 text-white"}`}
-            onClick={() => setSelectedCategory("signature")}
-          >
-            SIGNATURE
-          </Button>
-        </CarouselItem>
-
-        <CarouselItem className="flex-shrink-0 basis-auto pl-0">
-          <Button
-            variant="outline"
-            className={`${buttonStyle} ${selectedCategory === "delicacies" && "bg-primary-300 text-white"}`}
-            onClick={() => setSelectedCategory("delicacies")}
-          >
-            DELICACIES
-          </Button>
-        </CarouselItem>
-
-        <CarouselItem className="flex-shrink-0 basis-auto pl-0">
-          <Button
-            variant="outline"
-            className={`${buttonStyle} ${selectedCategory === "accessories" && "bg-primary-300 text-white"}`}
-            onClick={() => setSelectedCategory("accessories")}
-          >
-            ACCESSORIES
-          </Button>
-        </CarouselItem>
+        {categories.map((category, index) => (
+          <CarouselItem key={index} className="flex-shrink-0 basis-auto pl-0">
+            <Button
+              variant="outline"
+              className={`${buttonStyle} ${selectedCategory === category && "bg-primary-300 text-white"}`}
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </Button>
+          </CarouselItem>
+        ))}
       </CarouselContent>
     </Carousel>
   );

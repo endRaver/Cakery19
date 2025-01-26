@@ -8,11 +8,11 @@ import { useEffect } from "react";
 
 const HomePage = () => {
   const windowWidth = useWindowWidth();
-  const { signatureProducts, fetchSignatureProducts } = useProductStore();
+  const { filteredProducts, fetchProductsByCategory } = useProductStore();
 
   useEffect(() => {
-    fetchSignatureProducts();
-  }, [fetchSignatureProducts]);
+    fetchProductsByCategory(["signature"], 3);
+  }, [fetchProductsByCategory]);
 
   return (
     <div className="space-y-10 lg:space-y-[60px]">
@@ -27,7 +27,7 @@ const HomePage = () => {
             Best seller of all time
           </p>
         </div>
-        <RecommendationProducts products={signatureProducts} />
+        <RecommendationProducts products={filteredProducts} />
 
         <div className="flex items-center justify-center gap-1.5">
           <div className="h-[1px] w-full max-w-[320px] border-t border-primary-400"></div>
