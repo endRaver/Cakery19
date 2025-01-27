@@ -27,7 +27,7 @@ const RecommendationProducts = ({ products }: { products: Product[] }) => {
                       src={product.imageUrl[0]}
                       alt={product.name}
                       loading="eager"
-                      className="fade-in-image h-full w-full object-cover object-center"
+                      className="fade-in-image group h-full max-h-[304px] w-full object-cover object-center duration-500 ease-in-out group-hover:scale-125 sm:max-h-full"
                       onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
                     />
                   </picture>

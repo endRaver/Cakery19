@@ -34,7 +34,7 @@ const ProductImageDisplay = ({ product }: { product: Product }) => {
                 src={image}
                 alt={product.name}
                 loading="eager"
-                className="fade-in-image relative aspect-square h-[80px] object-cover object-center xl:h-[130px]"
+                className="fade-in-image aspect-square h-[80px] object-cover object-center xl:h-[130px]"
                 onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
               />
             </picture>

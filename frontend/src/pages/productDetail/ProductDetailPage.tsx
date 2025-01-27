@@ -9,6 +9,10 @@ import ProductImageDisplayMobile from "./components/ProductImageDisplayMobile";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import RecommendationProducts from "@/components/RecommendationProducts";
 import FullWidthBanner from "@/components/FullWidthBanner";
+import BreadCrumbSkeleton from "@/components/skeletons/BreadCrumbSkeleton";
+import ProductDisplaySkeleton from "@/components/skeletons/ProductDisplaySkeleton";
+import ProductDetailSkeleton from "@/components/skeletons/ProductDetailSkeleton";
+import ProductDisplayMobileSkeleton from "@/components/skeletons/ProductDisplayMobileSkeleton";
 
 const buttonStyle =
   "px-5 py-2 rounded-md border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 font-normal tracking-wider";
@@ -46,7 +50,28 @@ const ProductDetailPage = () => {
     setSelectedVariants(currentProduct?.variants[0]);
   }, [currentProduct]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <main className="mb-10 space-y-8 lg:space-y-10">
+        {windowWidth <= 640 && <ProductDisplayMobileSkeleton />}
+
+        <section className="container mx-auto space-y-10">
+          {windowWidth > 640 && <BreadCrumbSkeleton />}
+
+          <div className="flex flex-col gap-x-4 gap-y-8 md:flex-row lg:gap-x-10 2xl:gap-x-20">
+            {windowWidth > 640 && (
+              <div className="flex-1 space-y-6">
+                <ProductDisplaySkeleton />
+              </div>
+            )}
+
+            <div className="flex-1 space-y-8">
+              <ProductDetailSkeleton />
+            </div>
+          </div>
+        </section>
+      </main>
+    );
 
   if (!isLoading && currentProduct)
     return (

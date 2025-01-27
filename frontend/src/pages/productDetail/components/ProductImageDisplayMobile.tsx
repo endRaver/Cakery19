@@ -39,12 +39,16 @@ const ProductImageDisplayMobile = ({ productImages }: { productImages: string[] 
       >
         {productImages.map((image, index) => (
           <SwiperSlide key={index}>
-            <div className="flex justify-center duration-300">
-              <div
-                className="relative flex h-[390px] w-full flex-col justify-end overflow-hidden bg-cover bg-center bg-no-repeat p-8 shadow-xl"
-                style={{ backgroundImage: `url(${image})` }}
-              ></div>
-            </div>
+            <picture>
+              <source srcSet={image} type="image/webp" />
+              <img
+                src={image}
+                alt={image}
+                loading="eager"
+                className="fade-in-image relative flex h-[390px] w-full flex-col overflow-hidden object-cover object-center shadow-xl"
+                onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+              />
+            </picture>
           </SwiperSlide>
         ))}
 
@@ -52,12 +56,16 @@ const ProductImageDisplayMobile = ({ productImages }: { productImages: string[] 
         {productImages.length < 3 &&
           productImages.map((image, index) => (
             <SwiperSlide key={index}>
-              <div className="flex justify-center duration-300">
-                <div
-                  className="relative flex h-[390px] w-full flex-col justify-end overflow-hidden bg-cover bg-center bg-no-repeat p-8 shadow-xl"
-                  style={{ backgroundImage: `url(${image})` }}
-                ></div>
-              </div>
+              <picture>
+                <source srcSet={image} type="image/webp" />
+                <img
+                  src={image}
+                  alt={image}
+                  loading="eager"
+                  className="fade-in-image relative flex h-[390px] w-full flex-col overflow-hidden object-cover object-center shadow-xl"
+                  onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+                />
+              </picture>
             </SwiperSlide>
           ))}
 

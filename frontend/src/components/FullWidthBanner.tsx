@@ -17,7 +17,7 @@ const FullWidthBanner = ({
           src={jpegImage}
           alt="Bakery Hero Banner"
           loading="eager"
-          className="h-full w-full object-cover object-center"
+          className="fade-in-image h-full w-full object-cover object-center"
           onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
         />
       </picture>
