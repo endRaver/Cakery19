@@ -3,8 +3,8 @@ interface PortionSize {
   to: number;
 }
 
-interface Variant {
-  size: number;
+export interface Variant {
+  size: string;
   price: number;
   portionSize: PortionSize;
 }
@@ -12,13 +12,12 @@ interface Variant {
 export interface Product {
   _id: string;
   name: string;
-  variants: Variant[];
   description: string;
   category: string[];
+  variants: Variant[];
   imageUrl: string[];
-  signature: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface User {

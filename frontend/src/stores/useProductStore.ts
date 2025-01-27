@@ -12,6 +12,7 @@ interface ProductStore {
   fetchProducts: () => Promise<void>;
   fetchProductsById: (id: string) => Promise<void>;
   fetchProductsByCategory: (category: string[], amount?: number) => Promise<void>;
+  createProduct: (data: unknown) => Promise<void>;
 }
 
 export const useProductStore = create<ProductStore>((set) => ({
@@ -63,6 +64,23 @@ export const useProductStore = create<ProductStore>((set) => ({
         }
       );
       set({ filteredProducts: response.data });
+    } catch (error: unknown) {
+      const err = error as { response: { data: { message: string } } };
+      set({ error: err.response.data.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  createProduct: async (data) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      await axiosInstance.post("/admin/products", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     } catch (error: unknown) {
       const err = error as { response: { data: { message: string } } };
       set({ error: err.response.data.message });

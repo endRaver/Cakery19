@@ -21,6 +21,9 @@ import search from "./search_dark.svg";
 
 import google from "./google.svg";
 
+import items_square from "./item_square.svg";
+import plus_square from "./plus-square.svg";
+
 export {
   cakery_logo_light,
   cakery_logo_dark,
@@ -39,4 +42,6 @@ export {
   menu,
   search,
   google,
+  items_square,
+  plus_square,
 };

@@ -1,6 +1,7 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import { AuthenticateWithRedirectCallback, useAuth } from "@clerk/clerk-react";
 import { Toaster } from "react-hot-toast";
+import { useAuthStore } from "./stores/useAuthStore";
 
 import HomePage from "./pages/home/HomePage";
 import AuthCallbackPage from "./pages/auth-callback/AuthCallbackPage";
@@ -13,9 +14,13 @@ import FaqsPage from "./pages/faqs/FaqsPage";
 import LoginPage from "./pages/login/LoginPage";
 import SignUpPage from "./pages/sign-up/SignUpPage";
 import NotFoundPage from "./pages/not-found/NotFoundPage";
+import AdminLayout from "./layout/AdminLayout";
+import AdminCreatePage from "./pages/admin/AdminCreatePage";
+import AdminEditPage from "./pages/admin/AdminEditPage";
 
 function App() {
   const { isSignedIn } = useAuth();
+  const { isAdmin } = useAuthStore();
 
   return (
     <>
@@ -25,7 +30,12 @@ function App() {
           element={<AuthenticateWithRedirectCallback signUpForceRedirectUrl={"/auth-callback"} />}
         />
         <Route path="/auth-callback" element={<AuthCallbackPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+
+        <Route element={isAdmin ? <AdminLayout /> : <Navigate to="/unauthorize" replace />}>
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/create" element={<AdminCreatePage />} />
+          <Route path="/admin/edit/:productId" element={<AdminEditPage />} />
+        </Route>
 
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
@@ -39,7 +49,7 @@ function App() {
             element={isSignedIn ? <Navigate to="/" replace /> : <SignUpPage />}
           />
 
-          <Route path="*" element={<NotFoundPage/>} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
 
