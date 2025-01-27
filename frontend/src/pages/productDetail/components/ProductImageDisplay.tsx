@@ -10,10 +10,16 @@ const ProductImageDisplay = ({ product }: { product: Product }) => {
 
   return (
     <>
-      <div
-        className="h-[480px] w-full rounded-lg bg-cover bg-center bg-no-repeat xl:h-[592px]"
-        style={{ backgroundImage: `url(${selectedImage})` }}
-      ></div>
+      <picture>
+        <source srcSet={selectedImage.replace(".jpg", ".webp")} type="image/webp" />
+        <img
+          src={selectedImage}
+          alt={product.name}
+          loading="eager"
+          className="fade-in-image h-[480px] w-full rounded-lg object-cover object-center xl:h-[592px]"
+          onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+        />
+      </picture>
 
       <div className="flex gap-2.5">
         {product.imageUrl.map((image, index) => (
@@ -22,10 +28,16 @@ const ProductImageDisplay = ({ product }: { product: Product }) => {
             className={`cursor-pointer border-2 p-1 duration-300 hover:border-primary-300 ${selectedImage === image ? "border-primary-300" : "border-primary-75"}`}
             onMouseOver={() => setSelectedImage(image)}
           >
-            <div
-              className={`relative aspect-square h-[80px] bg-cover bg-center bg-no-repeat p-1 xl:h-[130px]`}
-              style={{ backgroundImage: `url(${image})` }}
-            ></div>
+            <picture>
+              <source srcSet={image} type="image/webp" />
+              <img
+                src={image}
+                alt={product.name}
+                loading="eager"
+                className="fade-in-image relative aspect-square h-[80px] object-cover object-center xl:h-[130px]"
+                onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+              />
+            </picture>
           </div>
         ))}
       </div>

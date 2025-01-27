@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import useScroll from "@/hooks/useScroll";
 import {
+  cakery_logo_dark,
+  cakery_logo_light,
   instagram_dark,
   instagram_light,
   menu,
@@ -74,7 +76,7 @@ const NavbarDesktop = () => {
 
         <a href="/">
           <img
-            src={`${isHome && scrollY < 200 ? "/images/cakery_logo_light.svg" : "/images/cakery_logo_dark.svg"}`}
+            src={`${isHome && scrollY < 200 ? cakery_logo_light : cakery_logo_dark}`}
             alt="logo"
           />
         </a>
@@ -199,7 +201,7 @@ const NavbarMobile = () => {
 
           <a href="/">
             <img
-              src={"/images/cakery_logo_dark.svg"}
+              src={cakery_logo_dark}
               alt="logo"
               className="size-[68px] sm:size-[80px]"
             />

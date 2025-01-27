@@ -44,10 +44,16 @@ const LoginPage = () => {
   return (
     <main className="mt-10 space-y-10 text-primary-400">
       <section className="container mx-auto flex flex-col justify-between gap-10 md:flex-row">
-        <div
-          style={{ backgroundImage: `url("/images/login_banner.jpg")` }}
-          className="aspect-square w-full flex-1 bg-cover bg-center bg-no-repeat"
-        />
+        <picture className="flex-1">
+          <source srcSet={`/images/webp/login_banner.webp`} type="image/webp" />
+          <img
+            src={`/images/webp/login_banner.jpg`}
+            alt={"login_banner"}
+            loading="eager"
+            className="fade-in-image aspect-square w-full object-cover object-center"
+            onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+          />
+        </picture>
 
         <div className="flex-1 space-y-3">
           <h1 className="mb-2 text-center text-4xl font-medium">Log in to your account</h1>

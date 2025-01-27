@@ -38,23 +38,28 @@ const AboutUsPage = () => {
         </div>
 
         <div className="flex-1">
-          <img
-            src="/images/about_me.jpg"
-            alt="about_me"
-            className="h-full max-h-[640px] w-full object-cover object-center md:max-h-[700px]"
-          />
+          <picture className="flex-1">
+            <source srcSet={`/images/webp/about_me.webp`} type="image/webp" />
+            <img
+              src={`/images/webp/about_me.jpg`}
+              alt={"login_banner"}
+              loading="eager"
+              className="h-full max-h-[640px] w-full object-cover object-center md:max-h-[700px]"
+              onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+            />
+          </picture>
         </div>
       </section>
 
       <section className="container mx-auto flex justify-center py-5 lg:py-14">
-        <p className="w-fit overflow-hidden rounded bg-[#D9BEA7] px-5 md:px-10 py-5 text-center text-sm font-light italic text-[#69693F] sm:text-lg md:text-2xl">
+        <p className="w-fit overflow-hidden rounded bg-[#D9BEA7] px-5 py-5 text-center text-sm font-light italic text-[#69693F] sm:text-lg md:px-10 md:text-2xl">
           “” It is a long established fact that a reader will be distracted by the readable content
           of a page when looking at its layout. “”
         </p>
       </section>
 
       <section className={windowWidth > 1280 ? "container mx-auto" : ""}>
-        <h2 className="text-center text-4xl font-medium mb-10">Our Value</h2>
+        <h2 className="mb-10 text-center text-4xl font-medium">Our Value</h2>
 
         <ValueSlider />
       </section>

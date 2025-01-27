@@ -37,8 +37,8 @@ const products = [
       "Decorated with fresh blueberries and homegrown herbs from my garden.",
     category: ["signature", "cakes"],
     imageUrl: [
-      "/cakes/Berrytale/Berrytale1.jpg",
-      "/cakes/Berrytale/Berrytale2.jpg",
+      "/cakes/webp/Berrytale/Berrytale1.webp",
+      "/cakes/webp/Berrytale/Berrytale2.webp",
     ],
   },
   {
@@ -73,8 +73,8 @@ const products = [
       "Gorgeous, fragrant and absolutely delicious combination of raspberry and chocolate.",
     category: ["cakes"],
     imageUrl: [
-      "/cakes/Berry_truffle/BerryTruffle1.jpg",
-      "/cakes/Berry_truffle/BerryTruffle2.jpg",
+      "/cakes/webp/Berry_truffle/BerryTruffle1.webp",
+      "/cakes/webp/Berry_truffle/BerryTruffle2.webp",
     ],
   },
   {
@@ -109,8 +109,8 @@ const products = [
       "Juicy mango filling, silky mango cream and bright lemon curd is seriously a heavenly match.",
     category: ["cakes"],
     imageUrl: [
-      "/cakes/Mango_lush/MangoLush1.jpg",
-      "/cakes/Mango_lush/MangoLush2.jpg",
+      "/cakes/webp/Mango_lush/MangoLush1.webp",
+      "/cakes/webp/Mango_lush/MangoLush2.webp",
     ],
   },
   {
@@ -137,8 +137,8 @@ const products = [
       "Chocolate crust, melt-in-your mouth raspberry filling covered in raspberry ganache.",
     category: ["cakes", "signature"],
     imageUrl: [
-      "/cakes/Raspberry_story/RaspberryStory1.jpg",
-      "/cakes/Raspberry_story/RaspberryStory2.jpg",
+      "/cakes/webp/Raspberry_story/RaspberryStory1.webp",
+      "/cakes/webp/Raspberry_story/RaspberryStory2.webp",
     ],
   },
   {
@@ -171,7 +171,7 @@ const products = [
     ],
     description: "A dream came true for any chocolate lover.",
     category: ["cakes"],
-    imageUrl: ["/cakes/Schoggi_glee/SchoggiGleeCake1.jpg"],
+    imageUrl: ["/cakes/webp/Schoggi_glee/SchoggiGleeCake1.webp"],
   },
   {
     name: "Blueberry Muse",
@@ -189,8 +189,8 @@ const products = [
       "Delightful summer flavors packed into a cupcake! Sweet blueberry cream and tangy lemon curd make every bite a sunny treat.",
     category: ["delicacies"],
     imageUrl: [
-      "/cakes/Blueberry_muse_cupcakes/BlueberryMuse1.jpg",
-      "/cakes/Blueberry_muse_cupcakes/BlueberryMuse2.jpg",
+      "/cakes/webp/Blueberry_muse_cupcakes/BlueberryMuse1.webp",
+      "/cakes/webp/Blueberry_muse_cupcakes/BlueberryMuse2.webp",
     ],
   },
   {
@@ -209,8 +209,8 @@ const products = [
       "Indulge yourself with rich chocolate salted caramel and caramelized hazelnuts.",
     category: ["delicacies", "signature"],
     imageUrl: [
-      "/cakes/Chocolate_spell_cupcakes/Chocolate_Spell1.jpg",
-      "/cakes/Chocolate_spell_cupcakes/Chocolate_Spell2.jpg",
+      "/cakes/webp/Chocolate_spell_cupcakes/Chocolate_Spell1.webp",
+      "/cakes/webp/Chocolate_spell_cupcakes/Chocolate_Spell2.webp",
     ],
   },
   {
@@ -229,8 +229,8 @@ const products = [
       "Tender, luscious and delightful with sweet vanilla cream and juicy berry filling.",
     category: ["delicacies"],
     imageUrl: [
-      "/cakes/Dreamy_berry_cupcakes/DreamyBerry1.jpg",
-      "/cakes/Dreamy_berry_cupcakes/DreamyBerry2.jpg",
+      "/cakes/webp/Dreamy_berry_cupcakes/DreamyBerry1.webp",
+      "/cakes/webp/Dreamy_berry_cupcakes/DreamyBerry2.webp",
     ],
   },
 ];

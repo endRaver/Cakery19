@@ -18,16 +18,33 @@ const ProductCard = ({
           className={`relative w-full overflow-hidden ${isSquareImage ? "aspect-square" : "h-[380px]"}`}
         >
           <div className="absolute bottom-0 z-20 h-[180px] w-full bg-gradient-to-t from-black/80 to-transparent opacity-0 duration-500 ease-in-out group-hover:opacity-100"></div>
-          <div
-            className="absolute top-0 h-full w-full bg-cover bg-center bg-no-repeat duration-500 ease-in-out group-hover:scale-110"
-            style={{
-              backgroundImage: `url("${product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0]}")`,
-            }}
-          ></div>
-          <div
-            className="absolute top-0 h-full w-full bg-cover bg-center bg-no-repeat duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-0"
-            style={{ backgroundImage: `url("${product.imageUrl[0]}")` }}
-          ></div>
+
+          <div className="group h-full w-full duration-500 ease-in-out group-hover:scale-125">
+            <picture>
+              <source
+                srcSet={product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0]}
+                type="image/webp"
+              />
+              <img
+                src={product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0]}
+                alt={product.name}
+                loading="lazy"
+                className="fade-in-image absolute top-0 h-full w-full object-cover object-center duration-500 ease-in-out group-hover:scale-110"
+                onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+              />
+            </picture>
+
+            <picture>
+              <source srcSet={product.imageUrl[0]} type="image/webp" />
+              <img
+                src={product.imageUrl[0]}
+                alt={product.name}
+                loading="lazy"
+                className="fade-in-image absolute top-0 h-full w-full object-cover object-center duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-0"
+                onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+              />
+            </picture>
+          </div>
         </div>
         <div className="absolute bottom-0 left-0 z-30 text-sm duration-500 ease-in-out group-hover:bottom-16 group-hover:left-5 group-hover:text-primary-50">
           <h4 className="font-medium uppercase tracking-wider">{product.name}</h4>

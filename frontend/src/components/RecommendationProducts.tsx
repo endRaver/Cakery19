@@ -18,10 +18,19 @@ const RecommendationProducts = ({ products }: { products: Product[] }) => {
           >
             <a href={`/shop/${createSlug(product.name)}?id=${product._id}`}>
               <div className="group relative aspect-square min-h-[260px] flex-1 overflow-hidden text-primary-50">
-                <div
-                  className="group h-full w-full bg-cover bg-center bg-no-repeat duration-500 ease-in-out group-hover:scale-125"
-                  style={{ backgroundImage: `url("${product.imageUrl[0]}")` }}
-                >
+                <div className="group h-full w-full duration-500 ease-in-out group-hover:scale-125">
+                  <picture>
+                    {/* WebP format for modern browsers */}
+                    <source srcSet={product.imageUrl[0]} type="image/webp" />
+                    {/* Fallback JPEG for older browsers */}
+                    <img
+                      src={product.imageUrl[0]}
+                      alt={product.name}
+                      loading="eager"
+                      className="fade-in-image h-full w-full object-cover object-center"
+                      onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+                    />
+                  </picture>
                   <div className="absolute inset-0 bg-black bg-opacity-0 duration-500 group-hover:bg-opacity-30"></div>
                 </div>
                 <div className="absolute left-6 top-6">

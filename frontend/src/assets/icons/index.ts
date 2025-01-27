@@ -1,3 +1,6 @@
+import cakery_logo_light from "./cakery_logo_light.svg";
+import cakery_logo_dark from "./cakery_logo_dark.svg";
+
 import play from "./play.svg";
 import next from "./angle_right.svg";
 import prev from "./angle_left.svg";
@@ -19,6 +22,8 @@ import search from "./search_dark.svg";
 import google from "./google.svg";
 
 export {
+  cakery_logo_light,
+  cakery_logo_dark,
   play,
   next,
   prev,

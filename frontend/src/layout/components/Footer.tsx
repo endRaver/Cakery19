@@ -1,3 +1,4 @@
+import { cakery_logo_dark } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -91,7 +92,7 @@ const Footer = () => {
         </div>
 
         <div className="bottom-8 left-1/2 flex flex-col items-center pt-10 lg:absolute lg:-translate-x-1/2">
-          <img src="/images/cakery_logo_dark.svg" alt="logo" className="w-[100px]" />
+          <img src={cakery_logo_dark} alt="logo" className="w-[100px]" />
           <div className="mt-2 flex gap-3 text-xs text-primary-200">Website by Cakery</div>
         </div>
       </footer>

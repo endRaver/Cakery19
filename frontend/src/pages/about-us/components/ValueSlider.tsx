@@ -40,10 +40,18 @@ export const ValueSlider = () => {
       {sliders.map((slide, index) => (
         <SwiperSlide key={index}>
           <div className="flex justify-center duration-300">
-            <div
-              className="relative flex h-[228px] w-[360px] flex-col justify-end overflow-hidden rounded bg-cover bg-center bg-no-repeat p-4 shadow-xl sm:h-[320px] sm:w-[570px] sm:rounded-lg sm:p-8"
-              style={{ backgroundImage: `url(${slide.image})` }}
-            >
+            <div className="relative flex h-[228px] w-[360px] flex-col justify-end overflow-hidden rounded p-4 shadow-xl sm:h-[320px] sm:w-[570px] sm:rounded-lg sm:p-8">
+              <picture className="flex-1">
+                <source srcSet={`${(slide.image)}`} type="image/webp" />
+                <img
+                  src={`${slide.image}`}
+                  alt={"value_banner"}
+                  loading="eager"
+                  className="absolute left-0 top-0 h-full w-full object-cover object-center"
+                  onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+                />
+              </picture>
+
               <div className="absolute left-0 top-0 z-10 h-full w-full bg-black/20"></div>
               <div className="z-20 max-w-[426px] space-y-1 p-2.5 text-white">
                 <h3 className="text-xl font-medium tracking-wider sm:text-4xl">{slide.title}</h3>

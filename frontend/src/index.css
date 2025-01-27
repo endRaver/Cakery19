@@ -69,16 +69,6 @@
   }
 }
 
-/* @font-face {
-  font-family: 'Geometria';
-  src: url('./assets/fonts/Geometria/geometria_light.otf') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-} */
-
-
-
 
 @font-face {
   font-family: 'Geometria';
@@ -204,4 +194,13 @@
   font-style: italic;
   font-weight: 800;
   src: local('Geometria-HeavyItalic'), url('./assets/fonts/geometria-webfont/Geometria-HeavyItalic.woff') format('woff');
+}
+
+.fade-in-image {
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
+
+.fade-in-image.loaded {
+  opacity: 1;
 }
