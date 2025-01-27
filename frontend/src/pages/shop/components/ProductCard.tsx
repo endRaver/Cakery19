@@ -1,5 +1,19 @@
 import { Product } from "@/types";
 
+// Utility function to optimize image URL
+const optimizeImageUrl = (url: string, width: number = 800) => {
+  // Check if it's already a Cloudinary URL
+  if (url.includes('cloudinary.com')) {
+    // Extract the base URL and transformation string
+    const urlParts = url.split('/upload/');
+    if (urlParts.length === 2) {
+      // Add or update width transformation
+      return `${urlParts[0]}/upload/w_${width},q_auto,f_auto/${urlParts[1]}`;
+    }
+  }
+  return url; // Return original URL if not Cloudinary or invalid format
+};
+
 const ProductCard = ({
   product,
   isSquareImage = false,
@@ -8,8 +22,11 @@ const ProductCard = ({
   isSquareImage?: boolean;
 }) => {
   const createSlug = (name: string) => {
-    return name.toLowerCase().replace(/\s+/g, "-"); // Replace spaces with hyphens
+    return name.toLowerCase().replace(/\s+/g, "-");
   };
+
+  // Calculate appropriate image widths based on container size
+  const imageWidth = isSquareImage ? 600 : 800; // Adjust these values based on your needs
 
   return (
     <a href={`/shop/${createSlug(product.name)}?id=${product._id}`}>
@@ -22,11 +39,11 @@ const ProductCard = ({
           <div className="group h-full w-full duration-500 ease-in-out group-hover:scale-125">
             <picture>
               <source
-                srcSet={product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0]}
+                srcSet={optimizeImageUrl(product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0], imageWidth)}
                 type="image/webp"
               />
               <img
-                src={product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0]}
+                src={optimizeImageUrl(product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0], imageWidth)}
                 alt={product.name}
                 loading="lazy"
                 className="fade-in-image absolute top-0 h-full w-full object-cover object-center duration-500 ease-in-out group-hover:scale-110"
@@ -35,9 +52,12 @@ const ProductCard = ({
             </picture>
 
             <picture>
-              <source srcSet={product.imageUrl[0]} type="image/webp" />
+              <source 
+                srcSet={optimizeImageUrl(product.imageUrl[0], imageWidth)} 
+                type="image/webp" 
+              />
               <img
-                src={product.imageUrl[0]}
+                src={optimizeImageUrl(product.imageUrl[0], imageWidth)}
                 alt={product.name}
                 loading="lazy"
                 className="fade-in-image absolute top-0 h-full w-full object-cover object-center duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-0"
