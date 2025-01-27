@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { SignedOut, useSignIn } from "@clerk/clerk-react";
 
-import SignInOAuthButtons from "@/components/SignInOAuthButtons";
 import { Button } from "@/components/ui/button";
 import { Lock, Mail, EyeOff, Eye, Loader2 } from "lucide-react";
-import { toast } from "react-hot-toast";
+
+import SignInOAuthButtons from "@/components/SignInOAuthButtons";
+import FullWidthBanner from "@/components/FullWidthBanner";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -150,12 +152,10 @@ const LoginPage = () => {
         </div>
       </section>
 
-      <section>
-        <div
-          className="h-[425px] w-full bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("/images/menu_banner.jpg")' }}
-        ></div>
-      </section>
+      <FullWidthBanner
+        webpImage="/images/webp/menu_banner.webp"
+        jpegImage="/images/menu_banner.jpg"
+      />
     </main>
   );
 };

@@ -5,6 +5,7 @@ import { Product } from "@/types";
 import ProductCard from "./components/ProductCard";
 import ProductItemSkeleton from "@/components/skeletons/ProductItemSkeleton";
 import useWindowWidth from "@/hooks/useWindowWidth";
+import FullWidthBanner from "@/components/FullWidthBanner";
 
 const ShopPage = () => {
   const windowWidth = useWindowWidth();
@@ -17,10 +18,10 @@ const ShopPage = () => {
 
   return (
     <main className="mb-8 space-y-8 text-primary-500">
-      <div
-        className="h-[425px] w-full bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url("/images/menu_banner.jpg")' }}
-      ></div>
+      <FullWidthBanner
+        webpImage="/images/webp/menu_banner.webp"
+        jpegImage="/images/menu_banner.jpg"
+      />
 
       <section className="container mx-auto">
         <CategorySelector categories={categories} />

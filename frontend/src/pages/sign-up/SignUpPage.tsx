@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { SignedOut, useSignUp } from "@clerk/clerk-react";
+import toast from "react-hot-toast";
 
-import SignInOAuthButtons from "@/components/SignInOAuthButtons";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
-import toast from "react-hot-toast";
+
+import SignInOAuthButtons from "@/components/SignInOAuthButtons";
 import VerificationCodeDialog from "./components/VerificationCodeDialog";
+import FullWidthBanner from "@/components/FullWidthBanner";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -205,12 +207,10 @@ const SignUpPage = () => {
         </div>
       </section>
 
-      <section>
-        <div
-          className="h-[425px] w-full bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("/images/menu_banner.jpg")' }}
-        ></div>
-      </section>
+      <FullWidthBanner
+        webpImage="/images/webp/menu_banner.webp"
+        jpegImage="/images/menu_banner.jpg"
+      />
 
       <VerificationCodeDialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
     </main>

@@ -13,7 +13,7 @@ import useWindowWidth from "@/hooks/useWindowWidth";
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/clerk-react";
-import { LayoutDashboardIcon } from "lucide-react";
+import { LayoutDashboardIcon, X } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 
 const linkStyle =
@@ -190,7 +190,11 @@ const NavbarMobile = () => {
             className="bg-transparent p-2 duration-300 hover:bg-primary-75"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           >
-            <img src={menu} alt="menu" className="size-5 sm:size-7" />
+            {isSidebarOpen ? (
+              <X className="mx-1 size-5 text-[#525244] sm:size-7" />
+            ) : (
+              <img src={menu} alt="menu" className="h-5 w-6 sm:size-7" />
+            )}
           </Button>
 
           <a href="/">

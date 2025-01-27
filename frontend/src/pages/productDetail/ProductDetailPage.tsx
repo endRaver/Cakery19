@@ -8,6 +8,7 @@ import { gluten_free, nuts, plant_based, soy, sugar_free } from "@/assets/icons"
 import ProductImageDisplayMobile from "./components/ProductImageDisplayMobile";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import RecommendationProducts from "@/components/RecommendationProducts";
+import FullWidthBanner from "@/components/FullWidthBanner";
 
 const buttonStyle =
   "px-5 py-2 rounded-md border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 font-normal tracking-wider";
@@ -131,12 +132,10 @@ const ProductDetailPage = () => {
           </div>
         </section>
 
-        <section>
-          <div
-            className="h-[425px] w-full bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: 'url("/images/menu_banner.jpg")' }}
-          ></div>
-        </section>
+        <FullWidthBanner
+          webpImage="/images/webp/menu_banner.webp"
+          jpegImage="/images/menu_banner.jpg"
+        />
 
         <section className="container mx-auto space-y-6 py-10 lg:space-y-10">
           <div>

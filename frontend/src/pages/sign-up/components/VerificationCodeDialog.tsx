@@ -47,7 +47,9 @@ const VerificationCodeDialog: React.FC<VerificationCodeDialogProps> = ({ open, o
   };
 
   const handleClose = () => {
-    const confirmClose = window.confirm("Are you sure you want to close the dialog?");
+    const confirmClose = window.confirm(
+      "Are you sure you want to close the verification code dialog? You won't be able to proceed with the verification process."
+    );
     if (confirmClose) {
       onClose();
     }

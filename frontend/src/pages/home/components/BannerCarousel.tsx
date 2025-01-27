@@ -15,17 +15,27 @@ const BannerCarousel = () => {
         className="w-full"
         plugins={[
           Autoplay({
-            delay: 5000,
+            // delay: 5000,
           }),
         ]}
         opts={{ loop: true }}
       >
         <CarouselContent className="select-none">
           <CarouselItem className="pl-0">
-            <div
-              className="relative h-[680px] w-full overflow-hidden bg-cover bg-center bg-no-repeat lg:h-[734px]"
-              style={{ backgroundImage: 'url("/images/cakery_banner_1.jpg")' }}
-            >
+            <div className="relative h-[680px] w-full overflow-hidden lg:h-[734px]">
+              <picture>
+                {/* WebP format for modern browsers */}
+                <source srcSet="/images/webp/cakery_banner_1.webp" type="image/webp" />
+                {/* Fallback JPEG for older browsers */}
+                <img
+                  src="/images/cakery_banner_1.jpg"
+                  alt="Bakery Hero Banner"
+                  loading="eager"
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+                />
+              </picture>
+
               <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[540px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start lg:max-w-[697px]">
                 <h1 className={quoteStyle}>
                   <span className="font-medium">Baker</span> with love,
@@ -58,10 +68,20 @@ const BannerCarousel = () => {
             </div>
           </CarouselItem>
           <CarouselItem className="pl-0">
-            <div
-              className="relative h-[680px] w-full bg-cover bg-center bg-no-repeat lg:h-[734px]"
-              style={{ backgroundImage: 'url("/images/menu_banner.jpg")' }}
-            >
+            <div className="relative h-[680px] w-full overflow-hidden lg:h-[734px]">
+              <picture>
+                {/* WebP format for modern browsers */}
+                <source srcSet="images/webp/menu_banner.webp" type="image/webp" />
+                {/* Fallback JPEG for older browsers */}
+                <img
+                  src="/images/menu_banner.jpg"
+                  alt="Bakery Hero Banner"
+                  loading="eager"
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+                />
+              </picture>
+
               <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[540px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start lg:max-w-[697px]">
                 <h1 className={quoteStyle}>
                   <span className="font-medium">Baker</span> with love, <br /> served with a{" "}

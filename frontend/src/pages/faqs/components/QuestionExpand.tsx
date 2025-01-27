@@ -18,7 +18,7 @@ const QuestionExpand = ({
       </div>
       <p
         className={`transition-max-height overflow-hidden text-xs duration-700 sm:text-sm ${
-          isOpen ? "max-h-10 sm:max-h-[60px]" : "max-h-0"
+          isOpen ? "max-h-[80px] sm:max-h-[60px]" : "max-h-0"
         }`}
       >
         {children}

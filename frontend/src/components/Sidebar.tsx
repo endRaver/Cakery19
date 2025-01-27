@@ -81,14 +81,14 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             <img src={whatsapp_dark} className="size-4" />
             Whatsapp
           </a>
-          <div className="flex w-[110px] flex-nowrap items-center justify-end gap-1">
-            <SignedIn>
+          <SignedIn>
+            <div className="flex w-[110px] flex-nowrap items-center justify-end gap-1">
               <User2 className="size-4 flex-shrink-0" />
               <p className="truncate capitalize">
                 {user?.fullName || user?.emailAddresses[0]?.emailAddress.split("@")[0] || "N/a"}
               </p>
-            </SignedIn>
-          </div>
+            </div>
+          </SignedIn>
 
           <SignedOut>
             <div className="">
@@ -104,7 +104,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
           {isAdmin && (
             <a
               href="/admin"
-              className={`absolute bottom-6 left-3 flex items-center gap-2 border-b border-transparent text-primary-500 duration-300 hover:border-primary-500`}
+              className={`absolute bottom-14 left-3 flex items-center gap-2 border-b border-transparent text-primary-500 duration-300 hover:border-primary-500`}
             >
               <LayoutDashboardIcon className="mr-1 size-4" />
               Dashboard
@@ -112,7 +112,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
           )}
 
           <SignOutButton redirectUrl="/login">
-            <Button className="absolute bottom-3 right-3 rounded-full bg-primary-100 !py-6 hover:bg-primary-300">
+            <Button className="absolute bottom-10 right-3 rounded-full bg-primary-100 !py-6 hover:bg-primary-300">
               <LogOutIcon />
             </Button>
           </SignOutButton>
