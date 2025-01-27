@@ -15,18 +15,22 @@ const BannerCarousel = () => {
         className="w-full"
         plugins={[
           Autoplay({
-            // delay: 5000,
+            delay: 5000,
+            stopOnInteraction: true,
+            stopOnMouseEnter: true,
           }),
         ]}
-        opts={{ loop: true }}
+        opts={{
+          loop: true,
+          skipSnaps: false,
+          dragFree: false,
+        }}
       >
         <CarouselContent className="select-none">
           <CarouselItem className="pl-0">
             <div className="relative h-[680px] w-full overflow-hidden lg:h-[734px]">
-              <picture>
-                {/* WebP format for modern browsers */}
+              {/* <picture>
                 <source srcSet="/images/webp/cakery_banner_1.webp" type="image/webp" />
-                {/* Fallback JPEG for older browsers */}
                 <img
                   src="/images/cakery_banner_1.jpg"
                   alt="Bakery Hero Banner"
@@ -34,7 +38,7 @@ const BannerCarousel = () => {
                   className="absolute inset-0 h-full w-full object-cover object-center"
                   onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
                 />
-              </picture>
+              </picture> */}
 
               <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[540px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start lg:max-w-[697px]">
                 <h1 className={quoteStyle}>
@@ -69,10 +73,8 @@ const BannerCarousel = () => {
           </CarouselItem>
           <CarouselItem className="pl-0">
             <div className="relative h-[680px] w-full overflow-hidden lg:h-[734px]">
-              <picture>
-                {/* WebP format for modern browsers */}
+              {/* <picture>
                 <source srcSet="images/webp/menu_banner.webp" type="image/webp" />
-                {/* Fallback JPEG for older browsers */}
                 <img
                   src="/images/menu_banner.jpg"
                   alt="Bakery Hero Banner"
@@ -80,7 +82,7 @@ const BannerCarousel = () => {
                   className="absolute inset-0 h-full w-full object-cover object-center"
                   onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
                 />
-              </picture>
+              </picture> */}
 
               <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[540px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start lg:max-w-[697px]">
                 <h1 className={quoteStyle}>
