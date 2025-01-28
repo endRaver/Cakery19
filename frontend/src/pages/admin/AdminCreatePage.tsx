@@ -1,16 +1,18 @@
-import MultiSelectDropdown from "@/components/MutiSelectDropdown";
-import { Input } from "@/components/ui/input";
-
-import { Textarea } from "@/components/ui/textarea";
 import { useRef, useState } from "react";
-import VariantComponent from "./components/VariantComponent";
-import { Button } from "@/components/ui/button";
-import { Variant } from "@/types";
-
 import { times, filter, map, isEmpty } from "lodash";
-import { Loader2, TrashIcon } from "lucide-react";
 import toast from "react-hot-toast";
+
 import { useProductStore } from "@/stores/useProductStore";
+
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+
+import VariantComponent from "./components/VariantComponent";
+import MultiSelectDropdown from "@/components/MutiSelectDropdown";
+
+import { Variant } from "@/types";
+import { Loader2, TrashIcon } from "lucide-react";
 
 const options = ["signature", "delicacies", "cakes"];
 
@@ -42,7 +44,7 @@ const AdminCreatePage = () => {
     ],
   });
 
-  const { isLoading, createProduct } = useProductStore();
+  const { isLoading, handleCreateProduct } = useProductStore();
 
   const handleAddVariant = () => {
     setVariantAmount((prevAmount) => prevAmount + 1);
@@ -98,7 +100,7 @@ const AdminCreatePage = () => {
       formData.append(`imageFiles[${index}]`, image);
     });
 
-    createProduct(formData);
+    handleCreateProduct(formData);
 
     handleReset();
   };

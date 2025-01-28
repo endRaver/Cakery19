@@ -4,23 +4,28 @@ import { create } from "zustand";
 import toast from "react-hot-toast";
 
 interface ProductStore {
-  currentProduct: Product | null;
-  products: Product[];
   isLoading: boolean;
+  isDeleting: boolean;
+  currentProduct: Product | null;
+  deletedProduct: Product | null;
+  products: Product[];
   error: string | null;
   filteredProducts: Product[];
 
   fetchProducts: () => Promise<void>;
   fetchProductsById: (id: string) => Promise<void>;
   fetchProductsByCategory: (category: string[], amount?: number) => Promise<void>;
-  createProduct: (data: unknown) => Promise<void>;
+  handleCreateProduct: (data: unknown) => Promise<void>;
+  handleDeleteProduct: (id: string) => Promise<void>;
 }
 
 export const useProductStore = create<ProductStore>((set) => ({
+  isLoading: false,
+  isDeleting: false,
   currentProduct: null,
+  deletedProduct: null,
   products: [],
   filteredProducts: [],
-  isLoading: false,
   error: null,
 
   fetchProducts: async () => {
@@ -73,7 +78,7 @@ export const useProductStore = create<ProductStore>((set) => ({
     }
   },
 
-  createProduct: async (data) => {
+  handleCreateProduct: async (data) => {
     set({ isLoading: true, error: null });
 
     try {
@@ -89,6 +94,29 @@ export const useProductStore = create<ProductStore>((set) => ({
       set({ error: err.response.data.message });
     } finally {
       set({ isLoading: false });
+    }
+  },
+
+  handleDeleteProduct: async (id: string) => {
+    set({ isDeleting: true, error: null });
+
+    try {
+      const confirm = window.confirm("Are you sure you want to delete this product?");
+      if (!confirm) return;
+
+      const response = await axiosInstance.delete(`/admin/products/${id}`);
+      set({ deletedProduct: response.data });
+
+      set((state) => ({
+        products: state.products.filter((product) => product._id !== id),
+      }));
+
+      toast.success("Product deleted successfully");
+    } catch (error: unknown) {
+      const err = error as { response: { data: { message: string } } };
+      set({ error: err.response.data.message });
+    } finally {
+      set({ isDeleting: false });
     }
   },
 }));

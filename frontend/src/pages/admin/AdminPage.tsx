@@ -1,4 +1,5 @@
 import SectionLoader from "@/components/SectionLoader";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableHeader,
@@ -9,10 +10,12 @@ import {
   TableCaption,
 } from "@/components/ui/table";
 import { useProductStore } from "@/stores/useProductStore";
-import { useEffect } from "react";
+import { Loader2, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const AdminPage = () => {
-  const { isLoading, products, fetchProducts } = useProductStore();
+  const [deletedProductId, setDeletedProductId] = useState<string | null>(null);
+  const { isLoading, products, fetchProducts, isDeleting, handleDeleteProduct } = useProductStore();
 
   const convertDate = (date: string | undefined) => {
     if (!date) return "";
@@ -23,6 +26,11 @@ const AdminPage = () => {
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
+
+  const handleDeleteProductById = async (id: string) => {
+    setDeletedProductId(id);
+    handleDeleteProduct(id);
+  };
 
   if (isLoading) {
     return <SectionLoader />;
@@ -38,6 +46,7 @@ const AdminPage = () => {
           <TableHead className="text-white">Sizes</TableHead>
           <TableHead className="text-right text-white">Prices</TableHead>
           <TableHead className="text-right text-white">Created at</TableHead>
+          <TableHead className="text-right text-white">Action</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -51,6 +60,20 @@ const AdminPage = () => {
               {product.variants.map((v) => v.price).join(", ")}
             </TableCell>
             <TableCell className="text-right">{convertDate(product?.createdAt)}</TableCell>
+            <TableCell className="text-right">
+              <Button
+                type="submit"
+                className="w-fit self-center border border-primary-400 bg-primary-300 hover:bg-primary-400"
+                onClick={() => handleDeleteProductById(product._id)}
+                disabled={isDeleting && deletedProductId === product._id}
+              >
+                {isDeleting && deletedProductId === product._id ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <Trash2 />
+                )}
+              </Button>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
