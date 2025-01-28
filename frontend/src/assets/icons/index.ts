@@ -23,6 +23,7 @@ import google from "./google.svg";
 
 import items_square from "./item_square.svg";
 import plus_square from "./plus-square.svg";
+import chat from "./chat.svg";
 
 export {
   cakery_logo_light,
@@ -44,4 +45,5 @@ export {
   google,
   items_square,
   plus_square,
+  chat,
 };

@@ -1,6 +1,7 @@
 import FullpageLoader from "@/components/FullpageLoader";
 import { axiosInstance } from "@/lib/axios";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { useChatStore } from "@/stores/useChatStore";
 import { useAuth } from "@clerk/clerk-react";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -13,9 +14,10 @@ const updateApiToken = (token: string | null) => {
 };
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { getToken } = useAuth();
+  const { getToken, userId } = useAuth();
   const [loading, setLoading] = useState(true);
   const { checkAdminStatus } = useAuthStore();
+  const { initSocket, disconnectSocket } = useChatStore();
 
   useEffect(() => {
     const initAuth = async () => {
@@ -24,8 +26,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         updateApiToken(token);
 
         if (token) {
-          // TODO: update user profile
           await checkAdminStatus();
+          // init socket
+          if (userId) initSocket(userId);
         }
       } catch (error) {
         updateApiToken(null);
@@ -36,7 +39,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     initAuth();
-  }, [checkAdminStatus, getToken]);
+    // clean up
+    return () => disconnectSocket();
+  }, [checkAdminStatus, disconnectSocket, getToken, initSocket, userId]);
 
   if (loading) return <FullpageLoader />;
 

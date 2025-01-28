@@ -1,13 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
-import { clerkMiddleware } from "@clerk/express";
 import fileUpload from "express-fileupload";
 import path from "path";
 import cors from "cors";
 import fs from "fs";
 import cron from "node-cron";
 
+import { clerkMiddleware } from "@clerk/express";
+import { createServer } from "http";
+
 import { connectDB } from "./lib/db.js";
+import { initializeSocket } from "./lib/socket.js";
 
 import userRoutes from "./routes/user.route.js";
 import adminRoutes from "./routes/admin.route.js";
@@ -21,9 +24,12 @@ const __dirname = path.resolve();
 const app = express();
 const PORT = process.env.PORT;
 
+const httpServer = createServer(app);
+initializeSocket(httpServer);
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3000",  // frontend Url
     credentials: true,
   })
 );
@@ -41,8 +47,8 @@ app.use(
   })
 );
 
-const tempDir = path.join(process.cwd(), "tmp");
 // cron jobs | run once a day
+const tempDir = path.join(process.cwd(), "tmp");
 cron.schedule("0 0 * * *", () => {
   if (fs.existsSync(tempDir)) {
     fs.readdir(tempDir, (err, files) => {
@@ -82,7 +88,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(5000, () => {
+httpServer.listen(5000, () => {
   console.log("Server is running on port " + PORT);
   connectDB();
 });

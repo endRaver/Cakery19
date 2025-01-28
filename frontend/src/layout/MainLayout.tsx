@@ -1,6 +1,7 @@
 import TopNavigationBar from "@/components/TopNavigationBar";
 import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer";
+import Chatbox from "@/components/chatbox/Chatbox";
 
 const MainLayout = () => {
   return (
@@ -10,6 +11,7 @@ const MainLayout = () => {
         <Outlet />
       </main>
       <Footer />
+      <Chatbox />
     </div>
   );
 };
