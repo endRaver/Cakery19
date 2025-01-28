@@ -72,7 +72,7 @@ const ProductCard = ({
             </picture>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 z-30 text-sm duration-500 ease-in-out group-hover:bottom-16 group-hover:left-5 group-hover:text-primary-50">
+        <div className="absolute bottom-0 left-0 z-20 text-sm duration-500 ease-in-out group-hover:bottom-16 group-hover:left-5 group-hover:text-primary-50">
           <h4 className="font-medium uppercase tracking-wider">{product.name}</h4>
           <p className="italic">From {product.variants[0].price.toFixed(2)} CHF</p>
         </div>

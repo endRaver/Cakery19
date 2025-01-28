@@ -76,15 +76,20 @@ const HomePage = () => {
 
         <div className="relative h-[590px] sm:h-[620px] lg:h-[700px] xl:h-[800px]">
           <div className="relative h-full">
-            <div className="absolute inset-0 bg-[#ABAB70]/20"></div>
-            <img
-              src="/images/map.png"
-              alt="map"
-              className="h-full w-full object-cover object-center opacity-50"
-            />
+            <div className="absolute inset-0 z-10 bg-[#ABAB70]/20"></div>
+            <picture>
+              <source srcSet="/images/map.webp" type="image/webp" />
+              <img
+                src="/images/map.webp"
+                alt="Bakery Hero Banner"
+                loading="eager"
+                className="fade-in-image absolute inset-0 h-full w-full object-cover object-center"
+                onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+              />
+            </picture>
           </div>
 
-          <div className="absolute inset-0 bottom-0 left-1/2 flex w-64 -translate-x-1/2 flex-col items-center justify-center sm:left-14 sm:translate-x-0">
+          <div className="absolute inset-0 bottom-0 left-1/2 z-10 flex w-64 -translate-x-1/2 flex-col items-center justify-center sm:left-14 sm:translate-x-0">
             <div className="relative h-[200px] w-full overflow-hidden">
               <img
                 src="/images/store_placeholder.jpg"
