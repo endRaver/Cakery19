@@ -121,7 +121,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
 
       {isOpen && (
         <motion.div
-          className="fixed z-10 h-screen w-screen bg-black/50"
+          className="fixed z-30 h-screen w-screen bg-black/50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

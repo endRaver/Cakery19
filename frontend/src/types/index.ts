@@ -25,6 +25,9 @@ export interface User {
   clerkId: string;
   fullname: string;
   imageUrl: string;
+  email: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Message {
@@ -35,4 +38,3 @@ export interface Message {
   createdAt: string;
   updatedAt: string;
 }
-
