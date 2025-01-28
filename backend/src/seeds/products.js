@@ -34,11 +34,11 @@ const products = [
       },
     ],
     description:
-      "Decorated with fresh blueberries and homegrown herbs from my garden.",
+      "Three-layer cake with bright berry fillings\r\nand velvety vanilla yoghurt frosting",
     category: ["signature", "cakes"],
     imageUrl: [
-      "/cakes/webp/Berrytale/Berrytale1.webp",
-      "/cakes/webp/Berrytale/Berrytale2.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738082875/lgyocggof52szvndwyps.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738082876/n7wxyzxpg85x5sb2i7x4.webp",
     ],
   },
   {
@@ -70,11 +70,11 @@ const products = [
       },
     ],
     description:
-      "Gorgeous, fragrant and absolutely delicious combination of raspberry and chocolate.",
+      "Four-layer chocolate cake with gorgeous\r\nlayers of berry jam and berry pudding",
     category: ["cakes"],
     imageUrl: [
-      "/cakes/webp/Berry_truffle/BerryTruffle1.webp",
-      "/cakes/webp/Berry_truffle/BerryTruffle2.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738082899/hylempkw1kxtau2zrctg.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738082900/adjsuszmqrdz7kqq3irv.webp",
     ],
   },
   {
@@ -106,11 +106,11 @@ const products = [
       },
     ],
     description:
-      "Juicy mango filling, silky mango cream and bright lemon curd is seriously a heavenly match.",
+      "Three-layer cake with refreshing mango\r\nfilling and mango yoghurt frosting",
     category: ["cakes"],
     imageUrl: [
-      "/cakes/webp/Mango_lush/MangoLush1.webp",
-      "/cakes/webp/Mango_lush/MangoLush2.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738082924/dymhzgn0t3rqllb0yfbf.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738082925/o5puc3tqkthc6qvveezl.webp",
     ],
   },
   {
@@ -134,11 +134,11 @@ const products = [
       },
     ],
     description:
-      "Chocolate crust, melt-in-your mouth raspberry filling covered in raspberry ganache.",
+      "Crunchy chocolate crust filled with raspberry\r\ncream, covered with raspberry chocolate",
     category: ["cakes", "signature"],
     imageUrl: [
-      "/cakes/webp/Raspberry_story/RaspberryStory1.webp",
-      "/cakes/webp/Raspberry_story/RaspberryStory2.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738082962/uizxy9yn1iq34cssslmh.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738082963/nyf4ranuly9u5esoo3hp.webp",
     ],
   },
   {
@@ -169,9 +169,12 @@ const products = [
         },
       },
     ],
-    description: "A dream came true for any chocolate lover.",
+    description:
+      "Four-layer cake with two different fillings\r\nof caramelised hazelnuts and coffee\r\npudding (options for non-coffee or decaf)",
     category: ["cakes"],
-    imageUrl: ["/cakes/webp/Schoggi_glee/SchoggiGleeCake1.webp"],
+    imageUrl: [
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738082979/lsrkz32elvu7hikueezh.webp",
+    ],
   },
   {
     name: "Blueberry Muse",
@@ -186,11 +189,11 @@ const products = [
       },
     ],
     description:
-      "Delightful summer flavors packed into a cupcake! Sweet blueberry cream and tangy lemon curd make every bite a sunny treat.",
+      "A taste of summer with blueberry cream\r\npaired with lemon curd",
     category: ["delicacies"],
     imageUrl: [
-      "/cakes/webp/Blueberry_muse_cupcakes/BlueberryMuse1.webp",
-      "/cakes/webp/Blueberry_muse_cupcakes/BlueberryMuse2.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738082999/eaniwrzn8elxk3zecd3i.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738083000/zktqdkj3qgrlqfaslxnd.webp",
     ],
   },
   {
@@ -206,11 +209,11 @@ const products = [
       },
     ],
     description:
-      "Indulge yourself with rich chocolate salted caramel and caramelized hazelnuts.",
+      "A luscious combination of rich chocolate,\r\nsalted caramel and caramelised hazelnut",
     category: ["delicacies", "signature"],
     imageUrl: [
-      "/cakes/webp/Chocolate_spell_cupcakes/Chocolate_Spell1.webp",
-      "/cakes/webp/Chocolate_spell_cupcakes/Chocolate_Spell2.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738083047/ywbes3sldhxnxdgumwej.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738083048/pph3rnit8yayjnzkubvv.webp",
     ],
   },
   {
@@ -226,11 +229,11 @@ const products = [
       },
     ],
     description:
-      "Tender, luscious and delightful with sweet vanilla cream and juicy berry filling.",
+      "A delightful vanilla yoghurt cream paired\r\nwith jammy berries",
     category: ["delicacies"],
     imageUrl: [
-      "/cakes/webp/Dreamy_berry_cupcakes/DreamyBerry1.webp",
-      "/cakes/webp/Dreamy_berry_cupcakes/DreamyBerry2.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738083077/fq7dmgjtovsx6hkjq18a.webp",
+      "https://res.cloudinary.com/dmhyq5ub5/image/upload/v1738083078/vhtsuuo1ratofgftuw3x.webp",
     ],
   },
 ];

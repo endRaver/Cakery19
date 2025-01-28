@@ -124,6 +124,14 @@ const AdminEditPage = () => {
     handleUpdateProduct(newProduct._id, formData);
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="h-full overflow-auto rounded bg-white px-6 py-8 shadow">
       <h1 className="mb-4 text-center text-2xl font-medium tracking-wider text-primary-500">
