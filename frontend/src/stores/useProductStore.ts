@@ -16,6 +16,7 @@ interface ProductStore {
   fetchProductsById: (id: string) => Promise<void>;
   fetchProductsByCategory: (category: string[], amount?: number) => Promise<void>;
   handleCreateProduct: (data: unknown) => Promise<void>;
+  handleUpdateProduct: (id: string, data: unknown) => Promise<void>;
   handleDeleteProduct: (id: string) => Promise<void>;
 }
 
@@ -89,6 +90,25 @@ export const useProductStore = create<ProductStore>((set) => ({
       });
 
       toast.success("Product created successfully");
+    } catch (error: unknown) {
+      const err = error as { response: { data: { message: string } } };
+      set({ error: err.response.data.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  handleUpdateProduct: async (id, data) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      await axiosInstance.put(`/admin/products/${id}`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success("Product updated successfully");
     } catch (error: unknown) {
       const err = error as { response: { data: { message: string } } };
       set({ error: err.response.data.message });

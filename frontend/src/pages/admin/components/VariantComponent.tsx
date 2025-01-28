@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NewProduct } from "../AdminCreatePage";
 
 interface VariantComponentProps {
@@ -19,12 +19,21 @@ const VariantComponent = ({
 }: VariantComponentProps) => {
   const [toggleSizeType, setToggleSizeType] = useState("cm");
   const [size, setSize] = useState("");
+  const [price, setPrice] = useState(0);
+  const [portionSize, setPortionSize] = useState({ from: 0, to: 0 });
 
   const handleDelete = () => {
     if (isAbleToDelete) {
       onDelete();
     }
   };
+
+  useEffect(() => {
+    setSize(product.variants[index]?.size.split(" ")[0] || "");
+    setToggleSizeType(product.variants[index]?.size.split(" ")[1] || "cm");
+    setPrice(product.variants[index]?.price || 0);
+    setPortionSize(product.variants[index]?.portionSize || { from: 0, to: 0 });
+  }, [product, index]);
 
   return (
     <div className="flex gap-4 font-medium">
@@ -58,8 +67,10 @@ const VariantComponent = ({
                 className="border-none"
                 placeholder="Price"
                 type="number"
+                value={price}
                 onChange={(e) => {
                   const newPrice = parseFloat(e.target.value);
+                  setPrice(newPrice);
                   product.variants[index].price = isNaN(newPrice) ? 0 : newPrice;
                 }}
               />
@@ -77,8 +88,10 @@ const VariantComponent = ({
               type="number"
               max={10}
               min={1}
+              value={portionSize.from}
               onChange={(e) => {
                 const newPortions = parseInt(e.target.value);
+                setPortionSize({ ...portionSize, from: newPortions });
                 product.variants[index].portionSize.from = isNaN(newPortions) ? 0 : newPortions;
               }}
             />
@@ -90,8 +103,10 @@ const VariantComponent = ({
               type="number"
               max={10}
               min={1}
+              value={product.variants[index].portionSize.to || ""}
               onChange={(e) => {
                 const newPortions = parseInt(e.target.value);
+                setPortionSize({ ...portionSize, to: newPortions });
                 product.variants[index].portionSize.to = isNaN(newPortions) ? 0 : newPortions;
               }}
             />

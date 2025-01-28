@@ -12,10 +12,12 @@ import {
 import { useProductStore } from "@/stores/useProductStore";
 import { Loader2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminPage = () => {
   const [deletedProductId, setDeletedProductId] = useState<string | null>(null);
   const { isLoading, products, fetchProducts, isDeleting, handleDeleteProduct } = useProductStore();
+  const navigate = useNavigate();
 
   const convertDate = (date: string | undefined) => {
     if (!date) return "";
@@ -52,7 +54,11 @@ const AdminPage = () => {
 
       <TableBody>
         {products.map((product) => (
-          <TableRow key={product._id} className="cursor-pointer">
+          <TableRow
+            key={product._id}
+            className="cursor-pointer"
+            onClick={() => navigate(`/admin/edit/${product._id}`)}
+          >
             <TableCell className="font-medium">{product._id}</TableCell>
             <TableCell>{product.name}</TableCell>
             <TableCell>{product.variants.map((v) => v.size).join(", ")}</TableCell>
