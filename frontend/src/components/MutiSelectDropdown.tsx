@@ -46,6 +46,7 @@ const MultiSelectDropdown = ({
         </div>
 
         <button
+          type="button"
           className="absolute right-0 h-full bg-primary-300 p-2"
           onClick={() => setIsOpen(!setOpen)}
         >

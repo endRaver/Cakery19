@@ -12,7 +12,7 @@ import { Loader2, TrashIcon } from "lucide-react";
 import toast from "react-hot-toast";
 import { useProductStore } from "@/stores/useProductStore";
 
-const options = ["Signature", "Delicacies", "Cakes"];
+const options = ["signature", "delicacies", "cakes"];
 
 export interface NewProduct {
   name: string;
@@ -24,33 +24,19 @@ export interface NewProduct {
 const AdminCreatePage = () => {
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<File[]>([]);
-  // const [isLoading, setIsLoading] = useState(false);
 
   const [variantAmount, setVariantAmount] = useState(1);
   const [newProduct, setNewProduct] = useState<NewProduct>({
-    // name: "",
-    // description: "",
-    // category: [],
-    // variants: [
-    //   {
-    //     size: "",
-    //     price: 0,
-    //     portionSize: {
-    //       from: 0,
-    //       to: 0,
-    //     },
-    //   },
-    // ],
-    name: "test",
-    description: "test",
-    category: ["test"],
+    name: "",
+    description: "",
+    category: [],
     variants: [
       {
-        size: "12 cm",
-        price: 12,
+        size: "",
+        price: 0,
         portionSize: {
-          from: 1,
-          to: 2,
+          from: 0,
+          to: 0,
         },
       },
     ],
@@ -113,6 +99,8 @@ const AdminCreatePage = () => {
     });
 
     createProduct(formData);
+
+    handleReset();
   };
 
   return (

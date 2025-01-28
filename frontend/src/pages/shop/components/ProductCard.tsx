@@ -3,9 +3,9 @@ import { Product } from "@/types";
 // Utility function to optimize image URL
 const optimizeImageUrl = (url: string, width: number = 800) => {
   // Check if it's already a Cloudinary URL
-  if (url.includes('cloudinary.com')) {
+  if (url.includes("cloudinary.com")) {
     // Extract the base URL and transformation string
-    const urlParts = url.split('/upload/');
+    const urlParts = url.split("/upload/");
     if (urlParts.length === 2) {
       // Add or update width transformation
       return `${urlParts[0]}/upload/w_${width},q_auto,f_auto/${urlParts[1]}`;
@@ -29,8 +29,8 @@ const ProductCard = ({
   const imageWidth = isSquareImage ? 600 : 800; // Adjust these values based on your needs
 
   return (
-    <a href={`/shop/${createSlug(product.name)}?id=${product._id}`}>
-      <div className="group relative flex-1 lg:max-w-[309px] xl:max-w-[373px] 2xl:max-w-[448px]">
+    <div className="group relative flex-1 lg:max-w-[309px] xl:max-w-[373px] 2xl:max-w-[448px]">
+      <a href={`/shop/${createSlug(product.name)}?id=${product._id}`} className="">
         <div
           className={`relative w-full overflow-hidden ${isSquareImage ? "aspect-square" : "h-[380px]"}`}
         >
@@ -39,11 +39,17 @@ const ProductCard = ({
           <div className="group h-full w-full duration-500 ease-in-out group-hover:scale-125">
             <picture>
               <source
-                srcSet={optimizeImageUrl(product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0], imageWidth)}
+                srcSet={optimizeImageUrl(
+                  product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0],
+                  imageWidth
+                )}
                 type="image/webp"
               />
               <img
-                src={optimizeImageUrl(product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0], imageWidth)}
+                src={optimizeImageUrl(
+                  product.imageUrl[1] ? product.imageUrl[1] : product.imageUrl[0],
+                  imageWidth
+                )}
                 alt={product.name}
                 loading="lazy"
                 className="fade-in-image absolute top-0 h-full w-full object-cover object-center duration-500 ease-in-out group-hover:scale-110"
@@ -52,9 +58,9 @@ const ProductCard = ({
             </picture>
 
             <picture>
-              <source 
-                srcSet={optimizeImageUrl(product.imageUrl[0], imageWidth)} 
-                type="image/webp" 
+              <source
+                srcSet={optimizeImageUrl(product.imageUrl[0], imageWidth)}
+                type="image/webp"
               />
               <img
                 src={optimizeImageUrl(product.imageUrl[0], imageWidth)}
@@ -72,10 +78,10 @@ const ProductCard = ({
         </div>
 
         <p className="mt-2 line-clamp-2 min-h-10 overflow-hidden text-ellipsis text-sm tracking-wider opacity-0 duration-500 ease-in-out group-hover:opacity-100">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          {product.description}
         </p>
-      </div>
-    </a>
+      </a>
+    </div>
   );
 };
 

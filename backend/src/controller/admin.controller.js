@@ -24,13 +24,14 @@ export const createProduct = async (req, res, next) => {
     const { name, description, category, variants } = req.body;
 
     let parsedVariants;
+    let parsedCategory;
     try {
       parsedVariants =
         typeof variants === "string" ? JSON.parse(variants) : variants;
+      parsedCategory =
+        typeof category === "string" ? JSON.parse(category) : category;
     } catch (err) {
-      return res
-        .status(400)
-        .json({ message: "Invalid JSON format for variants" });
+      return res.status(400).json({ message: "Invalid JSON format" });
     }
 
     const imageFiles = req.files;
@@ -60,9 +61,9 @@ export const createProduct = async (req, res, next) => {
 
     const product = new Product({
       name,
-      variants: parsedVariants,
       description,
-      category,
+      variants: parsedVariants,
+      category: parsedCategory,
       imageUrl: imageUrls,
     });
 

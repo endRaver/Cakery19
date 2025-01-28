@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/lib/axios";
 import { Product } from "@/types";
 import { create } from "zustand";
+import toast from "react-hot-toast";
 
 interface ProductStore {
   currentProduct: Product | null;
@@ -81,6 +82,8 @@ export const useProductStore = create<ProductStore>((set) => ({
           "Content-Type": "multipart/form-data",
         },
       });
+
+      toast.success("Product created successfully");
     } catch (error: unknown) {
       const err = error as { response: { data: { message: string } } };
       set({ error: err.response.data.message });

@@ -185,7 +185,7 @@ const NavbarMobile = () => {
   return (
     <>
       <div
-        className={`fixed top-0 z-30 mx-auto w-full py-2 duration-500 ${scrollY > 200 && "shadow-lg"} bg-primary-50 ${scrollDirection === "down" && "!-top-[97px]"}`}
+        className={`fixed top-0 z-40 mx-auto w-full py-2 duration-500 ${scrollY > 200 && "shadow-lg"} bg-primary-50 ${scrollDirection === "down" && "!-top-[97px]"}`}
       >
         <div className="mx-4 flex items-center justify-between sm:mx-8">
           <Button
@@ -200,11 +200,7 @@ const NavbarMobile = () => {
           </Button>
 
           <a href="/">
-            <img
-              src={cakery_logo_dark}
-              alt="logo"
-              className="size-[68px] sm:size-[80px]"
-            />
+            <img src={cakery_logo_dark} alt="logo" className="size-[68px] sm:size-[80px]" />
           </a>
           <Button className="bg-transparent p-2 duration-300 hover:bg-primary-75">
             <img src={search} alt="search" className="size-5 sm:size-7" />
