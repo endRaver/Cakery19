@@ -2,6 +2,7 @@ import TopNavigationBar from "@/components/TopNavigationBar";
 import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer";
 import Chatbox from "@/components/chatbox/Chatbox";
+import { SignedIn } from "@clerk/clerk-react";
 
 const MainLayout = () => {
   return (
@@ -11,7 +12,9 @@ const MainLayout = () => {
         <Outlet />
       </main>
       <Footer />
-      <Chatbox />
+      <SignedIn>
+        <Chatbox />
+      </SignedIn>
     </div>
   );
 };

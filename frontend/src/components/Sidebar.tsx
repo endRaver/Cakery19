@@ -38,7 +38,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
   return (
     <>
       <div
-        className={`fixed z-40 flex flex-col border border-[#c5b6ad] bg-primary-50 ps-3 pt-11 shadow-xl duration-500 ease-in ${windowWidth > 640 ? "top-[96px]" : "top-[84px]"} ${windowWidth > 640 ? "w-[400px]" : "w-full"} ${isOpen ? "left-0" : "-left-full"}`}
+        className={`fixed z-50 flex flex-col border border-[#c5b6ad] bg-primary-50 ps-3 pt-11 shadow-xl duration-500 ease-in ${windowWidth > 640 ? "top-[96px]" : "top-[84px]"} ${windowWidth > 640 ? "w-[400px]" : "w-full"} ${isOpen ? "left-0" : "-left-full"}`}
         style={{ height: windowWidth > 640 ? "calc(100vh - 96px)" : "calc(100vh - 84px)" }}
       >
         <a href="/" className={`${linkStyle}`}>

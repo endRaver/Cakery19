@@ -7,6 +7,8 @@ import UsersList from "./chat_components/UsersList";
 import ChatHeader from "./chat_components/ChatHeader";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import MessageInput from "./chat_components/MessageInput";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { find } from "lodash";
 
 const formatTime = (date: string) => {
   return new Date(date).toLocaleTimeString("en-US", {
@@ -16,11 +18,14 @@ const formatTime = (date: string) => {
   });
 };
 
+const adminEmail = "tungthanh254@gmail.com";
+
 const Chatbox = () => {
   const { user } = useUser();
-  const { fetchUsers, fetchMessages, selectedUser, messages } = useChatStore();
-
+  const { fetchUsers, fetchMessages, selectedUser, messages, setSelectedUser, users } =
+    useChatStore();
   const [isOpen, setIsOpen] = useState(false);
+  const { isAdmin } = useAuthStore();
 
   useEffect(() => {
     if (user) fetchUsers();
@@ -30,11 +35,18 @@ const Chatbox = () => {
     if (selectedUser) fetchMessages(selectedUser.clerkId);
   }, [selectedUser, fetchMessages]);
 
+  useEffect(() => {
+    if (!selectedUser && !isAdmin) {
+      const adminUser = find(users, { email: adminEmail }) || null;
+      setSelectedUser(adminUser);
+    }
+  }, [isAdmin, selectedUser, setSelectedUser, users]);
+
   return (
     <>
       {!isOpen && (
         <Button
-          className="border-100 fixed bottom-0 right-4 z-50 flex items-center gap-2 rounded-b-none rounded-t bg-primary-300 p-2 text-primary-50 shadow-2xl hover:bg-primary-400"
+          className="border-100 fixed bottom-0 right-4 z-20 flex items-center gap-2 rounded-b-none rounded-t bg-primary-300 p-2 text-primary-50 shadow-2xl hover:bg-primary-400"
           onClick={() => setIsOpen(true)}
         >
           <MessageCircleMore className="h-5 w-5" />
@@ -43,9 +55,9 @@ const Chatbox = () => {
       )}
 
       <div
-        className={`border-100 fixed bottom-0 right-4 z-20 grid h-[560px] w-[700px] grid-rows-[auto_1fr] rounded-b-none rounded-t border border-primary-50 bg-white text-primary-300 shadow-2xl duration-300 ease-in-out ${isOpen ? "translate-y-0" : "translate-y-full"}`}
+        className={`border-100 fixed bottom-0 right-4 z-20 grid h-[560px] w-[700px] grid-rows-[auto_1fr] overflow-hidden rounded-b-none rounded-t border border-primary-50 bg-white text-primary-300 shadow-2xl duration-300 ease-in-out ${isOpen ? "translate-y-0" : "translate-y-full"}`}
       >
-        <div className="flex items-center justify-between border-b border-primary-75 p-2">
+        <div className="flex items-center justify-between border-b border-primary-75 bg-primary-300 p-2 text-primary-50">
           <h3 className="text-xl font-medium">Chat</h3>
           <button
             className="rounded-full p-1.5 duration-300 hover:bg-primary-75/60"
@@ -54,8 +66,8 @@ const Chatbox = () => {
             <SquareChevronDownIcon className="h-5 w-5" />
           </button>
         </div>
-        <div className="grid grid-cols-[200px_1fr]">
-          <UsersList />
+        <div className={`grid ${isAdmin ? "grid-cols-[200px_1fr]" : "grid-cols-[1fr]"} `}>
+          {isAdmin && <UsersList />}
 
           <div className="flex h-full flex-col text-primary-500">
             {selectedUser ? (
@@ -111,7 +123,7 @@ export default Chatbox;
 const NoConversationPlaceholder = () => (
   <div className="flex h-[500px] flex-col items-center justify-center space-y-6">
     <div className="flex animate-bounce items-center justify-center rounded-full bg-primary-300 p-8">
-      <img src="/images/cakery_logo_light.svg" alt="Spotify" className="size-20" />
+      <img src="/images/cakery_logo_light.svg" alt="logo" className="size-20" />
     </div>
     <div className="text-center">
       <h3 className="mb-1 text-lg font-medium">No conversation selected</h3>

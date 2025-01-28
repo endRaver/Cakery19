@@ -29,7 +29,7 @@ const ProductCard = ({
   const imageWidth = isSquareImage ? 600 : 800; // Adjust these values based on your needs
 
   return (
-    <div className="group relative flex-1 lg:max-w-[309px] xl:max-w-[373px] 2xl:max-w-[448px]">
+    <div className="group relative flex-1 sm:max-w-[296px] md:max-w-[416px] lg:max-w-[309px] xl:max-w-[373px] 2xl:max-w-[448px]">
       <a href={`/shop/${createSlug(product.name)}?id=${product._id}`} className="">
         <div
           className={`relative w-full overflow-hidden ${isSquareImage ? "aspect-square" : "h-[380px]"}`}
