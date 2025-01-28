@@ -1,11 +1,9 @@
-import { MessageCircleMore, SquareChevronDownIcon, X } from "lucide-react";
+import { MessageCircleMore, SquareChevronDownIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { useChatStore } from "@/stores/useChatStore";
 
 const Chatbox = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoading, fetchUsers } = useChatStore();
 
   return (
     <>
@@ -23,7 +21,7 @@ const Chatbox = () => {
         <div className="border-100 fixed bottom-0 right-4 z-50 grid h-[560px] w-[700px] grid-rows-[auto_1fr] rounded-b-none rounded-t border border-primary-50 bg-white text-primary-300 shadow-2xl">
           <div className="flex items-center justify-between border-b border-primary-75 p-2">
             <h3 className="text-xl font-medium">Chat</h3>
-            <button className="">
+            <button className="rounded-full p-1.5 duration-300 hover:bg-primary-75/60">
               <SquareChevronDownIcon className="h-5 w-5" />
             </button>
           </div>
