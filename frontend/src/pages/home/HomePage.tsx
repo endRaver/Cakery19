@@ -73,6 +73,36 @@ const HomePage = () => {
         </div>
 
         <VideoBanner />
+
+        <div className="relative h-[590px] sm:h-[620px] lg:h-[700px] xl:h-[800px]">
+          <div className="relative h-full">
+            <div className="absolute inset-0 bg-[#ABAB70]/20"></div>
+            <img
+              src="/images/map.png"
+              alt="map"
+              className="h-full w-full object-cover object-center opacity-50"
+            />
+          </div>
+
+          <div className="absolute inset-0 bottom-0 left-1/2 flex w-64 -translate-x-1/2 flex-col items-center justify-center sm:left-14 sm:translate-x-0">
+            <div className="relative h-[200px] w-full overflow-hidden">
+              <img
+                src="/images/store_placeholder.jpg"
+                alt="store_img"
+                className="absolute left-0 top-0 h-full w-full object-cover object-center"
+              />
+            </div>
+
+            <div className="w-full space-y-1 bg-[#846449] p-5 text-sm text-primary-50">
+              <h2 className="font-medium">Take Away - Cakery 19</h2>
+              <p className="font-light">Chef de cuisine et directeur général</p>
+              <p className="font-light">
+                <span className="font-normal">Hours:</span> 8:00 AM - 8:00 PM
+              </p>
+              <p>Mon - Fri</p>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
