@@ -64,7 +64,7 @@ const Chatbox = () => {
           onClick={() => setIsOpen(true)}
         >
           <MessageCircleMore className="h-5 w-5" />
-          <span>Chat {windowWidth > 640 && <span>with Cakery19</span>}</span>
+          <span>Chat {windowWidth > 640 && <span>with Us</span>}</span>
 
           {/* notification indicator */}
           {Array.from(notifications?.entries() || []).some(([, value]) => value > 0) && (

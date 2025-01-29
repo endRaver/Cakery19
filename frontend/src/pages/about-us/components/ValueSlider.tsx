@@ -15,7 +15,7 @@ export const ValueSlider = () => {
 
   return (
     <Swiper
-      effect={"coverflow"}
+      effect={windowWidth < 640 ? "" : "coverflow"}
       grabCursor={true}
       centeredSlides={true}
       loop={true}
@@ -40,9 +40,9 @@ export const ValueSlider = () => {
       {sliders.map((slide, index) => (
         <SwiperSlide key={index}>
           <div className="flex justify-center duration-300">
-            <div className="relative flex h-[228px] w-[360px] flex-col justify-end overflow-hidden rounded p-4 shadow-xl sm:h-[320px] sm:w-[570px] sm:rounded-lg sm:p-8">
+            <div className="relative flex h-[320px] w-[570px] flex-col justify-end overflow-hidden rounded p-4 shadow-xl sm:rounded-lg sm:p-8">
               <picture className="flex-1">
-                <source srcSet={`${(slide.image)}`} type="image/webp" />
+                <source srcSet={`${slide.image}`} type="image/webp" />
                 <img
                   src={`${slide.image}`}
                   alt={"value_banner"}

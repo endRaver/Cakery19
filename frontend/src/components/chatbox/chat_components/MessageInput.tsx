@@ -40,7 +40,7 @@ const MessageInput = () => {
     }
 
     // Check for individual file size limit (5MB)
-    const oversizedFiles = selectedFiles.filter((file) => file.size > 5 * 1024 * 1024);
+    const oversizedFiles = selectedFiles.filter((file) => file.size > 10 * 1024 * 1024);
     if (oversizedFiles.length > 0) {
       toast.error("Each file must be less than 5MB.");
       return;
