@@ -11,6 +11,7 @@ export const initializeSocket = (server) => {
 
   const userSockets = new Map(); // {userId: socketId}
   const userActivities = new Map(); // {userId: activity}
+  const userNotifications = new Map(); // {userId: count}
 
   io.on("connection", (socket) => {
     socket.on("user_connected", (userId) => {
@@ -22,6 +23,7 @@ export const initializeSocket = (server) => {
 
       socket.emit("users_online", Array.from(userSockets.keys()));
       io.emit("activities", Array.from(userActivities.entries()));
+      io.emit("receive_notification", Array.from(userNotifications.entries()));
     });
 
     socket.on("update_activity", ({ userId, activity }) => {
@@ -50,6 +52,34 @@ export const initializeSocket = (server) => {
         console.error("Message error", error);
         socket.emit("message_error", error.message);
       }
+    });
+
+    socket.on(
+    "send_notification",
+      async ({ senderId, receiverId, content }) => {
+        try {
+          userNotifications.set(
+            senderId,
+            (userNotifications.get(senderId) || 0) + 1
+          );
+
+          // send to receiver in realtime, if they are online
+          const receiverSocketId = userSockets.get(receiverId);
+          if (receiverSocketId) {
+            io.to(receiverSocketId).emit(
+              "receive_notification",
+              Array.from(userNotifications.entries())
+            );
+          }
+        } catch (error) {
+          console.error("Notification error", error);
+        }
+      }
+    );
+
+    socket.on("clear_notification", (userId) => {
+      userNotifications.set(userId, 0);
+      io.emit("receive_notification", Array.from(userNotifications.entries()));
     });
 
     socket.on("disconnect", () => {

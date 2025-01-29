@@ -23,16 +23,28 @@ const adminEmail = "tungthanh254@gmail.com";
 
 const Chatbox = () => {
   const { user } = useUser();
-  const { fetchUsers, fetchMessages, selectedUser, messages, setSelectedUser, users, isLoading } =
-    useChatStore();
+  const {
+    fetchUsers,
+    fetchMessages,
+    selectedUser,
+    messages,
+    setSelectedUser,
+    users,
+    isLoading,
+    handleGetNotifications,
+  } = useChatStore();
   const [isOpen, setIsOpen] = useState(false);
   const { isAdmin } = useAuthStore();
   const windowWidth = useWindowWidth();
   const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const { notifications } = useChatStore();
 
   useEffect(() => {
-    if (user) fetchUsers();
-  }, [user, fetchUsers]);
+    if (user) {
+      fetchUsers();
+      handleGetNotifications();
+    }
+  }, [user, fetchUsers, handleGetNotifications]);
 
   useEffect(() => {
     if (selectedUser) fetchMessages(selectedUser.clerkId);
@@ -51,6 +63,12 @@ const Chatbox = () => {
     }
   }, [messages]);
 
+  useEffect(() => {
+    if (user) {
+      handleGetNotifications();
+    }
+  }, [handleGetNotifications, user, messages]);
+
   return (
     <>
       {!isOpen && (
@@ -60,6 +78,11 @@ const Chatbox = () => {
         >
           <MessageCircleMore className="h-5 w-5" />
           <span>Chat {windowWidth > 640 && <span>with Cakery19</span>}</span>
+
+          {/* notification indicator */}
+          {Array.from(notifications?.entries() || []).some(([, value]) => value > 0) && (
+            <div className="absolute -right-1 -top-1 z-10 size-3 animate-bounce justify-center rounded-full bg-red-500 ring-zinc-700 lg:hidden"></div>
+          )}
         </Button>
       )}
 

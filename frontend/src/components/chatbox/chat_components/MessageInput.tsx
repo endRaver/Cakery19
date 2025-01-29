@@ -8,7 +8,7 @@ import { useState } from "react";
 const MessageInput = () => {
   const [newMessage, setNewMessage] = useState("");
   const { user } = useUser();
-  const { selectedUser, sendMessage } = useChatStore();
+  const { selectedUser, sendMessage, handleClearNotifications } = useChatStore();
 
   const handleSend = () => {
     if (!user || !selectedUser || !newMessage) return;
@@ -26,6 +26,9 @@ const MessageInput = () => {
           className="border-none bg-zinc-100"
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSend();
+          }}
+          onClick={() => {
+            if (selectedUser) handleClearNotifications(selectedUser);
           }}
         />
 

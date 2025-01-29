@@ -13,6 +13,7 @@ interface ChatStore {
   userActivities: Map<string, string>;
   messages: Message[];
   selectedUser: User | null;
+  notifications: Map<string, number>;
 
   fetchUsers: () => Promise<void>;
   initSocket: (userId: string) => void;
@@ -20,6 +21,8 @@ interface ChatStore {
   sendMessage: (receiverId: string, senderId: string, content: string) => void;
   fetchMessages: (userId: string) => Promise<void>;
   setSelectedUser: (user: User | null) => void;
+  handleGetNotifications: () => void;
+  handleClearNotifications: (user: User) => void;
 }
 
 const baseURL = import.meta.env.MODE === "development" ? "http://localhost:5000" : "/"; // backend url
@@ -39,6 +42,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   userActivities: new Map(),
   messages: [],
   selectedUser: null,
+  notifications: new Map(),
 
   setSelectedUser: (user) => set({ selectedUser: user }),
 
@@ -117,6 +121,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     if (!socket) return;
 
     socket.emit("send_message", { receiverId, senderId, content });
+    socket.emit("send_notification", { receiverId, senderId, content });
   },
 
   fetchMessages: async (userId: string) => {
@@ -131,5 +136,22 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     } finally {
       set({ isLoading: false });
     }
+  },
+  handleGetNotifications: () => {
+    const socket = get().socket;
+    if (!socket) return;
+
+    socket.on("receive_notification", (notification: [string, number][]) => {
+      set({ notifications: new Map(notification) });
+    });
+
+    console.log(get().notifications);
+  },
+
+  handleClearNotifications: (user) => {
+    const socket = get().socket;
+    if (!socket) return;
+
+    socket.emit("clear_notification", user.clerkId);
   },
 }));
