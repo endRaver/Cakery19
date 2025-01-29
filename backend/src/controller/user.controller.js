@@ -1,5 +1,7 @@
 import { User } from "../models/user.model.js";
 import { Message } from "../models/message.model.js";
+import { uploadToCloudinary } from "../services/cloudinaryService.js";
+import { getReceiverSocketId, io } from "../lib/socket.js";
 
 export const getAllUsers = async (req, res, next) => {
   try {
@@ -86,5 +88,70 @@ export const getMessages = async (req, res, next) => {
     res.status(200).json(message);
   } catch (error) {
     next(error);
+  }
+};
+
+export const sendMessage = async (req, res, next) => {
+  try {
+    const { senderId, receiverId, text } = req.body;
+    const imageFiles = req.files;
+    let imageUrls = [];
+
+    // Process images if they exist
+    if (imageFiles && Object.keys(imageFiles).length > 0) {
+      const filesArray = Array.isArray(imageFiles)
+        ? imageFiles
+        : Object.values(imageFiles);
+
+      // Upload each image
+      for (const imageFile of filesArray) {
+        if (!imageFile || !imageFile.data) {
+          console.error("Invalid file:", imageFile);
+          continue;
+        }
+
+        try {
+          const imageUrl = await uploadToCloudinary(
+            imageFile,
+            "Cakery19/messages"
+          );
+          imageUrls.push(imageUrl);
+        } catch (error) {
+          console.error("Error uploading file:", error);
+        }
+      }
+    }
+
+    // Create new message
+    const newMessage = await Message.create({
+      senderId,
+      receiverId,
+      content: {
+        text,
+        images: imageUrls,
+      },
+    });
+
+    // Send real-time updates
+    if (newMessage) {
+      const receiverSocketId = getReceiverSocketId(receiverId);
+      
+      // Send to receiver if they're online
+      if (receiverSocketId) {
+        io.to(receiverSocketId).emit("receive_message", newMessage);
+      }
+
+      // Send confirmation to sender
+      if (req.socket) {
+        req.socket.emit("message_sent", newMessage);
+      }
+
+      res.status(201).json(newMessage);
+    } else {
+      throw new Error("Failed to create message");
+    }
+  } catch (error) {
+    console.error("Error in sendMessage:", error);
+    res.status(500).json({ error: "Failed to send message" });
   }
 };

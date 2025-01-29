@@ -67,7 +67,7 @@ const VariantComponent = ({
                 className="border-none"
                 placeholder="Price"
                 type="number"
-                value={price}
+                value={price || ""}
                 onChange={(e) => {
                   const newPrice = parseFloat(e.target.value);
                   setPrice(newPrice);
@@ -88,7 +88,7 @@ const VariantComponent = ({
               type="number"
               max={10}
               min={1}
-              value={portionSize.from}
+              value={product.variants[index].portionSize.from || ""}
               onChange={(e) => {
                 const newPortions = parseInt(e.target.value);
                 setPortionSize({ ...portionSize, from: newPortions });

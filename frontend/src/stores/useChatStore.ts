@@ -6,6 +6,7 @@ import { io, Socket } from "socket.io-client";
 interface ChatStore {
   users: User[];
   isLoading: boolean;
+  isUploadingImages: boolean;
   error: string | null;
   socket: Socket | null;
   isConnected: boolean;
@@ -18,7 +19,7 @@ interface ChatStore {
   fetchUsers: () => Promise<void>;
   initSocket: (userId: string) => void;
   disconnectSocket: () => void;
-  sendMessage: (receiverId: string, senderId: string, content: string) => void;
+  sendMessage: (receiverId: string, senderId: string, text: string, images: File[]) => void;
   fetchMessages: (userId: string) => Promise<void>;
   setSelectedUser: (user: User | null) => void;
   handleGetNotifications: () => void;
@@ -35,6 +36,7 @@ const socket = io(baseURL, {
 export const useChatStore = create<ChatStore>((set, get) => ({
   users: [],
   isLoading: false,
+  isUploadingImages: false,
   error: null,
   socket: socket,
   isConnected: false,
@@ -116,12 +118,34 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
-  sendMessage: (receiverId, senderId, content) => {
-    const socket = get().socket;
-    if (!socket) return;
+  sendMessage: async (receiverId, senderId, text, images) => {
+    set({ isUploadingImages: true, error: null });
+    const messages = get().messages;
 
-    socket.emit("send_message", { receiverId, senderId, content });
-    socket.emit("send_notification", { receiverId, senderId, content });
+    const formData = new FormData();
+    formData.append("receiverId", receiverId);
+    formData.append("senderId", senderId);
+    formData.append("text", text);
+    images.forEach((image, index) => {
+      formData.append(`imageFiles[${index}]`, image);
+    });
+
+    try {
+      const response = await axiosInstance.post(`/users/messages/${receiverId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      set({ messages: [...messages, response.data] });
+    } catch (error: unknown) {
+      const err = error as { response: { data: { message: string } } };
+      set({ error: err.response.data.message });
+    } finally {
+      set({ isUploadingImages: false, error: null });
+    }
+
+    socket.emit("send_notification", { receiverId, senderId, text });
   },
 
   fetchMessages: async (userId: string) => {
@@ -144,8 +168,6 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     socket.on("receive_notification", (notification: [string, number][]) => {
       set({ notifications: new Map(notification) });
     });
-
-    console.log(get().notifications);
   },
 
   handleClearNotifications: (user) => {

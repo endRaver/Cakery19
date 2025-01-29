@@ -7,10 +7,10 @@ import fs from "fs";
 import cron from "node-cron";
 
 import { clerkMiddleware } from "@clerk/express";
-import { createServer } from "http";
 
 import { connectDB } from "./lib/db.js";
 import { initializeSocket } from "./lib/socket.js";
+import { app, httpServer } from "./lib/socket.js";
 
 import userRoutes from "./routes/user.route.js";
 import adminRoutes from "./routes/admin.route.js";
@@ -21,15 +21,13 @@ import statRoutes from "./routes/stat.route.js";
 dotenv.config();
 
 const __dirname = path.resolve();
-const app = express();
 const PORT = process.env.PORT;
 
-const httpServer = createServer(app);
-initializeSocket(httpServer);
+initializeSocket();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",  // frontend Url
+    origin: "http://localhost:3000", // frontend Url
     credentials: true,
   })
 );

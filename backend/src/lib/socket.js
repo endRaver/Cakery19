@@ -1,15 +1,25 @@
 import { Server } from "socket.io";
-import { Message } from "../models/message.model.js";
 
-export const initializeSocket = (server) => {
-  const io = new Server(server, {
-    cors: {
-      origin: "http://localhost:3000", // frontend Url
-      credentials: true,
-    },
-  });
+import { createServer } from "http";
+import express from "express";
 
-  const userSockets = new Map(); // {userId: socketId}
+const app = express();
+const httpServer = createServer(app);
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000", // frontend Url
+    credentials: true,
+  },
+});
+
+export function getReceiverSocketId(userId) {
+  return userSockets.get(userId);
+}
+
+const userSockets = new Map(); // {userId: socketId}
+
+export const initializeSocket = () => {
   const userActivities = new Map(); // {userId: activity}
   const userNotifications = new Map(); // {userId: count}
 
@@ -31,31 +41,8 @@ export const initializeSocket = (server) => {
       io.emit("activity_updated", { userId, activity });
     });
 
-    socket.on("send_message", async (data) => {
-      try {
-        const { senderId, receiverId, content } = data;
-
-        const message = await Message.create({
-          senderId,
-          receiverId,
-          content,
-        });
-
-        // send to receiver in realtime, if they are online
-        const receiverSocketId = userSockets.get(receiverId);
-        if (receiverSocketId) {
-          io.to(receiverSocketId).emit("receive_message", message);
-        }
-
-        socket.emit("message_sent", message);
-      } catch (error) {
-        console.error("Message error", error);
-        socket.emit("message_error", error.message);
-      }
-    });
-
     socket.on(
-    "send_notification",
+      "send_notification",
       async ({ senderId, receiverId, content }) => {
         try {
           userNotifications.set(
@@ -100,3 +87,5 @@ export const initializeSocket = (server) => {
     });
   });
 };
+
+export { io, app, httpServer };

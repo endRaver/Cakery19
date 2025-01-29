@@ -10,6 +10,7 @@ import {
   TableCaption,
 } from "@/components/ui/table";
 import { useProductStore } from "@/stores/useProductStore";
+import { Product } from "@/types";
 import { Loader2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -27,9 +28,9 @@ const AdminPage = () => {
     fetchProducts();
   }, [fetchProducts]);
 
-  const handleDeleteProductById = async (id: string) => {
-    setDeletedProductId(id);
-    handleDeleteProduct(id);
+  const handleDeleteProductById = async (product: Product) => {
+    setDeletedProductId(product._id);
+    handleDeleteProduct(product);
   };
 
   if (isLoading) {
@@ -66,9 +67,12 @@ const AdminPage = () => {
             <TableCell className="text-right">{convertDate(product?.createdAt)}</TableCell>
             <TableCell className="text-right">
               <Button
-                type="submit"
+                type="button"
                 className="w-fit self-center border border-primary-400 bg-primary-300 hover:bg-primary-400"
-                onClick={() => handleDeleteProductById(product._id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteProductById(product);
+                }}
                 disabled={isDeleting && deletedProductId === product._id}
               >
                 {isDeleting && deletedProductId === product._id ? (

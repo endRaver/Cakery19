@@ -16,11 +16,11 @@ const SidebarAdmin = () => {
             <img src={items_square} alt="icon" /> Products
           </li>
         </Link>
-        <Link to="/admin/create">
+        <a href="/admin/create">
           <li className="flex items-center gap-2 px-5 py-3 tracking-wider text-primary-500 duration-300 hover:bg-primary-50">
             <img src={plus_square} alt="icon" /> Create
           </li>
-        </Link>
+        </a>
       </ul>
     </div>
   );

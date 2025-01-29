@@ -17,7 +17,7 @@ interface ProductStore {
   fetchProductsByCategory: (category: string[], amount?: number) => Promise<void>;
   handleCreateProduct: (data: unknown) => Promise<void>;
   handleUpdateProduct: (id: string, data: unknown) => Promise<void>;
-  handleDeleteProduct: (id: string) => Promise<void>;
+  handleDeleteProduct: (product: Product) => Promise<void>;
 }
 
 export const useProductStore = create<ProductStore>((set) => ({
@@ -117,18 +117,23 @@ export const useProductStore = create<ProductStore>((set) => ({
     }
   },
 
-  handleDeleteProduct: async (id: string) => {
+  handleDeleteProduct: async (product) => {
     set({ isDeleting: true, error: null });
 
     try {
       const confirm = window.confirm("Are you sure you want to delete this product?");
       if (!confirm) return;
 
-      const response = await axiosInstance.delete(`/admin/products/${id}`);
+      const response = await axiosInstance.delete(`/admin/products/${product._id}`, {
+        data: product,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       set({ deletedProduct: response.data });
 
       set((state) => ({
-        products: state.products.filter((product) => product._id !== id),
+        products: state.products.filter((p) => p._id !== product._id),
       }));
 
       toast.success("Product deleted successfully");

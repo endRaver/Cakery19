@@ -85,6 +85,27 @@ const AdminCreatePage = () => {
     setVariantAmount(1);
   };
 
+  const handleUploadImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []);
+    const totalFiles = images.length + selectedFiles.length;
+
+    // Check for total file limit
+    if (totalFiles > 5) {
+      toast.error("You can only upload a maximum of 5 files.");
+      return;
+    }
+
+    // Check for individual file size limit (5MB)
+    const oversizedFiles = selectedFiles.filter((file) => file.size > 5 * 1024 * 1024); // 5MB in bytes
+    if (oversizedFiles.length > 0) {
+      toast.error("Each file must be less than 5MB.");
+      return;
+    }
+
+    setImages([...images, ...selectedFiles]);
+    e.target.value = "";
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -192,7 +213,7 @@ const AdminCreatePage = () => {
             ref={imageInputRef}
             hidden
             multiple
-            onChange={(e) => setImages([...images, ...e.target.files!])}
+            onChange={(e) => handleUploadImages(e)}
           />
 
           <Button

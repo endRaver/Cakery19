@@ -1,19 +1,9 @@
 import cloudinary from "../lib/cloudinary.js";
 import { Product } from "../models/product.model.js";
-
-// helper function for cloudinary uploads
-const uploadToCloudinary = async (file) => {
-  try {
-    const result = await cloudinary.uploader.upload(file.tempFilePath, {
-      resource_type: "auto",
-    });
-
-    return result.secure_url;
-  } catch (error) {
-    console.log("Error in uploadToCloudinary", error);
-    throw new Error("Error uploading to cloudinary");
-  }
-};
+import {
+  deleteFromCloudinary,
+  uploadToCloudinary,
+} from "../services/cloudinaryService.js";
 
 export const createProduct = async (req, res, next) => {
   try {
@@ -48,7 +38,10 @@ export const createProduct = async (req, res, next) => {
           continue;
         }
         try {
-          const imageUrl = await uploadToCloudinary(imageFile);
+          const imageUrl = await uploadToCloudinary(
+            imageFile,
+            "Cakery19/products"
+          );
           imageUrls.push(imageUrl);
         } catch (error) {
           console.error("Error uploading file:", error);
@@ -110,7 +103,10 @@ export const updateProduct = async (req, res, next) => {
             continue;
           }
           try {
-            const imageUrl = await uploadToCloudinary(imageFile);
+            const imageUrl = await uploadToCloudinary(
+              imageFile,
+              "Cakery19/products"
+            );
             parsedImageUrl.push(imageUrl);
           } catch (error) {
             console.error("Error uploading file:", error);
@@ -147,6 +143,19 @@ export const updateProduct = async (req, res, next) => {
 export const deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { imageUrl } = req.body;
+
+    let parsedImageUrl;
+    try {
+      parsedImageUrl =
+        typeof imageUrl === "string" ? JSON.parse(imageUrl) : imageUrl;
+    } catch (err) {
+      return res.status(400).json({ message: "Invalid JSON format" });
+    }
+
+    for (const imageUrl of parsedImageUrl) {
+      await deleteFromCloudinary(imageUrl);
+    }
 
     const deletedProduct = await Product.findByIdAndDelete(id);
     res

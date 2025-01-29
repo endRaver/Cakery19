@@ -10,27 +10,20 @@ import MessageInput from "./chat_components/MessageInput";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { find } from "lodash";
 import useWindowWidth from "@/hooks/useWindowWidth";
-
-const formatTime = (date: string) => {
-  return new Date(date).toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-};
+import ContentComponent from "./chat_components/ContentComponent";
 
 const adminEmail = "tungthanh254@gmail.com";
 
 const Chatbox = () => {
   const { user } = useUser();
   const {
-    fetchUsers,
-    fetchMessages,
-    selectedUser,
-    messages,
-    setSelectedUser,
     users,
     isLoading,
+    messages,
+    selectedUser,
+    fetchUsers,
+    fetchMessages,
+    setSelectedUser,
     handleGetNotifications,
   } = useChatStore();
   const [isOpen, setIsOpen] = useState(false);
@@ -62,12 +55,6 @@ const Chatbox = () => {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-
-  useEffect(() => {
-    if (user) {
-      handleGetNotifications();
-    }
-  }, [handleGetNotifications, user, messages]);
 
   return (
     <>
@@ -103,52 +90,27 @@ const Chatbox = () => {
         >
           {isAdmin && <UsersList />}
 
-          <div className="flex h-full flex-col text-primary-500">
+          <div className="text-primary-500">
             {selectedUser ? (
-              <>
+              <div className="grid max-h-[508px] grid-rows-[auto_1fr_auto]">
                 <ChatHeader />
 
-                <ScrollArea className="h-[390px] overflow-auto">
+                <ScrollArea className="max-h-[390px] overflow-auto">
                   {isLoading ? (
-                    <div className="flex h-full items-center justify-center">
+                    <div className="flex h-[390px] items-center justify-center">
                       <Loader2Icon className="animate-spin" />
                     </div>
                   ) : (
-                    <div className="space-y-4 p-4">
+                    <div className="h-[390px] space-y-2 p-4">
                       {messages.map((message) => (
-                        <div
-                          key={message._id}
-                          className={`flex items-center gap-3 ${
-                            message.senderId === user?.id ? "justify-end" : "justify-start"
-                          }`}
-                          ref={messageEndRef}
-                        >
-                          <div
-                            className={`max-w-[70%] rounded p-3 ${
-                              message.senderId === user?.id
-                                ? "bg-primary-300 text-white"
-                                : "bg-primary-50 text-black"
-                            }`}
-                          >
-                            <p className="text-sm">{message.content}</p>
-                            <span
-                              className={`mt-1 block text-[10px] text-primary-300 ${
-                                message.senderId === user?.id
-                                  ? "bg-primary-300 text-right text-white"
-                                  : "bg-primary-50 text-black"
-                              }`}
-                            >
-                              {formatTime(message.createdAt)}
-                            </span>
-                          </div>
-                        </div>
+                        <ContentComponent message={message} key={message._id} />
                       ))}
                     </div>
                   )}
                 </ScrollArea>
 
                 <MessageInput />
-              </>
+              </div>
             ) : (
               <NoConversationPlaceholder />
             )}
