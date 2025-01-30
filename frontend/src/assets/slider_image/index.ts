@@ -28,15 +28,10 @@ const sliders: Slider[] = [
     image: slider3,
   },
   {
-    title: "Swiss",
-    description: "The heart and soul of Sweden - in bite-sized pieces.",
-    image: slider4,
-  },
-  {
     title: "Handmade",
     description:
       "One small atelier creates all our delectable products entirely by hand and with the heart.",
-    image: slider2,
+    image: slider4,
   },
 ];
 
