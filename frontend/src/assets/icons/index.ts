@@ -15,6 +15,8 @@ import whatsapp_light from "./whatsapp_light.svg";
 import whatsapp_dark from "./whatsapp_dark.svg";
 import instagram_light from "./instagram_light.svg";
 import instagram_dark from "./instagram_dark.svg";
+import cart_dark from "./cart_dark.svg";
+import cart_light from "./cart_light.svg";
 
 import menu from "./menu_dark.svg";
 import search from "./search_dark.svg";
@@ -46,4 +48,6 @@ export {
   items_square,
   plus_square,
   chat,
+  cart_dark,
+  cart_light,
 };

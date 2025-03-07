@@ -5,7 +5,6 @@ import { play } from "@/assets/icons";
 
 const VideoBanner = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-
   const [pauseTimeout, setPauseTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const handlePause = () => {

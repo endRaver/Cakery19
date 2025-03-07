@@ -1,6 +1,6 @@
 import { Loader2Icon, MessageCircleMore, SquareChevronDownIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useChatStore } from "@/stores/useChatStore";
 import { useUser } from "@clerk/clerk-react";
 import UsersList from "./chat_components/UsersList";
@@ -29,7 +29,6 @@ const Chatbox = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isAdmin } = useAuthStore();
   const windowWidth = useWindowWidth();
-  const messageEndRef = useRef<HTMLDivElement | null>(null);
   const { notifications } = useChatStore();
 
   useEffect(() => {
@@ -49,12 +48,6 @@ const Chatbox = () => {
       setSelectedUser(adminUser);
     }
   }, [isAdmin, selectedUser, setSelectedUser, users]);
-
-  useEffect(() => {
-    if (messageEndRef.current && messages) {
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
 
   return (
     <>

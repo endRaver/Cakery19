@@ -6,10 +6,12 @@ import {
   cakery_logo_light,
   instagram_dark,
   instagram_light,
-  menu,
-  search,
   whatsapp_dark,
   whatsapp_light,
+  cart_dark,
+  cart_light,
+  menu,
+  search,
 } from "@/assets/icons";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import { useState } from "react";
@@ -17,6 +19,7 @@ import Sidebar from "./Sidebar";
 import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/clerk-react";
 import { LayoutDashboardIcon, X } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
+import TopbarLinkToolTip from "./TopbarLinkToolTip";
 
 const linkStyle =
   "my-1 text-nowrap font-medium border border-transparent px-1.5 lg:px-3 py-1 text-sm leading-6 tracking-wider duration-300 ease-in-out ";
@@ -135,31 +138,34 @@ const NavbarDesktop = () => {
           </SignedOut>
         </div>
 
-        <div className="absolute left-8 top-6 flex items-center gap-4">
-          <a
-            href={"https://www.instagram.com/cakery19.ch/"}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {isHome && scrollY < 200 ? (
-              <img src={instagram_light} className="size-5" />
-            ) : (
-              <img src={instagram_dark} className="size-5" />
-            )}
-          </a>
-          <a
-            href={
+        <div className="absolute left-8 top-6 flex items-center gap-3">
+          <TopbarLinkToolTip
+            url={"https://www.instagram.com/cakery19.ch/"}
+            label="Instagram"
+            images={{ light: instagram_light, dark: instagram_dark }}
+            isLight={isHome && scrollY < 200}
+            newTab={true}
+            imgClassName="m-1.5"
+          />
+          <TopbarLinkToolTip
+            url={
               "https://api.whatsapp.com/send?phone=41764598116&text=Hi%20My%2C%0A%0AI%20would%20like%20to%20make%20an%20order%20"
             }
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {isHome && scrollY < 200 ? (
-              <img src={whatsapp_light} className="size-5" />
-            ) : (
-              <img src={whatsapp_dark} className="size-5" />
-            )}
-          </a>
+            label="Whatsapp"
+            images={{ light: whatsapp_light, dark: whatsapp_dark }}
+            isLight={isHome && scrollY < 200}
+            newTab={true}
+            // className="-ml-2"
+            imgClassName="m-1.5"
+          />
+
+          <TopbarLinkToolTip
+            url={""}
+            label="My Cart"
+            images={{ light: cart_light, dark: cart_dark }}
+            isLight={isHome && scrollY < 200}
+            imgClassName="size-8"
+          />
 
           <SignedIn>
             {isAdmin && (
