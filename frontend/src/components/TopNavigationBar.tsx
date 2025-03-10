@@ -24,6 +24,12 @@ import TopbarLinkToolTip from "./TopbarLinkToolTip";
 const linkStyle =
   "my-1 text-nowrap font-medium border border-transparent px-1.5 lg:px-3 py-1 text-sm leading-6 tracking-wider duration-300 ease-in-out ";
 
+const getResponsiveHeight = (width: number) => {
+  if (width > 1024) return "h-[140px]";
+  if (width > 640) return "h-[96px]";
+  return "h-[84px]";
+};
+
 const TopNavigationBar = () => {
   const location = useLocation().pathname;
   const isHome = location === "/";
@@ -31,11 +37,7 @@ const TopNavigationBar = () => {
 
   return (
     <>
-      {(!isHome || windowWidth <= 1024) && (
-        <div
-          className={`${windowWidth > 1024 ? "h-[140px]" : windowWidth > 640 ? "h-[96px]" : "h-[84px]"}`}
-        ></div>
-      )}
+      {(!isHome || windowWidth <= 1024) && <div className={getResponsiveHeight(windowWidth)}></div>}
 
       {windowWidth > 1024 ? <NavbarDesktop /> : <NavbarMobile />}
     </>
@@ -112,7 +114,7 @@ const NavbarDesktop = () => {
             <span
               className={`${linkStyle} max-w-[200px] truncate text-nowrap !p-0 font-normal capitalize leading-none ${isHome && scrollY < 200 ? "text-primary-50" : "text-primary-500"}`}
             >
-              {`Hello, ${user?.fullName || user?.emailAddresses[0]?.emailAddress.split("@")[0] || "N/a"}`}
+              {`Hello, ${user?.fullName ?? user?.emailAddresses[0]?.emailAddress.split("@")[0] ?? "N/a"}`}
             </span>
 
             <div
@@ -155,12 +157,11 @@ const NavbarDesktop = () => {
             images={{ light: whatsapp_light, dark: whatsapp_dark }}
             isLight={isHome && scrollY < 200}
             newTab={true}
-            // className="-ml-2"
             imgClassName="m-1.5"
           />
 
           <TopbarLinkToolTip
-            url={""}
+            url={"/cart"}
             label="My Cart"
             images={{ light: cart_light, dark: cart_dark }}
             isLight={isHome && scrollY < 200}

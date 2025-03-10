@@ -17,6 +17,7 @@ import NotFoundPage from "./pages/not-found/NotFoundPage";
 import AdminLayout from "./layout/AdminLayout";
 import AdminCreatePage from "./pages/admin/AdminCreatePage";
 import AdminEditPage from "./pages/admin/AdminEditPage";
+import ShoppingCartPage from "./pages/shopping-cart/ShoppingCartPage";
 
 function App() {
   const { isSignedIn } = useAuth();
@@ -43,6 +44,7 @@ function App() {
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/shop/:productId" element={<ProductDetailPage />} />
           <Route path="/faqs" element={<FaqsPage />} />
+          <Route path="/cart" element={<ShoppingCartPage />} />
           <Route path="/login" element={isSignedIn ? <Navigate to="/" replace /> : <LoginPage />} />
           <Route
             path="/sign-up"
