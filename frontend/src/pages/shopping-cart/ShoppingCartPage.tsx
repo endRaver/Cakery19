@@ -1,12 +1,16 @@
 import AnimatedUnderline from "./components/AnimationUnderline";
+import CartItem from "./components/CartItem";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import FullWidthBanner from "@/components/FullWidthBanner";
 
 const ShoppingCartPage = () => {
   return (
-    <div className="space-y-10 lg:space-y-[60px]">
-      <section className="container mx-auto my-20">
+    <div className="space-y-10">
+      <section className="container mx-auto mt-20">
         <div className="flex items-end justify-between">
           <h2 className="text-center text-2xl font-light text-primary-500 sm:text-3xl sm:leading-[46px]">
-            Shopping Cart
+            BASKET
           </h2>
 
           <a href="/shop">
@@ -19,27 +23,34 @@ const ShoppingCartPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto my-20 mt-8">
-        <div className="flex justify-between">
-          <img
-            src="../../../public/cakes/image/Berry_truffle/BerryTruffle1.jpg"
-            alt=""
-            className="aspect-square w-28"
-          />
+      <section className="container mx-auto">
+        <CartItem />
+        <CartItem />
+        <CartItem />
 
-          <div>
-            <h3 className="text-xl font-medium text-primary-500">Berry Truffle</h3>
-            <p className="text-primary-200">6 pieces</p>
-            <p className="font-xl text-primary-500">$25.00</p>
-          </div>
-
-          <div className="flex items-center">
-            <p>Quantity:</p>
-
-            <div></div>
-          </div>
+        <div className="mt-8 flex flex-col items-end gap-2">
+          <span className="text-2xl font-medium text-primary-400">1,80€</span>
+          <span className="text-sm text-primary-200">
+            Shipping and discounts calculated at checkout
+          </span>
         </div>
       </section>
+
+      <div className="container mx-auto flex justify-center">
+        <Button className="h-[48px] rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn">
+          <Link
+            to="/"
+            className="flex h-full items-center rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium"
+          >
+            PICK UP IN STORE
+          </Link>
+        </Button>
+      </div>
+
+      <FullWidthBanner
+        webpImage="/images/webp/menu_banner.webp"
+        jpegImage="/images/menu_banner.jpg"
+      />
     </div>
   );
 };

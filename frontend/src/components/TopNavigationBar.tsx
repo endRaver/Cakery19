@@ -51,59 +51,58 @@ const NavbarDesktop = () => {
   const { user } = useUser();
   const { isAdmin } = useAuthStore();
 
+  const isTransparentHeader = isHome && scrollY < 200;
+
   return (
     <div
-      className={`fixed top-0 z-50 mx-auto w-full duration-500 ${scrollY > 200 && "shadow-lg"} ${isHome && scrollY < 200 ? "bg-transparent" : "bg-primary-50"} ${scrollDirection === "down" && "!-top-[140px]"}`}
+      className={`fixed top-0 z-50 mx-auto w-full duration-500 ${scrollY > 200 && "shadow-lg"} ${isTransparentHeader ? "bg-transparent" : "bg-primary-50"} ${scrollDirection === "down" && "!-top-[140px]"}`}
     >
       <div className="container relative mx-auto flex justify-between gap-3 py-5">
         <div
-          className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end border-y lg:gap-10 ${isHome && scrollY < 200 ? "border-transparent" : "border-primary-400"}`}
+          className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end border-y lg:gap-10 ${isTransparentHeader ? "border-transparent" : "border-primary-400"}`}
         >
           <a
             href="/"
-            className={`${linkStyle} ${isHome && scrollY < 200 ? "border-b-primary-50 text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/" ? "border-b-primary-50" : ""}`}
+            className={`${linkStyle} ${isTransparentHeader ? "border-b-primary-50 text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/" ? "border-b-primary-50" : ""}`}
           >
             HOME
           </a>
           <a
             href="/shop"
-            className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/shop" ? "border-b-primary-500" : ""}`}
+            className={`${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/shop" ? "border-b-primary-500" : ""}`}
           >
             SHOP
           </a>
           <a
             href="/event"
-            className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/event" ? "border-b-primary-500" : ""}`}
+            className={`${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/event" ? "border-b-primary-500" : ""}`}
           >
             EVENT
           </a>
         </div>
 
         <a href="/">
-          <img
-            src={`${isHome && scrollY < 200 ? cakery_logo_light : cakery_logo_dark}`}
-            alt="logo"
-          />
+          <img src={`${isTransparentHeader ? cakery_logo_light : cakery_logo_dark}`} alt="logo" />
         </a>
 
         <div
-          className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end border-y lg:gap-10 ${isHome && scrollY < 200 ? "border-transparent" : "border-primary-400"}`}
+          className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end border-y lg:gap-10 ${isTransparentHeader ? "border-transparent" : "border-primary-400"}`}
         >
           <a
             href="/about-us"
-            className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/about-us" ? "border-b-primary-500" : ""}`}
+            className={`${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/about-us" ? "border-b-primary-500" : ""}`}
           >
             ABOUT US
           </a>
           <a
             href="/faqs"
-            className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/faqs" ? "border-b-primary-500" : ""}`}
+            className={`${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/faqs" ? "border-b-primary-500" : ""}`}
           >
             FAQS
           </a>
           <a
             href="/contact"
-            className={`${linkStyle} ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/contact" ? "border-b-primary-500" : ""}`}
+            className={`${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/contact" ? "border-b-primary-500" : ""}`}
           >
             CONTACT
           </a>
@@ -112,19 +111,19 @@ const NavbarDesktop = () => {
         <div className="absolute right-8 top-4 flex items-center gap-2">
           <SignedIn>
             <span
-              className={`${linkStyle} max-w-[200px] truncate text-nowrap !p-0 font-normal capitalize leading-none ${isHome && scrollY < 200 ? "text-primary-50" : "text-primary-500"}`}
+              className={`${linkStyle} max-w-[200px] truncate text-nowrap !p-0 font-normal capitalize leading-none ${isTransparentHeader ? "text-primary-50" : "text-primary-500"}`}
             >
               {`Hello, ${user?.fullName ?? user?.emailAddresses[0]?.emailAddress.split("@")[0] ?? "N/a"}`}
             </span>
 
             <div
-              className={`duration-300 ${isHome && scrollY < 200 ? "text-primary-50" : "text-primary-500"}`}
+              className={`duration-300 ${isTransparentHeader ? "text-primary-50" : "text-primary-500"}`}
             >
               |
             </div>
 
             <span
-              className={`${linkStyle} !px-0 font-normal leading-none ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"}`}
+              className={`${linkStyle} !px-0 font-normal leading-none ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"}`}
             >
               <SignOutButton redirectUrl="/login" />
             </span>
@@ -133,7 +132,7 @@ const NavbarDesktop = () => {
           <SignedOut>
             <a
               href="/login"
-              className={`${linkStyle} !p-0 font-normal leading-none ${isHome && scrollY < 200 ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"}`}
+              className={`${linkStyle} !p-0 font-normal leading-none ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"}`}
             >
               Sign in
             </a>
@@ -145,7 +144,7 @@ const NavbarDesktop = () => {
             url={"https://www.instagram.com/cakery19.ch/"}
             label="Instagram"
             images={{ light: instagram_light, dark: instagram_dark }}
-            isLight={isHome && scrollY < 200}
+            isLight={isTransparentHeader}
             newTab={true}
             imgClassName="m-1.5"
           />
@@ -155,7 +154,7 @@ const NavbarDesktop = () => {
             }
             label="Whatsapp"
             images={{ light: whatsapp_light, dark: whatsapp_dark }}
-            isLight={isHome && scrollY < 200}
+            isLight={isTransparentHeader}
             newTab={true}
             imgClassName="m-1.5"
           />
@@ -164,7 +163,7 @@ const NavbarDesktop = () => {
             url={"/cart"}
             label="My Cart"
             images={{ light: cart_light, dark: cart_dark }}
-            isLight={isHome && scrollY < 200}
+            isLight={isTransparentHeader}
             imgClassName="size-8"
           />
 
@@ -172,7 +171,7 @@ const NavbarDesktop = () => {
             {isAdmin && (
               <a
                 href="/admin"
-                className={`flex items-center gap-2 border-b border-transparent duration-300 ${isHome && scrollY < 200 ? "text-primary-50 hover:border-primary-50" : "text-primary-500 hover:border-primary-500"} ms-10`}
+                className={`flex items-center gap-2 border-b border-transparent duration-300 ${isTransparentHeader ? "text-primary-50 hover:border-primary-50" : "text-primary-500 hover:border-primary-500"} ms-10`}
               >
                 <LayoutDashboardIcon className="mr-1 size-4" />
                 Dashboard
