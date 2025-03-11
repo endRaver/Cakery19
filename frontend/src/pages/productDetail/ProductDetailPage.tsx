@@ -13,6 +13,9 @@ import BreadCrumbSkeleton from "@/components/skeletons/BreadCrumbSkeleton";
 import ProductDisplaySkeleton from "@/components/skeletons/ProductDisplaySkeleton";
 import ProductDetailSkeleton from "@/components/skeletons/ProductDetailSkeleton";
 import ProductDisplayMobileSkeleton from "@/components/skeletons/ProductDisplayMobileSkeleton";
+import ChangeQuantitySelection from "@/components/ChangeQuantitySelection";
+import { Variant } from "@/types";
+import toast from "react-hot-toast";
 
 const buttonStyle =
   "px-5 py-2 rounded-md border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 font-normal tracking-wider";
@@ -28,9 +31,24 @@ const ProductDetailPage = () => {
     filteredProducts,
     fetchProductsById,
     fetchProductsByCategory,
+    handleUpdateProductFromCart,
   } = useProductStore();
 
-  const [selectedVariants, setSelectedVariants] = useState(currentProduct?.variants[0]);
+  const [selectedVariant, setSelectedVariant] = useState<Variant | undefined>(
+    currentProduct?.variants[0]
+  );
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleIncrement = () => {
+    if (quantity >= 9) return;
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    if (quantity <= 1) return;
+    setQuantity(quantity - 1);
+  };
 
   useEffect(() => {
     if (id) {
@@ -47,7 +65,7 @@ const ProductDetailPage = () => {
   }, [currentProduct, fetchProductsByCategory]);
 
   useEffect(() => {
-    setSelectedVariants(currentProduct?.variants[0]);
+    setSelectedVariant(currentProduct?.variants[0]);
   }, [currentProduct]);
 
   if (isLoading)
@@ -98,7 +116,7 @@ const ProductDetailPage = () => {
                 </h1>
 
                 <p className="text-lg">
-                  {selectedVariants?.price ? selectedVariants.price.toFixed(2) : "N/A"} CHF
+                  {selectedVariant?.price ? selectedVariant.price.toFixed(2) : "N/A"} CHF
                 </p>
 
                 <p className="text-sm tracking-wider">{currentProduct.description}</p>
@@ -111,8 +129,8 @@ const ProductDetailPage = () => {
                   {currentProduct.variants.map((variant, index) => (
                     <Button
                       variant="outline"
-                      className={`${buttonStyle} ${selectedVariants === variant && "bg-primary-300 text-white"}`}
-                      onClick={() => setSelectedVariants(variant)}
+                      className={`${buttonStyle} ${selectedVariant === variant && "bg-primary-300 text-white"}`}
+                      onClick={() => setSelectedVariant(variant)}
                       key={index}
                     >
                       {variant.size}
@@ -144,6 +162,27 @@ const ProductDetailPage = () => {
                     Refined sugar free
                   </p>
                 </div>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  className="h-[48px] w-full rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn"
+                  onClick={() => {
+                    handleUpdateProductFromCart(currentProduct, quantity, selectedVariant);
+                    setQuantity(1);
+                    toast.success("Product added to cart");
+                  }}
+                >
+                  <span className="flex h-full w-full items-center justify-center rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium">
+                    ADD TO CART
+                  </span>
+                </Button>
+
+                <ChangeQuantitySelection
+                  quantity={quantity}
+                  onIncrement={handleIncrement}
+                  onDecrement={handleDecrement}
+                />
               </div>
 
               <div className="rounded bg-primary-200 px-5 py-6 text-xs tracking-wider text-primary-50">

@@ -14,12 +14,14 @@ import {
   search,
 } from "@/assets/icons";
 import useWindowWidth from "@/hooks/useWindowWidth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/clerk-react";
 import { LayoutDashboardIcon, X } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import TopbarLinkToolTip from "./TopbarLinkToolTip";
+import AnimatedUnderline from "@/pages/shopping-cart/components/AnimationUnderline";
+import { useProductStore } from "@/stores/useProductStore";
 
 const linkStyle =
   "my-1 text-nowrap font-medium border border-transparent px-1.5 lg:px-3 py-1 text-sm leading-6 tracking-wider duration-300 ease-in-out ";
@@ -50,8 +52,15 @@ const NavbarDesktop = () => {
   const { scrollY, scrollDirection } = useScroll();
   const { user } = useUser();
   const { isAdmin } = useAuthStore();
+  const { cartProducts, handleSetCartProducts } = useProductStore();
 
   const isTransparentHeader = isHome && scrollY < 200;
+
+  useEffect(() => {
+    handleSetCartProducts();
+  }, [handleSetCartProducts]);
+
+  const numberOfCartItems = cartProducts.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <div
@@ -108,7 +117,7 @@ const NavbarDesktop = () => {
           </a>
         </div>
 
-        <div className="absolute right-8 top-4 flex items-center gap-2">
+        <div className="absolute right-8 top-6 flex items-center gap-2">
           <SignedIn>
             <span
               className={`${linkStyle} max-w-[200px] truncate text-nowrap !p-0 font-normal capitalize leading-none ${isTransparentHeader ? "text-primary-50" : "text-primary-500"}`}
@@ -130,12 +139,14 @@ const NavbarDesktop = () => {
           </SignedIn>
 
           <SignedOut>
-            <a
-              href="/login"
-              className={`${linkStyle} !p-0 font-normal leading-none ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"}`}
-            >
-              Sign in
-            </a>
+            <AnimatedUnderline mode={isTransparentHeader ? "dark" : "light"}>
+              <a
+                href="/login"
+                className={`${linkStyle} !p-0 font-normal leading-none ${isTransparentHeader ? "text-primary-50" : "text-primary-500"}`}
+              >
+                Sign in
+              </a>
+            </AnimatedUnderline>
           </SignedOut>
         </div>
 
@@ -165,6 +176,7 @@ const NavbarDesktop = () => {
             images={{ light: cart_light, dark: cart_dark }}
             isLight={isTransparentHeader}
             imgClassName="size-8"
+            number={numberOfCartItems}
           />
 
           <SignedIn>

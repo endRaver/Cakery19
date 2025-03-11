@@ -1,6 +1,12 @@
 import { motion, useAnimation } from "framer-motion";
 
-const AnimatedUnderline = ({ children }: { children: React.ReactNode }) => {
+const AnimatedUnderline = ({
+  children,
+  mode = "light",
+}: {
+  children: React.ReactNode;
+  mode?: string;
+}) => {
   const rightLine = useAnimation();
   const leftLine = useAnimation();
 
@@ -14,7 +20,7 @@ const AnimatedUnderline = ({ children }: { children: React.ReactNode }) => {
     rightLine.start({ scaleX: 0, transformOrigin: "right" });
   };
 
-  const lineStyles = "absolute bottom-0 h-[1px] w-1/2 bg-primary-300";
+  const lineStyles = `absolute bottom-0 h-[0.5px] w-1/2 ${mode === "light" ? "bg-primary-300" : "bg-primary-50"}`;
   const transition = {
     ease: [0.34, 0.24, 0.8, 0.54],
     duration: 0.3,

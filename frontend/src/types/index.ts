@@ -20,6 +20,12 @@ export interface Product {
   updatedAt?: string;
 }
 
+export interface CartProduct {
+  product: Product;
+  quantity: number;
+  variant?: Variant;
+}
+
 export interface User {
   _id: string;
   clerkId: string;

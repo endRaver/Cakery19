@@ -1,10 +1,19 @@
+import { map } from "lodash";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useProductStore } from "@/stores/useProductStore";
+import FullWidthBanner from "@/components/FullWidthBanner";
 import AnimatedUnderline from "./components/AnimationUnderline";
 import CartItem from "./components/CartItem";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import FullWidthBanner from "@/components/FullWidthBanner";
 
 const ShoppingCartPage = () => {
+  const { cartProducts } = useProductStore();
+
+  const totalPrice = cartProducts.reduce(
+    (total, item) => total + (item.variant?.price || 0) * item.quantity,
+    0
+  );
+
   return (
     <div className="space-y-10">
       <section className="container mx-auto mt-20">
@@ -24,20 +33,37 @@ const ShoppingCartPage = () => {
       </section>
 
       <section className="container mx-auto">
-        <CartItem />
-        <CartItem />
-        <CartItem />
+        {!(cartProducts.length > 0) ? (
+          <div className="my-20 flex items-center justify-center">
+            <p className="text-center text-sm tracking-widest text-primary-200">
+              Your shopping cart is empty
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="border-t border-primary-75">
+              {map(cartProducts, (product, index) => (
+                <CartItem key={index} cartProduct={product} />
+              ))}
+            </div>
 
-        <div className="mt-8 flex flex-col items-end gap-2">
-          <span className="text-2xl font-medium text-primary-400">1,80€</span>
-          <span className="text-sm text-primary-200">
-            Shipping and discounts calculated at checkout
-          </span>
-        </div>
+            <div className="mt-8 flex flex-col items-end gap-2">
+              <span className="text-2xl font-medium text-primary-400">
+                {totalPrice.toFixed(2)} CHF
+              </span>
+              <span className="text-sm text-primary-200">
+                Shipping and discounts calculated at checkout
+              </span>
+            </div>
+          </>
+        )}
       </section>
 
       <div className="container mx-auto flex justify-center">
-        <Button className="h-[48px] rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn">
+        <Button
+          className="h-[48px] rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn"
+          disabled={!(cartProducts.length > 0)}
+        >
           <Link
             to="/"
             className="flex h-full items-center rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium"
