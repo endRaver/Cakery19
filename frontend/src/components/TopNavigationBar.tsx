@@ -20,7 +20,7 @@ import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/clerk-react"
 import { LayoutDashboardIcon, X } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import TopbarLinkToolTip from "./TopbarLinkToolTip";
-import AnimatedUnderline from "@/pages/shopping-cart/components/AnimationUnderline";
+import AnimatedUnderline from "@/components/animation/AnimatedUnderline";
 import { useProductStore } from "@/stores/useProductStore";
 
 const linkStyle =

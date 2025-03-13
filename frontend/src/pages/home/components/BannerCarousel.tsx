@@ -59,7 +59,7 @@ const BannerCarousel = () => {
                 </p>
 
                 <div className="flex items-center gap-2.5">
-                  <Button className="bg-primary_btn h-[35px] rounded-[2px] p-1 hover:bg-hover-outline_btn">
+                  <Button className="h-[35px] rounded-[2px] bg-primary_btn p-1 hover:bg-hover-outline_btn">
                     <Link
                       to="/"
                       className="rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium"
@@ -108,7 +108,7 @@ const BannerCarousel = () => {
                 </p>
 
                 <div className="flex items-center gap-2.5">
-                  <Button className="bg-primary_btn h-[35px] rounded-[2px] p-1 hover:bg-hover-outline_btn">
+                  <Button className="h-[35px] rounded-[2px] bg-primary_btn p-1 hover:bg-hover-outline_btn">
                     <Link
                       to="/"
                       className="rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium"

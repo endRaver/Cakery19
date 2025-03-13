@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 import { cakery_logo_dark } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import AnimatedUnderline from "@/pages/shopping-cart/components/AnimationUnderline";
+import AnimatedUnderline from "@/components/animation/AnimatedUnderline";
 
 const Footer = () => {
   return (
@@ -11,32 +13,32 @@ const Footer = () => {
           <ul className="grid grid-cols-2 gap-2 text-sm font-medium leading-6 tracking-wider text-primary-500 sm:grid-cols-1">
             <li className="text-nowrap text-center sm:text-left">
               <AnimatedUnderline>
-                <a href={"/"}>Home</a>
+                <Link to={"/"}>Home</Link>
               </AnimatedUnderline>
             </li>
             <li className="text-nowrap text-center sm:text-left">
               <AnimatedUnderline>
-                <a href={"/shop"}>Shop</a>
+                <Link to={"/shop"}>Shop</Link>
               </AnimatedUnderline>
             </li>
             <li className="text-nowrap text-center sm:text-left">
               <AnimatedUnderline>
-                <a href={"/event"}>Event</a>
+                <Link to={"/event"}>Event</Link>
               </AnimatedUnderline>
             </li>
             <li className="text-nowrap text-center sm:text-left">
               <AnimatedUnderline>
-                <a href={"/about-us"}>About Us</a>
+                <Link to={"/about-us"}>About Us</Link>
               </AnimatedUnderline>
             </li>
             <li className="text-nowrap text-center sm:text-left">
               <AnimatedUnderline>
-                <a href={"/faqs"}>FAQs</a>
+                <Link to={"/faqs"}>FAQs</Link>
               </AnimatedUnderline>
             </li>
             <li className="text-nowrap text-center sm:text-left">
               <AnimatedUnderline>
-                <a href={"/contact"}>Contact</a>
+                <Link to={"/contact"}>Contact</Link>
               </AnimatedUnderline>
             </li>
           </ul>
@@ -44,7 +46,9 @@ const Footer = () => {
           <div className="max-w-[245px] space-y-2 text-sm leading-6 tracking-wider text-primary-500">
             <h4 className="font-medium">Cakery 19</h4>
             <p>Address: 123 Street Name, State, Switzerland</p>
-            <p>Tel: 0124 456 789</p>
+            <AnimatedUnderline>
+              <a href="tel:0124 456 789">Tel: 0124 456 789</a>
+            </AnimatedUnderline>
           </div>
 
           <div className="space-y-2 text-sm leading-6 tracking-wider text-primary-500">
@@ -70,7 +74,7 @@ const Footer = () => {
               className="rounded-none border-primary-400 bg-transparent text-xs font-medium text-primary-400 outline-none placeholder:text-xs placeholder:text-primary-400 placeholder:opacity-70"
             />
 
-            <Button className="bg-primary_btn w-fit rounded-none text-xs">SUBSCRIBE</Button>
+            <Button className="w-fit rounded-none bg-primary_btn text-xs">SUBSCRIBE</Button>
           </div>
         </div>
 

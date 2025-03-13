@@ -34,7 +34,7 @@ const ProductCard = ({
         <div
           className={`relative w-full overflow-hidden ${isSquareImage ? "aspect-square" : "h-[380px]"}`}
         >
-          <div className="absolute bottom-0 z-20 h-[180px] w-full bg-gradient-to-t from-black/80 to-transparent opacity-0 duration-500 ease-in-out group-hover:opacity-100"></div>
+          <div className="absolute bottom-0 z-20 h-[180px] w-full bg-gradient-to-t from-black/80 to-transparent opacity-0 duration-500 ease-in-out group-hover:opacity-100" />
 
           <div className="group h-full w-full duration-500 ease-in-out group-hover:scale-110">
             <picture>
@@ -52,7 +52,7 @@ const ProductCard = ({
                 )}
                 alt={product.name}
                 loading="lazy"
-                className="fade-in-image absolute top-0 h-full w-full object-cover object-center duration-500 ease-in-out group-hover:scale-110"
+                className="fade-in-image absolute top-0 h-full w-full object-cover object-center duration-500 ease-in-out"
                 onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
               />
             </picture>
@@ -66,7 +66,7 @@ const ProductCard = ({
                 src={optimizeImageUrl(product.imageUrl[0], imageWidth)}
                 alt={product.name}
                 loading="lazy"
-                className="fade-in-image absolute top-0 h-full w-full object-cover object-center duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-0"
+                className="fade-in-image absolute top-0 h-full w-full object-cover object-center duration-500 ease-in-out group-hover:opacity-0"
                 onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
               />
             </picture>

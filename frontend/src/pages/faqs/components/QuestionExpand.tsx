@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-import AnimatedUnderline from "@/pages/shopping-cart/components/AnimationUnderline";
+import AnimatedUnderline from "@/components/animation/AnimatedUnderline";
 
 const QuestionExpand = ({
   question,
