@@ -29,7 +29,6 @@ const InstaVideoList = () => {
           {videos.map((v, index) => (
             <CarouselItem
               key={v.url}
-              key={v.url}
               className="flex-shrink-0 basis-auto cursor-pointer select-none pl-0 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
             >
               <motion.div
