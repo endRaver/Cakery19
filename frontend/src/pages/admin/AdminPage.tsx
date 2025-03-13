@@ -40,7 +40,7 @@ const AdminPage = () => {
   return (
     <Table className="border bg-white">
       <TableCaption>A list of Cakery19 products.</TableCaption>
-      <TableHeader className="bg-[#89896E]">
+      <TableHeader className="bg-primary_btn">
         <TableRow>
           <TableHead className="w-32 text-white">Product Id</TableHead>
           <TableHead className="text-white">Name</TableHead>

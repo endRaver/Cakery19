@@ -22,12 +22,16 @@ const AnimatedUnderline = ({
 
   const lineStyles = `absolute bottom-0 h-[0.5px] w-1/2 ${mode === "light" ? "bg-primary-300" : "bg-primary-50"}`;
   const transition = {
-    ease: [0.34, 0.24, 0.8, 0.54],
-    duration: 0.3,
+    ease: [0.785, 0.135, 0.15, 0.86],
+    duration: 0.45,
   };
 
   return (
-    <motion.div className="relative" onHoverStart={handleHoverStart} onHoverEnd={handleHoverEnd}>
+    <motion.div
+      className="relative w-fit"
+      onHoverStart={handleHoverStart}
+      onHoverEnd={handleHoverEnd}
+    >
       {children}
       <motion.div
         className={`${lineStyles} left-0`}

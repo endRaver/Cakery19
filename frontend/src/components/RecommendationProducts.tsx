@@ -18,7 +18,7 @@ const RecommendationProducts = ({ products }: { products: Product[] }) => {
           >
             <a href={`/shop/${createSlug(product.name)}?id=${product._id}`}>
               <div className="group relative aspect-square min-h-[260px] flex-1 overflow-hidden text-primary-50">
-                <div className="group h-full w-full duration-500 ease-in-out group-hover:scale-125">
+                <div className="group h-full w-full duration-500 ease-in-out group-hover:scale-110">
                   <picture>
                     {/* WebP format for modern browsers */}
                     <source srcSet={product.imageUrl[0]} type="image/webp" />
@@ -27,7 +27,7 @@ const RecommendationProducts = ({ products }: { products: Product[] }) => {
                       src={product.imageUrl[0]}
                       alt={product.name}
                       loading="eager"
-                      className="fade-in-image group h-full max-h-[304px] w-full object-cover object-center duration-500 ease-in-out group-hover:scale-125 sm:max-h-full"
+                      className="fade-in-image group h-full max-h-[304px] w-full object-cover object-center duration-500 ease-in-out group-hover:scale-110 sm:max-h-full"
                       onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
                     />
                   </picture>
@@ -35,7 +35,7 @@ const RecommendationProducts = ({ products }: { products: Product[] }) => {
                 </div>
                 <div className="absolute left-6 top-6">
                   <h4 className="text-lg font-medium uppercase">{product.name}</h4>
-                  <p className="text-sm italic">From ${product.variants[0].price.toFixed(2)}</p>
+                  <p className="text-sm italic">From {product.variants[0].price.toFixed(2)} CHF</p>
                 </div>
               </div>
             </a>

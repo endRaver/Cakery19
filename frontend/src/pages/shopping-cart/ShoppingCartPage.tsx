@@ -61,7 +61,7 @@ const ShoppingCartPage = () => {
 
       <div className="container mx-auto flex justify-center">
         <Button
-          className="h-[48px] rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn"
+          className="bg-primary_btn h-[48px] rounded-[2px] p-1 hover:bg-hover-outline_btn"
           disabled={!(cartProducts.length > 0)}
         >
           <Link

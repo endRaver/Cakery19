@@ -1,6 +1,8 @@
 import { useProductStore } from "@/stores/useProductStore";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import TagBreadcrumb from "./components/TagBreadcrumb";
 import ProductImageDisplay from "./components/ProductImageDisplay";
 import { Button } from "@/components/ui/button";
@@ -15,7 +17,7 @@ import ProductDetailSkeleton from "@/components/skeletons/ProductDetailSkeleton"
 import ProductDisplayMobileSkeleton from "@/components/skeletons/ProductDisplayMobileSkeleton";
 import ChangeQuantitySelection from "@/components/ChangeQuantitySelection";
 import { Variant } from "@/types";
-import toast from "react-hot-toast";
+import AddToCartButton from "./components/AddToCartButton";
 
 const buttonStyle =
   "px-5 py-2 rounded-md border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 font-normal tracking-wider";
@@ -165,18 +167,15 @@ const ProductDetailPage = () => {
               </div>
 
               <div className="flex gap-3">
-                <Button
-                  className="h-[48px] w-full rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn"
+                <AddToCartButton
                   onClick={() => {
                     handleUpdateProductFromCart(currentProduct, quantity, selectedVariant);
                     setQuantity(1);
                     toast.success("Product added to cart");
                   }}
                 >
-                  <span className="flex h-full w-full items-center justify-center rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium">
-                    ADD TO CART
-                  </span>
-                </Button>
+                  ADD TO CART
+                </AddToCartButton>
 
                 <ChangeQuantitySelection
                   quantity={quantity}

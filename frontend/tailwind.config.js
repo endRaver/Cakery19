@@ -55,6 +55,9 @@ module.exports = {
           400: "#5F5F4E",
           500: "#525244",
         },
+        primary_btn: {
+          DEFAULT: "#89896E",
+        },
         hover: {
           outline_btn: "#a5a798",
         },

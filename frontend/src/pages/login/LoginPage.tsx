@@ -126,7 +126,7 @@ const LoginPage = () => {
             </div>
 
             <Button
-              className="h-[35px] w-32 rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn"
+              className="bg-primary_btn h-[35px] w-32 rounded-[2px] p-1 hover:bg-hover-outline_btn"
               disabled={isLoading}
             >
               <p className="flex w-full items-center justify-center rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium">

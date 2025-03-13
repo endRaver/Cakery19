@@ -1,11 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { useScroll, useSpring, useTransform, motion } from "framer-motion";
 
 import { ValueSlider } from "./components/ValueSlider";
 import useWindowWidth from "@/hooks/useWindowWidth";
 
 const AboutUsPage = () => {
   const windowWidth = useWindowWidth();
+
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"], // Starts zooming slower and finishes earlier
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  const smoothScale = useSpring(scale, { stiffness: 100, damping: 70 });
 
   return (
     <main className="my-5 space-y-5 text-primary-500 md:my-10 md:space-y-10">
@@ -26,7 +37,7 @@ const AboutUsPage = () => {
               sometimes on purpose (injected humour and the like).
             </p>
 
-            <Button className="mt-6 h-[35px] rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn md:ms-10">
+            <Button className="bg-primary_btn mt-6 h-[35px] rounded-[2px] p-1 hover:bg-hover-outline_btn md:ms-10">
               <Link
                 to="/"
                 className="rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium"
@@ -37,15 +48,16 @@ const AboutUsPage = () => {
           </div>
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 overflow-hidden" ref={ref}>
           <picture className="flex-1">
             <source srcSet={`/images/webp/about_me.webp`} type="image/webp" />
-            <img
+            <motion.img
               src={`/images/webp/about_me.jpg`}
               alt={"login_banner"}
               loading="eager"
               className="h-full max-h-[640px] w-full object-cover object-center md:max-h-[700px]"
               onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+              style={{ scale: smoothScale }}
             />
           </picture>
         </div>

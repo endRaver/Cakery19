@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CarouselContent, CarouselItem, Carousel } from "@/components/ui/carousel";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import Autoplay from "embla-carousel-autoplay";
 
@@ -40,7 +41,12 @@ const BannerCarousel = () => {
                 />
               </picture>
 
-              <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[540px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start lg:max-w-[697px]">
+              <motion.div
+                className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[540px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start lg:max-w-[697px]"
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 50 }}
+                transition={{ duration: 0.5 }}
+              >
                 <h1 className={quoteStyle}>
                   <span className="font-medium">Baker</span> with love,
                   <br /> served with a <span className="font-medium">Smile</span>
@@ -53,7 +59,7 @@ const BannerCarousel = () => {
                 </p>
 
                 <div className="flex items-center gap-2.5">
-                  <Button className="h-[35px] rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn">
+                  <Button className="bg-primary_btn h-[35px] rounded-[2px] p-1 hover:bg-hover-outline_btn">
                     <Link
                       to="/"
                       className="rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium"
@@ -68,7 +74,7 @@ const BannerCarousel = () => {
                     </Link>
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </CarouselItem>
           <CarouselItem className="pl-0">
@@ -84,7 +90,12 @@ const BannerCarousel = () => {
                 />
               </picture>
 
-              <div className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[540px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start lg:max-w-[697px]">
+              <motion.div
+                className="absolute bottom-6 left-[calc(50%+8px)] flex max-w-[540px] -translate-x-1/2 flex-col items-center space-y-6 p-2.5 sm:bottom-[146px] sm:left-[50px] sm:translate-x-0 sm:items-start lg:max-w-[697px]"
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 50 }}
+                transition={{ duration: 0.5 }}
+              >
                 <h1 className={quoteStyle}>
                   <span className="font-medium">Baker</span> with love, <br /> served with a{" "}
                   <span className="font-medium">Smile</span>
@@ -97,7 +108,7 @@ const BannerCarousel = () => {
                 </p>
 
                 <div className="flex items-center gap-2.5">
-                  <Button className="h-[35px] rounded-[2px] bg-[#89896E] p-1 hover:bg-hover-outline_btn">
+                  <Button className="bg-primary_btn h-[35px] rounded-[2px] p-1 hover:bg-hover-outline_btn">
                     <Link
                       to="/"
                       className="rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium"
@@ -112,7 +123,7 @@ const BannerCarousel = () => {
                     </Link>
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </CarouselItem>
         </CarouselContent>

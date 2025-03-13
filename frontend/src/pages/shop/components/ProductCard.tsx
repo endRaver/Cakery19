@@ -36,7 +36,7 @@ const ProductCard = ({
         >
           <div className="absolute bottom-0 z-20 h-[180px] w-full bg-gradient-to-t from-black/80 to-transparent opacity-0 duration-500 ease-in-out group-hover:opacity-100"></div>
 
-          <div className="group h-full w-full duration-500 ease-in-out group-hover:scale-125">
+          <div className="group h-full w-full duration-500 ease-in-out group-hover:scale-110">
             <picture>
               <source
                 srcSet={optimizeImageUrl(

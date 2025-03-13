@@ -1,6 +1,7 @@
 import { cakery_logo_dark } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import AnimatedUnderline from "@/pages/shopping-cart/components/AnimationUnderline";
 
 const Footer = () => {
   return (
@@ -9,52 +10,34 @@ const Footer = () => {
         <div className="flex flex-col flex-wrap justify-between gap-8 sm:flex-row">
           <ul className="grid grid-cols-2 gap-2 text-sm font-medium leading-6 tracking-wider text-primary-500 sm:grid-cols-1">
             <li className="text-nowrap text-center sm:text-left">
-              <a
-                href={"/"}
-                className="border-b border-transparent duration-300 hover:border-primary-500"
-              >
-                Home
-              </a>
+              <AnimatedUnderline>
+                <a href={"/"}>Home</a>
+              </AnimatedUnderline>
             </li>
             <li className="text-nowrap text-center sm:text-left">
-              <a
-                href={"/shop"}
-                className="border-b border-transparent duration-300 hover:border-primary-500"
-              >
-                Shop
-              </a>
+              <AnimatedUnderline>
+                <a href={"/shop"}>Shop</a>
+              </AnimatedUnderline>
             </li>
             <li className="text-nowrap text-center sm:text-left">
-              <a
-                href={"/event"}
-                className="border-b border-transparent duration-300 hover:border-primary-500"
-              >
-                Event
-              </a>
+              <AnimatedUnderline>
+                <a href={"/event"}>Event</a>
+              </AnimatedUnderline>
             </li>
             <li className="text-nowrap text-center sm:text-left">
-              <a
-                href={"/about-us"}
-                className="border-b border-transparent duration-300 hover:border-primary-500"
-              >
-                About Us
-              </a>
+              <AnimatedUnderline>
+                <a href={"/about-us"}>About Us</a>
+              </AnimatedUnderline>
             </li>
             <li className="text-nowrap text-center sm:text-left">
-              <a
-                href={"/faqs"}
-                className="border-b border-transparent duration-300 hover:border-primary-500"
-              >
-                FAQs
-              </a>
+              <AnimatedUnderline>
+                <a href={"/faqs"}>FAQs</a>
+              </AnimatedUnderline>
             </li>
             <li className="text-nowrap text-center sm:text-left">
-              <a
-                href={"/contact"}
-                className="border-b border-transparent duration-300 hover:border-primary-500"
-              >
-                Contact
-              </a>
+              <AnimatedUnderline>
+                <a href={"/contact"}>Contact</a>
+              </AnimatedUnderline>
             </li>
           </ul>
 
@@ -87,7 +70,7 @@ const Footer = () => {
               className="rounded-none border-primary-400 bg-transparent text-xs font-medium text-primary-400 outline-none placeholder:text-xs placeholder:text-primary-400 placeholder:opacity-70"
             />
 
-            <Button className="w-fit rounded-none bg-[#89896E] text-xs">SUBSCRIBE</Button>
+            <Button className="bg-primary_btn w-fit rounded-none text-xs">SUBSCRIBE</Button>
           </div>
         </div>
 
