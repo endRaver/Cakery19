@@ -10,9 +10,20 @@ const LoadingScreen = () => {
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className="fixed inset-0 z-50 flex items-center justify-center bg-primary-50"
       >
-        <div className="animate-ping rounded-full bg-primary-500 p-8 duration-1000">
+        <motion.div
+          className="rounded-full bg-primary-500 p-8"
+          animate={{
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 2,
+            ease: "easeInOut",
+            repeat: Infinity,
+            repeatType: "loop",
+          }}
+        >
           <img src={cakery_logo_light} className="size-20" alt="logo" />
-        </div>
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );

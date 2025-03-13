@@ -1,4 +1,4 @@
-import AnimatedUnderline from "@/pages/shopping-cart/components/AnimationUnderline";
+import AnimatedUnderline from "@/components/animation/AnimatedUnderline";
 import { Product } from "@/types";
 import { Link, useNavigate } from "react-router-dom";
 

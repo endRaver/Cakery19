@@ -43,6 +43,7 @@ const useMediaLoader = () => {
     setTimeout(loadMedia, 100);
   }, []);
 
+  window.scrollTo(0, 0);
   return isLoading;
 };
 

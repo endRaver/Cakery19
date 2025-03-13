@@ -1,7 +1,8 @@
 import { useState } from "react";
+import ReactPlayer from "react-player";
+import { motion } from "framer-motion";
 
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import ReactPlayer from "react-player";
 import { play } from "@/assets/icons";
 
 import videos from "../../../assets/videos";
@@ -27,14 +28,22 @@ const InstaVideoList = () => {
         <CarouselContent className="ml-0 gap-4">
           {videos.map((v, index) => (
             <CarouselItem
-              key={index}
+              key={v.url}
               className="flex-shrink-0 basis-auto cursor-pointer select-none pl-0 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
             >
-              <div onClick={(event) => handleNavigate(event, v.url)}>
+              <motion.div
+                onClick={(event) => handleNavigate(event, v.url)}
+                whileInView={{ scale: 1, opacity: 1 }}
+                initial={{ scale: 1.1, opacity: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.2 * (index + 1) }}
+              >
                 <div
                   className="relative"
                   onMouseOver={() => setIsHovered(index)}
                   onMouseLeave={() => setIsHovered(null)}
+                  onFocus={() => setIsHovered(index)}
+                  onBlur={() => setIsHovered(null)}
                 >
                   <div
                     className={`absolute inset-0 flex h-[383px] w-[220px] items-center justify-center bg-gray-800 bg-cover bg-center bg-no-repeat duration-300 sm:h-full sm:w-full ${isHovered !== index ? "" : "opacity-0"}`}
@@ -61,7 +70,7 @@ const InstaVideoList = () => {
                     muted
                   />
                 </div>
-              </div>
+              </motion.div>
             </CarouselItem>
           ))}
         </CarouselContent>

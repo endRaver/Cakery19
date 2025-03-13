@@ -65,7 +65,7 @@ const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
       <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-primary-400">
         <span>TOTAL:</span>
         <span className="w-28 text-nowrap">
-          {(cartProduct.quantity * (cartProduct.variant?.price || 0)).toFixed(2)} CHF
+          {(cartProduct.quantity * (cartProduct.variant?.price ?? 0)).toFixed(2)} CHF
         </span>
       </div>
 
