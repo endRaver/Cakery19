@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, NavLink } from "react-router-dom";
 import { Button } from "./ui/button";
 import useScroll from "@/hooks/useScroll";
 import {
@@ -30,6 +30,11 @@ const getResponsiveHeight = (width: number) => {
   if (width > 1024) return "h-[140px]";
   if (width > 640) return "h-[96px]";
   return "h-[84px]";
+};
+
+const getActiveBorderStyle = (isActive: boolean, isTransparentHeader: boolean) => {
+  if (!isActive) return "";
+  return isTransparentHeader ? "border-b-primary-50" : "border-b-primary-500";
 };
 
 const TopNavigationBar = () => {
@@ -70,51 +75,63 @@ const NavbarDesktop = () => {
         <div
           className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end border-y lg:gap-10 ${isTransparentHeader ? "border-transparent" : "border-primary-400"}`}
         >
-          <a
-            href="/"
-            className={`${linkStyle} ${isTransparentHeader ? "border-b-primary-50 text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/" ? "border-b-primary-50" : ""}`}
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${getActiveBorderStyle(isActive, isTransparentHeader)}`
+            }
           >
             HOME
-          </a>
-          <a
-            href="/shop"
-            className={`${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/shop" ? "border-b-primary-500" : ""}`}
+          </NavLink>
+          <NavLink
+            to="/shop"
+            className={({ isActive }) =>
+              `${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${getActiveBorderStyle(isActive, isTransparentHeader)}`
+            }
           >
             SHOP
-          </a>
-          <a
-            href="/event"
-            className={`${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/event" ? "border-b-primary-500" : ""}`}
+          </NavLink>
+          <NavLink
+            to="/event"
+            className={({ isActive }) =>
+              `${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${getActiveBorderStyle(isActive, isTransparentHeader)}`
+            }
           >
             EVENT
-          </a>
+          </NavLink>
         </div>
 
-        <a href="/">
+        <NavLink to="/">
           <img src={`${isTransparentHeader ? cakery_logo_light : cakery_logo_dark}`} alt="logo" />
-        </a>
+        </NavLink>
 
         <div
           className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end border-y lg:gap-10 ${isTransparentHeader ? "border-transparent" : "border-primary-400"}`}
         >
-          <a
-            href="/about-us"
-            className={`${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/about-us" ? "border-b-primary-500" : ""}`}
+          <NavLink
+            to="/about-us"
+            className={({ isActive }) =>
+              `${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${getActiveBorderStyle(isActive, isTransparentHeader)}`
+            }
           >
             ABOUT US
-          </a>
-          <a
-            href="/faqs"
-            className={`${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/faqs" ? "border-b-primary-500" : ""}`}
+          </NavLink>
+          <NavLink
+            to="/faqs"
+            className={({ isActive }) =>
+              `${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${getActiveBorderStyle(isActive, isTransparentHeader)}`
+            }
           >
             FAQS
-          </a>
-          <a
-            href="/contact"
-            className={`${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${location === "/contact" ? "border-b-primary-500" : ""}`}
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${getActiveBorderStyle(isActive, isTransparentHeader)}`
+            }
           >
             CONTACT
-          </a>
+          </NavLink>
         </div>
 
         <div className="absolute right-8 top-6 flex items-center gap-2">
@@ -140,12 +157,12 @@ const NavbarDesktop = () => {
 
           <SignedOut>
             <AnimatedUnderline mode={isTransparentHeader ? "dark" : "light"}>
-              <a
-                href="/login"
+              <NavLink
+                to="/login"
                 className={`${linkStyle} !p-0 font-normal leading-none ${isTransparentHeader ? "text-primary-50" : "text-primary-500"}`}
               >
                 Sign in
-              </a>
+              </NavLink>
             </AnimatedUnderline>
           </SignedOut>
         </div>
@@ -181,13 +198,13 @@ const NavbarDesktop = () => {
 
           <SignedIn>
             {isAdmin && (
-              <a
-                href="/admin"
+              <NavLink
+                to="/admin"
                 className={`flex items-center gap-2 border-b border-transparent duration-300 ${isTransparentHeader ? "text-primary-50 hover:border-primary-50" : "text-primary-500 hover:border-primary-500"} ms-10`}
               >
                 <LayoutDashboardIcon className="mr-1 size-4" />
                 Dashboard
-              </a>
+              </NavLink>
             )}
           </SignedIn>
         </div>
@@ -217,9 +234,9 @@ const NavbarMobile = () => {
             )}
           </Button>
 
-          <a href="/">
+          <NavLink to="/">
             <img src={cakery_logo_dark} alt="logo" className="size-[68px] sm:size-[80px]" />
-          </a>
+          </NavLink>
           <Button className="bg-transparent p-2 duration-300 hover:bg-primary-75">
             <img src={search} alt="search" className="size-5 sm:size-7" />
           </Button>
