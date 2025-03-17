@@ -74,6 +74,9 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 export const getMessages = async (req, res, next) => {
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
+
   try {
     const myId = req.auth.userId;
     const { userId } = req.params;
@@ -83,9 +86,20 @@ export const getMessages = async (req, res, next) => {
         { senderId: userId, receiverId: myId },
         { senderId: myId, receiverId: userId },
       ],
-    }).sort({ createdAt: 1 });
+    })
+      .skip(skip)
+      .limit(Number(limit))
+      .sort({ createdAt: -1 });
 
-    res.status(200).json(message);
+    const totalMessages = await Message.countDocuments();
+    const totalPages = Math.ceil(totalMessages / limit);
+
+    res.status(200).json({
+      message,
+      totalMessages,
+      totalPages,
+      currentPage: Number(page),
+    });
   } catch (error) {
     next(error);
   }
@@ -135,7 +149,7 @@ export const sendMessage = async (req, res, next) => {
     // Send real-time updates
     if (newMessage) {
       const receiverSocketId = getReceiverSocketId(receiverId);
-      
+
       // Send to receiver if they're online
       if (receiverSocketId) {
         io.to(receiverSocketId).emit("receive_message", newMessage);

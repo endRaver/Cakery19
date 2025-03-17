@@ -148,11 +148,19 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     socket.emit("send_notification", { receiverId, senderId, text });
   },
 
-  fetchMessages: async (userId: string) => {
+  fetchMessages: async (userId: string, page = 1, limit = 10) => {
     set({ isLoading: true, error: null });
 
     try {
-      const response = await axiosInstance.get(`/users/messages/${userId}`);
+      const response = await axiosInstance.get(`/users/messages/${userId}`, {
+        params: {
+          page,
+          limit,
+        },
+      });
+
+      console.log(response);
+
       set({ messages: response.data });
     } catch (error: unknown) {
       const err = error as { response: { data: { message: string } } };
