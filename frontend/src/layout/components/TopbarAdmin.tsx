@@ -15,8 +15,7 @@ const TopbarAdmin = () => {
       />
 
       <div className="flex items-center gap-4">
-        {/* <UserButton /> */}
-        {/* {user && <p>{user.fullName || user.emailAddresses[0].emailAddress.split("@")[0]}</p>} */}
+        {user && <p>{user.name || user.email.split("@")[0]}</p>}
       </div>
     </div>
   );
