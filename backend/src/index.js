@@ -5,18 +5,19 @@ import path from "path";
 import cors from "cors";
 import fs from "fs";
 import cron from "node-cron";
+import cookieParser from "cookie-parser";
 
 import { clerkMiddleware } from "@clerk/express";
 
 import { connectDB } from "./lib/db.js";
-import { initializeSocket } from "./lib/socket.js";
-import { app, httpServer } from "./lib/socket.js";
+import { initializeSocket, app, httpServer } from "./lib/socket.js";
 
 import userRoutes from "./routes/user.route.js";
 import adminRoutes from "./routes/admin.route.js";
 import authRoutes from "./routes/auth.route.js";
 import productRoutes from "./routes/product.route.js";
 import statRoutes from "./routes/stat.route.js";
+import cartRoutes from "./routes/cart.route.js";
 
 dotenv.config();
 
@@ -34,6 +35,9 @@ app.use(
 
 app.use(express.json());
 app.use(clerkMiddleware());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 app.use(
   fileUpload({
     useTempFiles: true,
@@ -68,6 +72,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/stats", statRoutes);
+app.use("/api/carts", cartRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));

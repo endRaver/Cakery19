@@ -2,12 +2,11 @@ import { Loader2Icon, MessageCircleMore, SquareChevronDownIcon } from "lucide-re
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { useChatStore } from "@/stores/useChatStore";
-import { useUser } from "@clerk/clerk-react";
 import UsersList from "./chat_components/UsersList";
 import ChatHeader from "./chat_components/ChatHeader";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import MessageInput from "./chat_components/MessageInput";
-import { useAuthStore } from "@/stores/useAuthStore";
+// import { useAuthStore } from "@/stores/useAuthStore";
 import { find } from "lodash";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import ContentComponent from "./chat_components/ContentComponent";
@@ -15,7 +14,7 @@ import ContentComponent from "./chat_components/ContentComponent";
 const adminEmail = "tungthanh254@gmail.com";
 
 const Chatbox = () => {
-  const { user } = useUser();
+  // const { user } = useUser();
   const {
     users,
     isLoading,
@@ -27,7 +26,7 @@ const Chatbox = () => {
     handleGetNotifications,
   } = useChatStore();
   const [isOpen, setIsOpen] = useState(false);
-  const { isAdmin } = useAuthStore();
+  // const { isAdmin } = useAuthStore();
   const windowWidth = useWindowWidth();
   const { notifications } = useChatStore();
 

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import VariantComponent from "./components/VariantComponent";
 import MultiSelectDropdown from "@/components/MutiSelectDropdown";
 
-import { Variant } from "@/types";
+import { Variant } from "@/types/product";
 import { Loader2, TrashIcon } from "lucide-react";
 
 const options = ["signature", "delicacies", "cakes"];
@@ -219,7 +219,7 @@ const AdminCreatePage = () => {
           <Button
             type="button"
             onClick={() => imageInputRef.current?.click()}
-            className="bg-primary_btn h-[35px] rounded-[2px] p-1 hover:bg-hover-outline_btn"
+            className="h-[35px] rounded-[2px] bg-primary_btn p-1 hover:bg-hover-outline_btn"
           >
             <p className="rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-normal">
               UPLOAD IMAGE

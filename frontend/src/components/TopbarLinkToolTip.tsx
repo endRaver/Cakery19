@@ -24,11 +24,11 @@ const TopbarLinkToolTip = ({
   const animation = useAnimation();
 
   const handleHoverStart = () => {
-    animation.start({ opacity: 1, bottom: "-100%" });
+    animation.start({ visibility: "visible", opacity: 1, bottom: "-100%" });
   };
 
   const handleHoverEnd = () => {
-    animation.start({ opacity: 0, bottom: "-110%" });
+    animation.start({ visibility: "hidden", opacity: 0, bottom: "-110%" });
   };
 
   return (
@@ -50,7 +50,7 @@ const TopbarLinkToolTip = ({
 
       <motion.div
         className="absolute left-1/2 -translate-x-1/2 cursor-default text-nowrap rounded-md bg-white px-2 py-1 text-sm text-primary-200 shadow-lg"
-        initial={{ opacity: 0, bottom: "-100%" }}
+        initial={{ visibility: "hidden", opacity: 0, bottom: "-100%" }}
         animate={animation}
         transition={{ duration: 0.2 }}
       >
@@ -59,7 +59,7 @@ const TopbarLinkToolTip = ({
       </motion.div>
 
       {number !== undefined && number >= 1 && (
-        <span className="absolute bottom-0 left-0 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary-300 p-1 text-center text-[8px] leading-5 text-white">
+        <span className="absolute bottom-0 left-0 flex h-3.5 w-3.5 cursor-default items-center justify-center rounded-full bg-primary-300 p-1 text-center text-[8px] leading-5 text-white">
           {number <= 99 ? number : "99+"}
         </span>
       )}

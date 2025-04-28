@@ -1,5 +1,5 @@
 import AnimatedUnderline from "@/components/animation/AnimatedUnderline";
-import { Product } from "@/types";
+import { Product } from "@/types/product";
 import { Link, useNavigate } from "react-router-dom";
 
 const TagBreadcrumb = ({ product }: { product: Product }) => {

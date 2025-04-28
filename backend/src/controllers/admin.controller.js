@@ -1,4 +1,3 @@
-import cloudinary from "../lib/cloudinary.js";
 import { Product } from "../models/product.model.js";
 import {
   deleteFromCloudinary,
@@ -22,6 +21,7 @@ export const createProduct = async (req, res, next) => {
       parsedCategory =
         typeof category === "string" ? JSON.parse(category) : category;
     } catch (err) {
+      console.log("Error in parse variants", err);
       return res.status(400).json({ message: "Invalid JSON format" });
     }
 
@@ -86,6 +86,7 @@ export const updateProduct = async (req, res, next) => {
       parsedImageUrl =
         typeof imageUrl === "string" ? JSON.parse(imageUrl) : imageUrl;
     } catch (err) {
+      console.log("Error in parse variants", err);
       return res.status(400).json({ message: "Invalid JSON format" });
     }
 
@@ -150,6 +151,7 @@ export const deleteProduct = async (req, res, next) => {
       parsedImageUrl =
         typeof imageUrl === "string" ? JSON.parse(imageUrl) : imageUrl;
     } catch (err) {
+      console.log("Error in parse imageUrl", err);
       return res.status(400).json({ message: "Invalid JSON format" });
     }
 

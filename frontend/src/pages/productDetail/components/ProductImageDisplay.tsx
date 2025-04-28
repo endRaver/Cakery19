@@ -1,5 +1,5 @@
 import { optimizeImageUrl } from "@/lib/imageOptimization";
-import { Product } from "@/types";
+import { Product } from "@/types/product";
 import { useEffect, useState } from "react";
 
 const ProductImageDisplay = ({ product }: { product: Product }) => {

@@ -1,5 +1,5 @@
 import { optimizeImageUrl } from "@/lib/imageOptimization";
-import { Product } from "@/types";
+import { Product } from "@/types/product";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({

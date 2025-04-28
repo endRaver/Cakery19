@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/lib/axios";
-import { Message, User } from "@/types";
+import { Message, User } from "@/types/product";
 import { create } from "zustand";
 import { io, Socket } from "socket.io-client";
 

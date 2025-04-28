@@ -1,8 +1,8 @@
-import { useUser } from "@clerk/clerk-react";
-import { Message } from "@/types";
+import { Message } from "@/types/product";
 import { useEffect, useRef } from "react";
 import { useChatStore } from "@/stores/useChatStore";
 import { isEmpty, map } from "lodash";
+import { useUserStore } from "@/stores/useUserStore";
 
 const formatTime = (date: string) => {
   return new Date(date).toLocaleTimeString("en-US", {
@@ -32,7 +32,7 @@ const ContentComponent = ({
   message: Message;
   children?: React.ReactNode;
 }) => {
-  const { user } = useUser();
+  const { user } = useUserStore();
   const { messages } = useChatStore();
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 

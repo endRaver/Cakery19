@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/lib/axios";
-import { CartProduct, Product, Variant } from "@/types";
+import { CartProduct, Product } from "@/types/product";
 import { create } from "zustand";
 import toast from "react-hot-toast";
 import { CacheManager } from "@/lib/cache";
@@ -25,13 +25,7 @@ interface ProductStore {
   handleCreateProduct: (data: unknown) => Promise<void>;
   handleUpdateProduct: (id: string, data: unknown) => Promise<void>;
   handleDeleteProduct: (product: Product) => Promise<void>;
-  handleSetCartProducts: () => void;
-  handleUpdateProductFromCart: (
-    product: Product,
-    quantity: number,
-    selectedVariant: Variant | undefined
-  ) => void;
-  handleDeleteProductFromCart: (product: Product, variant: Variant | undefined) => void;
+
   resetCache: () => void;
 }
 
@@ -203,58 +197,6 @@ export const useProductStore = create<ProductStore>((set, get) => ({
     } finally {
       set({ isDeleting: false });
     }
-  },
-
-  handleSetCartProducts: () => {
-    const savedCart = localStorage.getItem("cartProducts");
-
-    if (savedCart) {
-      set({ cartProducts: JSON.parse(savedCart) });
-    }
-  },
-
-  handleUpdateProductFromCart: (product, quantity, selectedVariant) => {
-    set((state) => {
-      const existingCartItemIndex = state.cartProducts.findIndex(
-        (item) => item.product._id === product._id && item.variant?.size === selectedVariant?.size
-      );
-
-      let updatedCartProducts;
-
-      if (existingCartItemIndex !== -1) {
-        // If the product already exists, update the quantity
-        const existingCartItem = state.cartProducts[existingCartItemIndex];
-        updatedCartProducts = [
-          ...state.cartProducts.slice(0, existingCartItemIndex),
-          {
-            ...existingCartItem,
-            quantity: existingCartItem.quantity + quantity, // Increment the quantity
-          },
-          ...state.cartProducts.slice(existingCartItemIndex + 1),
-        ];
-      } else {
-        // If the product does not exist, add it to the cart
-        updatedCartProducts = [
-          ...state.cartProducts,
-          { product: product, quantity: quantity, variant: selectedVariant },
-        ];
-      }
-
-      localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
-
-      return { cartProducts: updatedCartProducts };
-    });
-  },
-
-  handleDeleteProductFromCart: (product, selectedVariant) => {
-    set((state) => {
-      const updatedCartProducts = state.cartProducts.filter(
-        (item) => item.product._id !== product._id || item.variant?.size !== selectedVariant?.size
-      );
-
-      localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
-      return { cartProducts: updatedCartProducts };
-    });
   },
 
   resetCache: () => {

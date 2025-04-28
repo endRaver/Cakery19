@@ -3,7 +3,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useChatStore } from "@/stores/useChatStore";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect } from "react";
-import { User } from "@/types";
+import { User } from "@/types/product";
 // import UsersListSkeleton from "@/components/skeletons/UsersListSkeleton";
 
 const UsersList = () => {

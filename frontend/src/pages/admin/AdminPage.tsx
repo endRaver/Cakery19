@@ -10,7 +10,7 @@ import {
   TableCaption,
 } from "@/components/ui/table";
 import { useProductStore } from "@/stores/useProductStore";
-import { Product } from "@/types";
+import { Product } from "@/types/product";
 import { Loader2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 

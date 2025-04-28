@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useProductStore } from "@/stores/useProductStore";
 
-import { Product, Variant } from "@/types";
+import { Product, Variant } from "@/types/product";
 import { TrashIcon, Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
@@ -225,7 +225,7 @@ const AdminEditPage = () => {
           <Button
             type="button"
             onClick={() => imageInputRef.current?.click()}
-            className="bg-primary_btn h-[35px] rounded-[2px] p-1 hover:bg-hover-outline_btn"
+            className="h-[35px] rounded-[2px] bg-primary_btn p-1 hover:bg-hover-outline_btn"
           >
             <p className="rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-normal">
               UPLOAD IMAGE

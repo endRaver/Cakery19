@@ -4,9 +4,8 @@ import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { LayoutDashboardIcon, LogOutIcon, User2 } from "lucide-react";
 import { instagram_dark, whatsapp_dark } from "@/assets/icons";
-import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/clerk-react";
 import { Button } from "./ui/button";
-import { useAuthStore } from "@/stores/useAuthStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 const linkStyle =
   "mx-6 mb-6 w-fit text-nowrap border border-transparent text-lg font-medium leading-6 tracking-wider text-[#73573F] duration-300 ease-in-out hover:border-b-primary-500";
@@ -15,8 +14,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
   const windowWidth = useWindowWidth();
   const location = useLocation().pathname;
 
-  const { user } = useUser();
-  const { isAdmin } = useAuthStore();
+  const { user, handleLogout } = useUserStore();
 
   useEffect(() => {
     onClose();
@@ -67,8 +65,8 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             rel="noopener noreferrer"
             className="flex flex-nowrap items-center gap-1"
           >
-            <img src={instagram_dark} className="size-4" />
-            Instagram
+            <img src={instagram_dark} className="size-4" alt="Instagram" />
+            <span>Instagram</span>
           </a>
           <a
             href={
@@ -78,45 +76,46 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             rel="noopener noreferrer"
             className="flex flex-nowrap items-center justify-center gap-1"
           >
-            <img src={whatsapp_dark} className="size-4" />
-            Whatsapp
+            <img src={whatsapp_dark} className="size-4" alt="Whatsapp" />
+            <span>Whatsapp</span>
           </a>
-          <SignedIn>
+          {user ? (
             <div className="flex max-w-[110px] flex-nowrap items-center justify-end gap-1">
               <User2 className="size-4 flex-shrink-0" />
               <p className="truncate capitalize">
-                {user?.fullName || user?.emailAddresses[0]?.emailAddress.split("@")[0] || "N/a"}
+                {user?.name ?? user?.email.split("@")[0] ?? "N/a"}
               </p>
             </div>
-          </SignedIn>
-
-          <SignedOut>
-            <div className="">
+          ) : (
+            <div className="flex max-w-[110px] flex-nowrap items-center justify-end gap-1">
               <a href="/login" className="flex flex-nowrap items-center justify-end gap-1">
                 <User2 className="size-4 flex-shrink-0" />
                 <p>Sign In</p>
               </a>
             </div>
-          </SignedOut>
+          )}
         </div>
 
-        <SignedIn>
-          {isAdmin && (
-            <a
-              href="/admin"
-              className={`absolute bottom-24 left-3 flex items-center gap-2 border-b border-transparent text-primary-500 duration-300 hover:border-primary-500`}
-            >
-              <LayoutDashboardIcon className="mr-1 size-4" />
-              Dashboard
-            </a>
-          )}
+        {user?.role === "admin" && (
+          <a
+            href="/admin"
+            className={`absolute bottom-24 left-3 flex items-center gap-2 border-b border-transparent text-primary-500 duration-300 hover:border-primary-500`}
+          >
+            <LayoutDashboardIcon className="mr-1 size-4" />
+            Dashboard
+          </a>
+        )}
 
-          <SignOutButton redirectUrl="/login">
-            <Button className="absolute bottom-20 right-3 rounded-full bg-primary-100 !py-6 hover:bg-primary-300">
-              <LogOutIcon />
-            </Button>
-          </SignOutButton>
-        </SignedIn>
+        <Button
+          className="absolute bottom-20 right-3 rounded-full bg-primary-100 !py-6 hover:bg-primary-300"
+          onClick={async () => {
+            await handleLogout();
+            window.location.reload();
+            window.location.href = "/";
+          }}
+        >
+          <LogOutIcon />
+        </Button>
       </div>
 
       {isOpen && (

@@ -16,12 +16,11 @@ import {
 import useWindowWidth from "@/hooks/useWindowWidth";
 import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
-import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/clerk-react";
 import { LayoutDashboardIcon, X } from "lucide-react";
-import { useAuthStore } from "@/stores/useAuthStore";
 import TopbarLinkToolTip from "./TopbarLinkToolTip";
 import AnimatedUnderline from "@/components/animation/AnimatedUnderline";
-import { useProductStore } from "@/stores/useProductStore";
+import { useCartStore } from "@/stores/useCartStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 const linkStyle =
   "my-1 text-nowrap font-medium border border-transparent px-1.5 lg:px-3 py-1 text-sm leading-6 tracking-wider duration-300 ease-in-out ";
@@ -55,17 +54,23 @@ const NavbarDesktop = () => {
   const location = useLocation().pathname;
   const isHome = location === "/";
   const { scrollY, scrollDirection } = useScroll();
-  const { user } = useUser();
-  const { isAdmin } = useAuthStore();
-  const { cartProducts, handleSetCartProducts } = useProductStore();
+  const { user, handleLogout } = useUserStore();
+  const { cartItems, handleGetCartItems } = useCartStore();
+  const [cartQuantity, setCartQuantity] = useState(0);
 
   const isTransparentHeader = isHome && scrollY < 200;
 
   useEffect(() => {
-    handleSetCartProducts();
-  }, [handleSetCartProducts]);
+    if (user) {
+      handleGetCartItems();
+    }
+  }, [handleGetCartItems, user]);
 
-  const numberOfCartItems = cartProducts.reduce((total, item) => total + item.quantity, 0);
+  useEffect(() => {
+    setCartQuantity(
+      cartItems ? cartItems.reduce((acc, item) => acc + (Number(item.quantity) || 0), 0) : 0
+    );
+  }, [cartItems]);
 
   return (
     <div
@@ -135,27 +140,31 @@ const NavbarDesktop = () => {
         </div>
 
         <div className="absolute right-8 top-6 flex items-center gap-2">
-          <SignedIn>
-            <span
-              className={`${linkStyle} max-w-[200px] truncate text-nowrap !p-0 font-normal capitalize leading-none ${isTransparentHeader ? "text-primary-50" : "text-primary-500"}`}
-            >
-              {`Hello, ${user?.fullName ?? user?.emailAddresses[0]?.emailAddress.split("@")[0] ?? "N/a"}`}
-            </span>
+          {user ? (
+            <>
+              <span
+                className={`${linkStyle} max-w-[200px] truncate text-nowrap !p-0 font-normal capitalize leading-none ${isTransparentHeader ? "text-primary-50" : "text-primary-500"}`}
+              >
+                {`Hello, ${user?.name ?? user?.email.split("@")[0] ?? "N/a"}`}
+              </span>
 
-            <div
-              className={`duration-300 ${isTransparentHeader ? "text-primary-50" : "text-primary-500"}`}
-            >
-              |
-            </div>
-
-            <span
-              className={`${linkStyle} !px-0 font-normal leading-none ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"}`}
-            >
-              <SignOutButton redirectUrl="/login" />
-            </span>
-          </SignedIn>
-
-          <SignedOut>
+              <div
+                className={`duration-300 ${isTransparentHeader ? "text-primary-50" : "text-primary-500"}`}
+              >
+                |
+              </div>
+              <button
+                onClick={async () => {
+                  await handleLogout();
+                  window.location.reload();
+                  window.location.href = "/";
+                }}
+                className={`${linkStyle} !px-0 font-normal leading-none ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"}`}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
             <AnimatedUnderline mode={isTransparentHeader ? "dark" : "light"}>
               <NavLink
                 to="/login"
@@ -164,7 +173,7 @@ const NavbarDesktop = () => {
                 Sign in
               </NavLink>
             </AnimatedUnderline>
-          </SignedOut>
+          )}
         </div>
 
         <div className="absolute left-8 top-6 flex items-center gap-3">
@@ -193,20 +202,18 @@ const NavbarDesktop = () => {
             images={{ light: cart_light, dark: cart_dark }}
             isLight={isTransparentHeader}
             imgClassName="size-8"
-            number={numberOfCartItems}
+            number={cartQuantity}
           />
 
-          <SignedIn>
-            {isAdmin && (
-              <NavLink
-                to="/admin"
-                className={`flex items-center gap-2 border-b border-transparent duration-300 ${isTransparentHeader ? "text-primary-50 hover:border-primary-50" : "text-primary-500 hover:border-primary-500"} ms-10`}
-              >
-                <LayoutDashboardIcon className="mr-1 size-4" />
-                Dashboard
-              </NavLink>
-            )}
-          </SignedIn>
+          {user?.role === "admin" && (
+            <NavLink
+              to="/admin"
+              className={`flex items-center gap-2 border-b border-transparent duration-300 ${isTransparentHeader ? "text-primary-50 hover:border-primary-50" : "text-primary-500 hover:border-primary-500"} ms-10`}
+            >
+              <LayoutDashboardIcon className="mr-1 size-4" />
+              Dashboard
+            </NavLink>
+          )}
         </div>
       </div>
     </div>

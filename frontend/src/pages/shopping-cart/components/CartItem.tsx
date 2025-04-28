@@ -1,20 +1,20 @@
 import ChangeQuantitySelection from "@/components/ChangeQuantitySelection";
-import { useProductStore } from "@/stores/useProductStore";
-import { CartProduct } from "@/types";
+import { useCartStore } from "@/stores/useCartStore";
+import { CartProduct } from "@/types/product";
 
 const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
-  const { handleUpdateProductFromCart, handleDeleteProductFromCart } = useProductStore();
+  const { handleUpdateQuantity, handleRemoveFromCart } = useCartStore();
 
   const handleIncrement = () => {
     if (cartProduct.quantity >= 9) return;
-    handleUpdateProductFromCart(cartProduct.product, 1, cartProduct.variant);
+    handleUpdateQuantity(cartProduct.product._id, cartProduct.quantity + 1);
   };
 
   const handleDecrement = () => {
     if (cartProduct.quantity <= 1) {
       handleRemoveItem();
     } else {
-      handleUpdateProductFromCart(cartProduct.product, -1, cartProduct.variant);
+      handleUpdateQuantity(cartProduct.product._id, cartProduct.quantity - 1);
     }
   };
 
@@ -23,7 +23,7 @@ const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
       "Are you sure you want to remove this item from the cart?"
     );
     if (confirmDelete) {
-      handleDeleteProductFromCart(cartProduct.product, cartProduct.variant);
+      handleRemoveFromCart(cartProduct.product._id);
     }
   };
 

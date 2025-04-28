@@ -1,30 +1,29 @@
-import { useSignIn } from "@clerk/clerk-react";
+import { useGoogleLogin } from "@react-oauth/google";
 import { Button } from "./ui/button";
 import { google } from "@/assets/icons";
+import { useUserStore } from "@/stores/useUserStore";
 
 const SignInOAuthButtons = () => {
-  const { signIn, isLoaded } = useSignIn();
+  const { handleGoogleLogin } = useUserStore();
 
-  if (!isLoaded) {
-    return null;
-  }
-
-  const signInWithGoogle = () => {
-    signIn.authenticateWithRedirect({
-      strategy: "oauth_google",
-      redirectUrl: "/sso-callback",
-      redirectUrlComplete: "/auth-callback",
-    });
-  };
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      await handleGoogleLogin(response.access_token);
+      window.location.reload();
+    },
+    onError: (error) => {
+      console.error("Login failed:", error);
+    },
+  });
 
   return (
     <Button
-      onClick={signInWithGoogle}
+      onClick={() => googleLogin()}
       variant={"outline"}
       className="h-11 w-full border border-primary-400 bg-white text-black hover:bg-[#f4f4f4]"
     >
       <img src={google} alt="google" className="size-8" />
-      Continue with Google
+      <span className="text-sm">Continue with Google</span>
     </Button>
   );
 };

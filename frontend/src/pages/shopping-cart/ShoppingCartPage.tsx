@@ -1,18 +1,21 @@
 import { map } from "lodash";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useProductStore } from "@/stores/useProductStore";
 import FullWidthBanner from "@/components/FullWidthBanner";
 import AnimatedUnderline from "../../components/animation/AnimatedUnderline";
 import CartItem from "./components/CartItem";
+import { useCartStore } from "@/stores/useCartStore";
+import { useEffect } from "react";
+import { Loader2 } from "lucide-react";
 
 const ShoppingCartPage = () => {
-  const { cartProducts } = useProductStore();
+  const { isLoading, cartItems, handleGetCartItems } = useCartStore();
 
-  const totalPrice = cartProducts.reduce(
-    (total, item) => total + (item.variant?.price ?? 0) * item.quantity,
-    0
-  );
+  useEffect(() => {
+    handleGetCartItems();
+  }, [handleGetCartItems]);
+
+  const totalPrice = cartItems.reduce((acc, item) => acc + item.variant.price * item.quantity, 0);
 
   return (
     <main className="space-y-10">
@@ -32,37 +35,43 @@ const ShoppingCartPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto">
-        {cartProducts.length === 0 ? (
-          <div className="my-20 flex items-center justify-center">
-            <p className="text-center text-sm tracking-widest text-primary-200">
-              Your shopping cart is empty
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className="border-t border-primary-75">
-              {map(cartProducts, (product, index) => (
-                <CartItem key={index} cartProduct={product} />
-              ))}
+      {isLoading ? (
+        <div className="flex items-center justify-center">
+          <Loader2 className="h-10 w-10 animate-spin text-primary-400" />
+        </div>
+      ) : (
+        <section className="container mx-auto">
+          {cartItems.length === 0 ? (
+            <div className="my-20 flex items-center justify-center">
+              <p className="text-center text-sm tracking-widest text-primary-200">
+                Your shopping cart is empty
+              </p>
             </div>
+          ) : (
+            <>
+              <div className="border-t border-primary-75">
+                {map(cartItems, (item, index) => (
+                  <CartItem key={index} cartProduct={item} />
+                ))}
+              </div>
 
-            <div className="mt-8 flex flex-col items-end gap-2">
-              <span className="text-2xl font-medium text-primary-400">
-                {totalPrice.toFixed(2)} CHF
-              </span>
-              <span className="text-sm text-primary-200">
-                Shipping and discounts calculated at checkout
-              </span>
-            </div>
-          </>
-        )}
-      </section>
+              <div className="mt-8 flex flex-col items-end gap-2">
+                <span className="text-2xl font-medium text-primary-400">
+                  {totalPrice.toFixed(2)} CHF
+                </span>
+                <span className="text-sm text-primary-200">
+                  Shipping and discounts calculated at checkout
+                </span>
+              </div>
+            </>
+          )}
+        </section>
+      )}
 
       <div className="container mx-auto flex justify-center">
         <Button
           className="h-[48px] rounded-[2px] bg-primary_btn p-1 hover:bg-hover-outline_btn"
-          disabled={cartProducts.length == 0}
+          disabled={cartItems.length == 0}
         >
           <Link
             to="/"

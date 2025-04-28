@@ -1,7 +1,4 @@
 {
-  "dependencies": {
-    "embla-carousel-autoplay": "^8.5.2"
-  },
   "name": "cakery19",
   "version": "1.0.0",
   "main": "index.js",

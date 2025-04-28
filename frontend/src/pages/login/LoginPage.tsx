@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { SignedOut, useSignIn } from "@clerk/clerk-react";
 
 import { Button } from "@/components/ui/button";
 import { Lock, Mail, EyeOff, Eye, Loader2 } from "lucide-react";
@@ -14,24 +13,13 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const { signIn, isLoaded } = useSignIn();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!isLoaded) return;
 
     try {
       setIsLoading(true);
-      const result = await signIn.create({
-        identifier: formData.email,
-        password: formData.password,
-      });
-
-      if (result.status === "complete") {
-        toast.success("Signed in successfully");
-        window.location.href = "/auth-callback";
-      }
     } catch (error: unknown) {
       const err = error as { errors?: { message: string }[] };
       const errorMessage = err.errors?.[0]?.message || "Sign-in failed";
@@ -58,9 +46,9 @@ const LoginPage = () => {
         <div className="flex-1 space-y-3">
           <h1 className="mb-2 text-center text-4xl font-medium">Log in to your account</h1>
 
-          <SignedOut>
-            <SignInOAuthButtons />
-          </SignedOut>
+          {/* <SignedOut>
+          </SignedOut> */}
+          <SignInOAuthButtons />
 
           {/* <UserButton afterSignOutUrl="/login" /> */}
 
@@ -75,7 +63,7 @@ const LoginPage = () => {
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Email input */}
             <div className="form-control space-y-1">
-              <label className="label">
+              <label className="label" htmlFor="email">
                 <span className="label-text font-medium">E-mail</span>
               </label>
               <div className="relative">
@@ -95,7 +83,7 @@ const LoginPage = () => {
 
             {/* Password input */}
             <div className="form-control space-y-1">
-              <label className="label">
+              <label className="label" htmlFor="password">
                 <span className="label-text font-medium">Password</span>
               </label>
               <div className="relative">

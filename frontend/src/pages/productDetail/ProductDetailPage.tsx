@@ -1,7 +1,6 @@
 import { useProductStore } from "@/stores/useProductStore";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import toast from "react-hot-toast";
 
 import TagBreadcrumb from "./components/TagBreadcrumb";
 import ProductImageDisplay from "./components/ProductImageDisplay";
@@ -16,8 +15,9 @@ import ProductDisplaySkeleton from "@/components/skeletons/ProductDisplaySkeleto
 import ProductDetailSkeleton from "@/components/skeletons/ProductDetailSkeleton";
 import ProductDisplayMobileSkeleton from "@/components/skeletons/ProductDisplayMobileSkeleton";
 import ChangeQuantitySelection from "@/components/ChangeQuantitySelection";
-import { Variant } from "@/types";
+import { Variant } from "@/types/product";
 import AddToCartButton from "./components/AddToCartButton";
+import { useCartStore } from "@/stores/useCartStore";
 
 const buttonStyle =
   "px-5 py-2 rounded-md border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 font-normal tracking-wider";
@@ -33,8 +33,9 @@ const ProductDetailPage = () => {
     filteredProducts,
     fetchProductsById,
     fetchProductsByCategory,
-    handleUpdateProductFromCart,
   } = useProductStore();
+
+  const { handleAddToCart } = useCartStore();
 
   const [selectedVariant, setSelectedVariant] = useState<Variant | undefined>(
     currentProduct?.variants[0]
@@ -169,9 +170,9 @@ const ProductDetailPage = () => {
               <div className="flex gap-3">
                 <AddToCartButton
                   onClick={() => {
-                    handleUpdateProductFromCart(currentProduct, quantity, selectedVariant);
+                    if (!selectedVariant) return;
+                    handleAddToCart(currentProduct, selectedVariant, quantity);
                     setQuantity(1);
-                    toast.success("Product added to cart");
                   }}
                 >
                   ADD TO CART

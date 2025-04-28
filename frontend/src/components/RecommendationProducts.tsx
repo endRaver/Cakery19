@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 import { CarouselContent, Carousel, CarouselItem } from "@/components/ui/carousel";
-import { Product } from "@/types";
+import { Product } from "@/types/product";
 import { map } from "lodash";
 import { Link } from "react-router-dom";
 

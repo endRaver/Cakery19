@@ -1,28 +1,43 @@
-import { clerkClient } from "@clerk/express";
+import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
 
-export const protectRoute = async (req, res, next) => {
-  if (!req.auth.userId) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized - you must be legged in" });
-  }
-  next();
-};
-
-export const requireAdmin = async (req, res, next) => {
+export const protectedRoute = async (req, res, next) => {
   try {
-    const currentUser = await clerkClient.users.getUser(req.auth.userId);
-    const isAdmin =
-      process.env.ADMIN_EMAIL === currentUser.primaryEmailAddress?.emailAddress;
+    const accessToken = req.cookies.accessToken;
 
-    if (!isAdmin) {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized - you must be an admin" });
+    if (!accessToken) {
+      return res.status(401).json({ message: 'Unauthorized - No access token provided' });
     }
 
-    next();
+    try {
+      const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+      const user = await User.findById(decoded.userId).select('-password');
+
+      if (!user) {
+        return res.status(401).json({ message: 'Unauthorized - User not found' });
+      }
+
+      req.user = user;
+      next();
+
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        return res.status(401).json({ message: 'Unauthorized - Access token expired' });
+      }
+      throw error;
+    }
   } catch (error) {
-    next(error);
+    console.log("Error in protectedRoute middleware", error.message);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
-};
+}
+
+export const adminRoute = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ message: 'Forbidden - Admin access required' });
+  }
+}
+
+

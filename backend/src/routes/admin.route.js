@@ -1,15 +1,15 @@
 import { Router } from "express";
-import { protectRoute, requireAdmin } from "../middleware/auth.middleware.js";
+import { protectedRoute, adminRoute } from "../middleware/auth.middleware.js";
 import {
   checkAdmin,
   createProduct,
   deleteProduct,
   updateProduct,
-} from "../controller/admin.controller.js";
+} from "../controllers/admin.controller.js";
 
 const router = Router();
 
-router.use(protectRoute, requireAdmin);
+router.use(protectedRoute, adminRoute);
 
 router.get("/check", checkAdmin);
 

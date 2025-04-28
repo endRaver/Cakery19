@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import CategorySelector from "./components/CategorySelector";
 import { useProductStore } from "@/stores/useProductStore";
-import { Product } from "@/types";
+import { Product } from "@/types/product";
 import ProductCard from "./components/ProductCard";
 import ProductItemSkeleton from "@/components/skeletons/ProductItemSkeleton";
 import useWindowWidth from "@/hooks/useWindowWidth";

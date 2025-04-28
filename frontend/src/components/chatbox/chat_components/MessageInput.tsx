@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useChatStore } from "@/stores/useChatStore";
-import { useUser } from "@clerk/clerk-react";
 import { filter, isEmpty } from "lodash";
 import { Image, Loader, Send, X } from "lucide-react";
 import { useRef, useState, useEffect } from "react";

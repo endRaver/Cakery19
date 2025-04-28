@@ -1,57 +1,31 @@
 import FullpageLoader from "@/components/FullpageLoader";
-import { axiosInstance } from "@/lib/axios";
-import { useAuthStore } from "@/stores/useAuthStore";
-import { useChatStore } from "@/stores/useChatStore";
-import { useAuth } from "@clerk/clerk-react";
-import { ReactNode, useEffect, useState } from "react";
-
-const updateApiToken = (token: string | null) => {
-  if (token) {
-    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  } else {
-    delete axiosInstance.defaults.headers.common["Authorization"];
-  }
-};
+import { useUserStore } from "@/stores/useUserStore";
+import { ReactNode, useEffect, useRef } from "react";
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { getToken, userId } = useAuth();
-  const [loading, setLoading] = useState(true);
-  const { checkAdminStatus } = useAuthStore();
-  const { initSocket, disconnectSocket } = useChatStore();
+  const { handleCheckAuth, checkingAuth } = useUserStore();
+  const hasCheckedAuth = useRef(false);
 
   useEffect(() => {
-    let isMounted = true;
+    if (!hasCheckedAuth.current) {
+      handleCheckAuth();
+      hasCheckedAuth.current = true;
+    }
+  }, [handleCheckAuth]);
 
-    const initAuth = async () => {
-      try {
-        const token = await getToken();
-        if (!isMounted) return;
-
-        updateApiToken(token);
-
-        if (token) {
-          await checkAdminStatus();
-          // init socket
-          if (userId) initSocket(userId);
-        }
-      } catch (error) {
-        if (!isMounted) return;
-        updateApiToken(null);
-        console.log("Error in auth provider", error);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-
-    initAuth();
-    // clean up
+  useEffect(() => {
+    if (checkingAuth) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    // Cleanup function to ensure scroll is re-enabled if component unmounts
     return () => {
-      isMounted = false;
-      disconnectSocket();
+      document.body.style.overflow = "unset";
     };
-  }, [checkAdminStatus, disconnectSocket, getToken, initSocket, userId]);
+  }, [checkingAuth]);
 
-  if (loading) return <FullpageLoader />;
+  if (checkingAuth) return <FullpageLoader />;
 
   return <div>{children}</div>;
 };

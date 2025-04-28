@@ -1,15 +1,40 @@
 import axios from "axios";
 import { retryApi } from "./retryApi";
+import { useUserStore } from "@/stores/useUserStore";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.MODE === "development" ? "http://localhost:5000/api" : "/api",
+  withCredentials: true,
 });
+
+let refreshPromise: Promise<void> | null = null;
 
 const setupInterceptors = () => {
   axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
+
+      // Handle 401 errors (unauthorized)
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+
+        try {
+          if (refreshPromise) {
+            await refreshPromise;
+            return axiosInstance(originalRequest);
+          }
+
+          refreshPromise = useUserStore.getState().refreshToken();
+          await refreshPromise;
+          refreshPromise = null;
+
+          return axiosInstance(originalRequest);
+        } catch (refreshError) {
+          useUserStore.getState().handleLogout();
+          return Promise.reject(refreshError);
+        }
+      }
 
       // For server errors (5xx) or network errors, retry 3 times
       if (error.response?.status >= 500 || !error.response) {

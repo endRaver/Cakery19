@@ -1,15 +1,15 @@
 import { Router } from "express";
-import { protectRoute, requireAdmin } from "../middleware/auth.middleware.js";
+import { protectedRoute } from "../middleware/auth.middleware.js";
 import {
   getAllUsers,
   getMessages,
   sendMessage,
-} from "../controller/user.controller.js";
+} from "../controllers/user.controller.js";
 
 const router = Router();
 
-router.get("/", protectRoute, getAllUsers);
-router.get("/messages/:userId", protectRoute, getMessages);
-router.post("/messages/:userId", protectRoute, sendMessage);
+router.get("/", protectedRoute, getAllUsers);
+router.get("/messages/:userId", protectedRoute, getMessages);
+router.post("/messages/:userId", protectedRoute, sendMessage);
 
 export default router;
