@@ -2,6 +2,7 @@ import { axiosInstance } from "@/lib/axios";
 import { CartProduct, Product, Variant } from "@/types";
 import { create } from "zustand";
 import toast from "react-hot-toast";
+import { CacheManager } from "@/lib/cache";
 
 interface ProductStore {
   isLoading: boolean;
@@ -12,6 +13,11 @@ interface ProductStore {
   error: string | null;
   filteredProducts: Product[];
   cartProducts: CartProduct[];
+
+  productsCache: CacheManager<Product[]>;
+  currentProductCache: CacheManager<Product>;
+  filteredProductsCache: CacheManager<Product[]>;
+  deletedProductCache: CacheManager<Product>;
 
   fetchProducts: () => Promise<void>;
   fetchProductsById: (id: string) => Promise<void>;
@@ -26,9 +32,10 @@ interface ProductStore {
     selectedVariant: Variant | undefined
   ) => void;
   handleDeleteProductFromCart: (product: Product, variant: Variant | undefined) => void;
+  resetCache: () => void;
 }
 
-export const useProductStore = create<ProductStore>((set) => ({
+export const useProductStore = create<ProductStore>((set, get) => ({
   isLoading: false,
   isDeleting: false,
   currentProduct: null,
@@ -38,12 +45,26 @@ export const useProductStore = create<ProductStore>((set) => ({
   cartProducts: [],
   error: null,
 
+  productsCache: new CacheManager<Product[]>(),
+  currentProductCache: new CacheManager<Product>(),
+  filteredProductsCache: new CacheManager<Product[]>(),
+  deletedProductCache: new CacheManager<Product>(),
+
   fetchProducts: async () => {
+    const cachedKey = "get_products";
+    const cachedData = get().productsCache.get(cachedKey);
+
+    if (cachedData) {
+      set({ products: cachedData });
+      return;
+    }
+
     set({ isLoading: true, error: null });
 
     try {
       const response = await axiosInstance.get("/products");
       set({ products: response.data });
+      get().productsCache.set(cachedKey, response.data);
     } catch (error: unknown) {
       const err = error as { response: { data: { message: string } } };
       set({ error: err.response.data.message });
@@ -53,11 +74,20 @@ export const useProductStore = create<ProductStore>((set) => ({
   },
 
   fetchProductsById: async (id: string) => {
+    const cachedKey = `get_product_by_id_${id}`;
+    const cachedData = get().currentProductCache.get(cachedKey);
+
+    if (cachedData) {
+      set({ currentProduct: cachedData });
+      return;
+    }
+
     set({ isLoading: true, error: null });
 
     try {
       const response = await axiosInstance.get(`/products/${id}`);
       set({ currentProduct: response.data });
+      get().currentProductCache.set(cachedKey, response.data);
     } catch (error: unknown) {
       const err = error as { response: { data: { message: string } } };
       set({ error: err.response.data.message });
@@ -67,6 +97,14 @@ export const useProductStore = create<ProductStore>((set) => ({
   },
 
   fetchProductsByCategory: async (categories: string[], amount = 0) => {
+    const cachedKey = `get_products_by_category_${categories.join("_")}_${amount}`;
+    const cachedData = get().filteredProductsCache.get(cachedKey);
+
+    if (cachedData) {
+      set({ filteredProducts: cachedData });
+      return;
+    }
+
     set({ isLoading: true, error: null });
 
     try {
@@ -80,6 +118,7 @@ export const useProductStore = create<ProductStore>((set) => ({
         }
       );
       set({ filteredProducts: response.data });
+      get().filteredProductsCache.set(cachedKey, response.data);
     } catch (error: unknown) {
       const err = error as { response: { data: { message: string } } };
       set({ error: err.response.data.message });
@@ -99,6 +138,7 @@ export const useProductStore = create<ProductStore>((set) => ({
       });
 
       toast.success("Product created successfully");
+      get().resetCache();
     } catch (error: unknown) {
       const err = error as { response: { data: { message: string } } };
       set({ error: err.response.data.message });
@@ -118,6 +158,7 @@ export const useProductStore = create<ProductStore>((set) => ({
       });
 
       toast.success("Product updated successfully");
+      get().resetCache();
     } catch (error: unknown) {
       const err = error as { response: { data: { message: string } } };
       set({ error: err.response.data.message });
@@ -127,6 +168,14 @@ export const useProductStore = create<ProductStore>((set) => ({
   },
 
   handleDeleteProduct: async (product) => {
+    const cachedKey = `get_deleted_product_${product._id}`;
+    const cachedData = get().deletedProductCache.get(cachedKey);
+
+    if (cachedData) {
+      set({ deletedProduct: cachedData });
+      return;
+    }
+
     set({ isDeleting: true, error: null });
 
     try {
@@ -140,10 +189,12 @@ export const useProductStore = create<ProductStore>((set) => ({
         },
       });
       set({ deletedProduct: response.data });
+      get().deletedProductCache.set(cachedKey, response.data);
 
       set((state) => ({
         products: state.products.filter((p) => p._id !== product._id),
       }));
+      get().resetCache();
 
       toast.success("Product deleted successfully");
     } catch (error: unknown) {
@@ -204,5 +255,12 @@ export const useProductStore = create<ProductStore>((set) => ({
       localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
       return { cartProducts: updatedCartProducts };
     });
+  },
+
+  resetCache: () => {
+    get().productsCache.clear();
+    get().currentProductCache.clear();
+    get().filteredProductsCache.clear();
+    get().deletedProductCache.clear();
   },
 }));

@@ -20,9 +20,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { initSocket, disconnectSocket } = useChatStore();
 
   useEffect(() => {
+    let isMounted = true;
+
     const initAuth = async () => {
       try {
         const token = await getToken();
+        if (!isMounted) return;
+
         updateApiToken(token);
 
         if (token) {
@@ -31,16 +35,20 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           if (userId) initSocket(userId);
         }
       } catch (error) {
+        if (!isMounted) return;
         updateApiToken(null);
         console.log("Error in auth provider", error);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     initAuth();
     // clean up
-    return () => disconnectSocket();
+    return () => {
+      isMounted = false;
+      disconnectSocket();
+    };
   }, [checkAdminStatus, disconnectSocket, getToken, initSocket, userId]);
 
   if (loading) return <FullpageLoader />;

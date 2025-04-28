@@ -13,7 +13,7 @@ import SectionTitle from "./components/SectionTitle";
 
 const HomePage = () => {
   const windowWidth = useWindowWidth();
-  const { filteredProducts, fetchProductsByCategory } = useProductStore();
+  const { filteredProducts, fetchProductsByCategory, isLoading } = useProductStore();
   const isLoadingMedia = useMediaLoader();
 
   useEffect(() => {
@@ -23,6 +23,7 @@ const HomePage = () => {
   return (
     <>
       {isLoadingMedia && <LoadingScreen />}
+      {isLoading && <LoadingScreen />}
       <div className="space-y-10 lg:space-y-[60px]">
         <BannerCarousel />
 

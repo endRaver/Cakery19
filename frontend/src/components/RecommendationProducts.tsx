@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { CarouselContent, Carousel, CarouselItem } from "@/components/ui/carousel";
 import { Product } from "@/types";
 import { map } from "lodash";
+import { Link } from "react-router-dom";
 
 const RecommendationProducts = ({ products }: { products: Product[] }) => {
   const createSlug = (name: string) => {
@@ -17,7 +18,7 @@ const RecommendationProducts = ({ products }: { products: Product[] }) => {
             key={product._id}
             className="flex-shrink-0 basis-auto select-none overflow-hidden pl-0 sm:basis-1/2 lg:basis-1/3"
           >
-            <a href={`/shop/${createSlug(product.name)}?id=${product._id}`}>
+            <Link to={`/shop/${createSlug(product.name)}?id=${product._id}`}>
               <motion.div
                 className="group relative aspect-square min-h-[260px] flex-1 text-primary-50"
                 whileInView={{ scale: 1, opacity: 1 }}
@@ -45,7 +46,7 @@ const RecommendationProducts = ({ products }: { products: Product[] }) => {
                   <p className="text-sm italic">From {product.variants[0].price.toFixed(2)} CHF</p>
                 </div>
               </motion.div>
-            </a>
+            </Link>
           </CarouselItem>
         ))}
       </CarouselContent>

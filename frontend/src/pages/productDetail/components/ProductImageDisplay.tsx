@@ -1,3 +1,4 @@
+import { optimizeImageUrl } from "@/lib/imageOptimization";
 import { Product } from "@/types";
 import { useEffect, useState } from "react";
 
@@ -7,6 +8,8 @@ const ProductImageDisplay = ({ product }: { product: Product }) => {
   useEffect(() => {
     setSelectedImage(product.imageUrl[0]);
   }, [product]);
+
+  const imageWidth = 400;
 
   return (
     <>
@@ -22,23 +25,24 @@ const ProductImageDisplay = ({ product }: { product: Product }) => {
       </picture>
 
       <div className="flex gap-2.5">
-        {product.imageUrl.map((image, index) => (
-          <div
-            key={index}
+        {product.imageUrl.map((image) => (
+          <button
+            key={image}
             className={`cursor-pointer border-2 p-1 duration-300 hover:border-primary-300 ${selectedImage === image ? "border-primary-300" : "border-primary-75"}`}
             onMouseOver={() => setSelectedImage(image)}
+            onFocus={() => setSelectedImage(image)}
           >
             <picture>
-              <source srcSet={image} type="image/webp" />
+              <source srcSet={optimizeImageUrl(image, imageWidth)} type="image/webp" />
               <img
-                src={image}
+                src={optimizeImageUrl(image, imageWidth)}
                 alt={product.name}
                 loading="eager"
                 className="fade-in-image aspect-square h-[80px] object-cover object-center xl:h-[130px]"
                 onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
               />
             </picture>
-          </div>
+          </button>
         ))}
       </div>
     </>

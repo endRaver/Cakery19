@@ -1,18 +1,6 @@
+import { optimizeImageUrl } from "@/lib/imageOptimization";
 import { Product } from "@/types";
-
-// Utility function to optimize image URL
-const optimizeImageUrl = (url: string, width: number = 800) => {
-  // Check if it's already a Cloudinary URL
-  if (url.includes("cloudinary.com")) {
-    // Extract the base URL and transformation string
-    const urlParts = url.split("/upload/");
-    if (urlParts.length === 2) {
-      // Add or update width transformation
-      return `${urlParts[0]}/upload/w_${width},q_auto,f_auto/${urlParts[1]}`;
-    }
-  }
-  return url; // Return original URL if not Cloudinary or invalid format
-};
+import { Link } from "react-router-dom";
 
 const ProductCard = ({
   product,
@@ -30,7 +18,7 @@ const ProductCard = ({
 
   return (
     <div className="group relative flex-1 sm:max-w-[296px] md:max-w-[416px] lg:max-w-[309px] xl:max-w-[373px] 2xl:max-w-[448px]">
-      <a href={`/shop/${createSlug(product.name)}?id=${product._id}`} className="">
+      <Link to={`/shop/${createSlug(product.name)}?id=${product._id}`} className="">
         <div
           className={`relative w-full overflow-hidden ${isSquareImage ? "aspect-square" : "h-[380px]"}`}
         >
@@ -80,7 +68,7 @@ const ProductCard = ({
         <p className="mt-2 line-clamp-2 min-h-10 overflow-hidden text-ellipsis text-sm tracking-wider opacity-0 duration-500 ease-in-out group-hover:opacity-100">
           {product.description}
         </p>
-      </a>
+      </Link>
     </div>
   );
 };
