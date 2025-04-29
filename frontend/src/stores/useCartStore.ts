@@ -3,28 +3,43 @@ import { CartItem, Product, Variant } from "@/types/product";
 import { AxiosError } from "axios";
 import { create } from "zustand";
 import toast from "react-hot-toast";
+import { CacheManager } from "@/lib/cache";
 
 interface CartStore {
   isLoading: boolean;
   cartItems: CartItem[];
 
+  cartCache: CacheManager<CartItem[]>;
+
   handleGetCartItems: () => Promise<CartItem[]>;
   handleAddToCart: (product: Product, variant: Variant, quantity?: number) => Promise<void>;
   handleRemoveFromCart: (productId: string) => Promise<void>;
   handleUpdateQuantity: (productId: string, quantity: number) => Promise<void>;
+  resetCache: () => void;
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
   isLoading: false,
   cartItems: [],
 
-  handleGetCartItems: async () => {
-    set({ isLoading: true });
+  cartCache: new CacheManager<CartItem[]>(),
 
+  handleGetCartItems: async () => {
+    const cacheKey = "cart";
+    const cache = get().cartCache;
+
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) {
+      set({ cartItems: cachedData });
+      return cachedData;
+    }
+
+    set({ isLoading: true });
     try {
       const response = await axiosInstance.get("/carts");
 
       set({ cartItems: response.data });
+      get().cartCache.set(cacheKey, response.data);
       return response.data;
     } catch (error) {
       set({ cartItems: [] });
@@ -44,10 +59,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
       const response = await axiosInstance.post("/carts", {
         productId: product._id,
         variant: variant,
-        quantity,
+        quantity: quantity ?? 1,
       });
-
-      console.log("response", response);
 
       set((prevState) => {
         const newCart = [...prevState.cartItems, response.data];
@@ -55,7 +68,9 @@ export const useCartStore = create<CartStore>((set, get) => ({
       });
 
       await get().handleGetCartItems();
+      get().resetCache();
       toast.success("Product added to cart");
+
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -77,6 +92,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
         return { cartItems: newCart };
       });
 
+      get().resetCache();
       toast.success("Product removed from cart");
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -91,6 +107,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
     try {
       await axiosInstance.put(`/carts/${productId}`, { quantity });
 
+      get().resetCache();
+
       set((prevState) => {
         const newCart = prevState.cartItems.map((item) =>
           item.product._id === productId ? { ...item, quantity } : item
@@ -102,5 +120,9 @@ export const useCartStore = create<CartStore>((set, get) => ({
         toast.error(error.response?.data?.message ?? "Failed to update quantity");
       }
     }
+  },
+
+  resetCache: () => {
+    get().cartCache.clear();
   },
 }));

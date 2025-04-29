@@ -1,85 +1,24 @@
-import { map } from "lodash";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+
 import FullWidthBanner from "@/components/FullWidthBanner";
-import AnimatedUnderline from "../../components/animation/AnimatedUnderline";
-import CartItem from "./components/CartItem";
-import { useCartStore } from "@/stores/useCartStore";
-import { useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import CartsCheckoutSection from "./components/CartsCheckoutSection";
+import PickupScheduleSection from "./components/PickupScheduleSection";
 
 const ShoppingCartPage = () => {
-  const { isLoading, cartItems, handleGetCartItems } = useCartStore();
-
-  useEffect(() => {
-    handleGetCartItems();
-  }, [handleGetCartItems]);
-
-  const totalPrice = cartItems.reduce((acc, item) => acc + item.variant.price * item.quantity, 0);
+  const [displayScreen, setDisplayScreen] = useState<"cart" | "pickup">("cart");
 
   return (
     <main className="space-y-10">
-      <section className="container mx-auto mt-20">
-        <div className="flex items-end justify-between">
-          <h2 className="text-center text-2xl font-light text-primary-500 sm:text-3xl sm:leading-[46px]">
-            BASKET
-          </h2>
-
-          <a href="/shop">
-            <AnimatedUnderline>
-              <p className="lg:text-md text-center text-sm font-medium tracking-wider text-primary-300 sm:text-sm">
-                CONTINUE MY SHOPPING
-              </p>
-            </AnimatedUnderline>
-          </a>
-        </div>
-      </section>
-
-      {isLoading ? (
-        <div className="flex items-center justify-center">
-          <Loader2 className="h-10 w-10 animate-spin text-primary-400" />
-        </div>
-      ) : (
-        <section className="container mx-auto">
-          {cartItems.length === 0 ? (
-            <div className="my-20 flex items-center justify-center">
-              <p className="text-center text-sm tracking-widest text-primary-200">
-                Your shopping cart is empty
-              </p>
-            </div>
-          ) : (
-            <>
-              <div className="border-t border-primary-75">
-                {map(cartItems, (item, index) => (
-                  <CartItem key={index} cartProduct={item} />
-                ))}
-              </div>
-
-              <div className="mt-8 flex flex-col items-end gap-2">
-                <span className="text-2xl font-medium text-primary-400">
-                  {totalPrice.toFixed(2)} CHF
-                </span>
-                <span className="text-sm text-primary-200">
-                  Shipping and discounts calculated at checkout
-                </span>
-              </div>
-            </>
+      <div className="relative min-h-[500px]">
+        <AnimatePresence mode="wait">
+          {displayScreen === "cart" && (
+            <CartsCheckoutSection key="cart" setDisplayScreen={setDisplayScreen} />
           )}
-        </section>
-      )}
-
-      <div className="container mx-auto flex justify-center">
-        <Button
-          className="h-[48px] rounded-[2px] bg-primary_btn p-1 hover:bg-hover-outline_btn"
-          disabled={cartItems.length == 0}
-        >
-          <Link
-            to="/"
-            className="flex h-full items-center rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium"
-          >
-            PICK UP IN STORE
-          </Link>
-        </Button>
+          {displayScreen === "pickup" && (
+            <PickupScheduleSection key="pickup" setDisplayScreen={setDisplayScreen} />
+          )}
+        </AnimatePresence>
       </div>
 
       <FullWidthBanner

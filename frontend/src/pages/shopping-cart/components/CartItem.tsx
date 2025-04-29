@@ -1,9 +1,14 @@
 import ChangeQuantitySelection from "@/components/ChangeQuantitySelection";
 import { useCartStore } from "@/stores/useCartStore";
 import { CartProduct } from "@/types/product";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
   const { handleUpdateQuantity, handleRemoveFromCart } = useCartStore();
+  const createSlug = (name: string) => {
+    return name.toLowerCase().replace(/\s+/g, "-");
+  };
 
   const handleIncrement = () => {
     if (cartProduct.quantity >= 9) return;
@@ -28,8 +33,16 @@ const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
   };
 
   return (
-    <div className="flex justify-between border-b border-primary-75 py-8">
-      <div className="flex items-center gap-10">
+    <motion.div
+      className="flex justify-between border-b border-primary-75 py-8"
+      initial={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+    >
+      <Link
+        to={`/shop/${createSlug(cartProduct.product.name)}?id=${cartProduct.product._id}`}
+        className="flex items-center gap-10"
+      >
         <picture>
           <source srcSet={cartProduct.product.imageUrl[0]} type="image/webp" />
           <img
@@ -50,7 +63,7 @@ const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
             {cartProduct.variant?.price.toFixed(2)} CHF
           </p>
         </div>
-      </div>
+      </Link>
 
       <div className="flex items-center gap-3">
         <span className="text-sm font-medium tracking-widest text-primary-400">QUANTITY:</span>
@@ -78,7 +91,7 @@ const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
           <span className="absolute left-1/2 top-1/2 block h-[1px] w-3.5 -translate-x-1/2 -translate-y-1/2 rotate-90 bg-primary-300" />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

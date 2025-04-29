@@ -3,26 +3,33 @@ import { motion, useAnimation } from "framer-motion";
 const AddToCartButton = ({
   onClick,
   children,
+  className,
+  disabled,
 }: {
   onClick: () => void;
   children: React.ReactNode;
+  className?: string;
+  disabled?: boolean;
 }) => {
   const animation = useAnimation();
 
   const handleHoverStart = () => {
+    if (disabled) return;
     animation.start({ bottom: "0%" });
   };
 
   const handleHoverEnd = () => {
+    if (disabled) return;
     animation.start({ bottom: "-100%" });
   };
 
   return (
     <motion.button
-      className="bg-primary_btn relative h-[48px] w-full overflow-hidden rounded-[2px] p-1"
+      className={`relative h-[48px] w-fit overflow-hidden rounded-[2px] bg-primary_btn p-1 ${className} disabled:opacity-50`}
       onClick={onClick}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
+      disabled={disabled}
     >
       <motion.span
         className="absolute left-0 z-10 h-full w-full bg-[#493022]"

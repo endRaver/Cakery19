@@ -31,6 +31,9 @@ export const addToCart = async (req, res) => {
       && existingItem.variant.size === variant.size
       && existingItem.variant.price === variant.price
     ) {
+      if (existingItem.quantity + quantity > 9) {
+        return res.status(400).json({ message: 'Please clear your cart before adding more items' });
+      }
       existingItem.quantity += quantity;
     } else {
       user.cartItems.push({

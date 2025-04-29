@@ -1,11 +1,14 @@
-import { useProductStore } from "@/stores/useProductStore";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
+import { Variant } from "@/types/product";
+import { useCartStore } from "@/stores/useCartStore";
+import { useProductStore } from "@/stores/useProductStore";
+import { Button } from "@/components/ui/button";
+
+import { gluten_free, nuts, plant_based, soy, sugar_free } from "@/assets/icons";
 import TagBreadcrumb from "./components/TagBreadcrumb";
 import ProductImageDisplay from "./components/ProductImageDisplay";
-import { Button } from "@/components/ui/button";
-import { gluten_free, nuts, plant_based, soy, sugar_free } from "@/assets/icons";
 import ProductImageDisplayMobile from "./components/ProductImageDisplayMobile";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import RecommendationProducts from "@/components/RecommendationProducts";
@@ -15,10 +18,8 @@ import ProductDisplaySkeleton from "@/components/skeletons/ProductDisplaySkeleto
 import ProductDetailSkeleton from "@/components/skeletons/ProductDetailSkeleton";
 import ProductDisplayMobileSkeleton from "@/components/skeletons/ProductDisplayMobileSkeleton";
 import ChangeQuantitySelection from "@/components/ChangeQuantitySelection";
-import { Variant } from "@/types/product";
-import AddToCartButton from "./components/AddToCartButton";
-import { useCartStore } from "@/stores/useCartStore";
-
+import AnimatedButton from "../../components/AnimatedButton";
+import { Loader2 } from "lucide-react";
 const buttonStyle =
   "px-5 py-2 rounded-md border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 font-normal tracking-wider";
 
@@ -35,7 +36,7 @@ const ProductDetailPage = () => {
     fetchProductsByCategory,
   } = useProductStore();
 
-  const { handleAddToCart } = useCartStore();
+  const { handleAddToCart, isLoading: isCartLoading } = useCartStore();
 
   const [selectedVariant, setSelectedVariant] = useState<Variant | undefined>(
     currentProduct?.variants[0]
@@ -168,15 +169,16 @@ const ProductDetailPage = () => {
               </div>
 
               <div className="flex gap-3">
-                <AddToCartButton
+                <AnimatedButton
                   onClick={() => {
                     if (!selectedVariant) return;
                     handleAddToCart(currentProduct, selectedVariant, quantity);
                     setQuantity(1);
                   }}
+                  className="w-full"
                 >
-                  ADD TO CART
-                </AddToCartButton>
+                  {isCartLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "ADD TO CART"}
+                </AnimatedButton>
 
                 <ChangeQuantitySelection
                   quantity={quantity}
