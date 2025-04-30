@@ -1,3 +1,4 @@
+import CakeSizeQuestion from "./components/CakeSizeQuestion";
 import QuestionExpand from "./components/QuestionExpand";
 import { otherQuestions, productQuestions, shippingQuestions } from "./data";
 
@@ -16,12 +17,13 @@ const FaqsPage = () => {
                 {group.answer}
               </QuestionExpand>
             ))}
+            <CakeSizeQuestion />
           </ul>
         </div>
 
         <div className="mb-5 space-y-5 border-b border-[#BD8F68] pb-6 sm:mb-8 sm:space-y-6">
           <h1 className="text-center text-2xl font-medium tracking-widest text-primary-500 sm:text-4xl md:text-left">
-            SHIPPING & DELIVERY
+            DELIVERY & PICK-UP
           </h1>
 
           <ul>

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const buttonStyle =
-  "rounded-[2px] border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 uppercase";
+  "rounded-[2px] border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 uppercase mb-1 mr-1";
 
 const CategorySelector = ({ categories }: { categories: string[] }) => {
   const [searchParams, setSearchParams] = useSearchParams();
