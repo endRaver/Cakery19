@@ -14,7 +14,7 @@ interface CartStore {
 
   handleGetCartItems: () => Promise<CartItem[]>;
   handleAddToCart: (product: Product, variant: Variant, quantity?: number) => Promise<void>;
-  handleRemoveFromCart: (productId: string) => Promise<void>;
+  handleRemoveFromCart: (productId: string, variant: Variant) => Promise<void>;
   handleUpdateQuantity: (productId: string, quantity: number) => Promise<void>;
   setPickupDate: (date: string) => void;
   resetCache: () => void;
@@ -84,14 +84,18 @@ export const useCartStore = create<CartStore>((set, get) => ({
     }
   },
 
-  handleRemoveFromCart: async (productId: string) => {
+  handleRemoveFromCart: async (productId: string, variant: Variant) => {
     set({ isLoading: true });
 
     try {
-      await axiosInstance.delete(`/carts`, { data: { productId } });
+      await axiosInstance.delete(`/carts`, { data: { productId, variant } });
+
+      console.log(productId, variant);
 
       set((prevState) => {
-        const newCart = prevState.cartItems.filter((item) => item.product._id !== productId);
+        const newCart = prevState.cartItems.filter(
+          (item) => !(item.product._id === productId && item.variant.size === variant.size)
+        );
         return { cartItems: newCart };
       });
 

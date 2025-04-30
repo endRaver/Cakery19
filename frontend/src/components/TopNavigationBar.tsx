@@ -204,7 +204,6 @@ const NavbarDesktop = () => {
             imgClassName="size-8"
             number={cartQuantity}
           />
-
           {user?.role === "admin" && (
             <NavLink
               to="/admin"

@@ -69,13 +69,15 @@ export const addToCart = async (req, res) => {
 
 export const removeAllFromCart = async (req, res) => {
   try {
-    const { productId } = req.body;
+    const { productId, variant } = req.body;
     const user = req.user;
 
     if (!productId) {
       user.cartItems = [];
     } else {
-      user.cartItems = user.cartItems.filter(item => item.id !== productId);
+      user.cartItems = user.cartItems.filter(
+        (item) => !(item.id === productId && item.variant.size === variant.size)
+      );
     }
 
     await user.save();

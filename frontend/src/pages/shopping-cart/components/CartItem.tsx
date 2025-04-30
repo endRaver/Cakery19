@@ -28,7 +28,7 @@ const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
       "Are you sure you want to remove this item from the cart?"
     );
     if (confirmDelete) {
-      handleRemoveFromCart(cartProduct.product._id);
+      handleRemoveFromCart(cartProduct.product._id, cartProduct.variant);
     }
   };
 

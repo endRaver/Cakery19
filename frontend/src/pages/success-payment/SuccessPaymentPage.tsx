@@ -80,9 +80,9 @@ const SuccessPaymentPage = () => {
           >
             <h3 className="mb-4 text-lg font-medium text-primary-500">Order Summary</h3>
             <div className="space-y-4">
-              {currentOrder.products.map((item, index) => (
+              {currentOrder.products.map((item) => (
                 <div
-                  key={index}
+                  key={item.product._id}
                   className="flex items-center justify-between border-b border-primary-100 pb-2"
                 >
                   <div className="flex items-center gap-3">
@@ -100,14 +100,14 @@ const SuccessPaymentPage = () => {
                     </div>
                   </div>
                   <p className="font-medium text-primary-500">
-                    ${(item.product.variants[0].price * item.quantity).toFixed(2)}
+                    {(item.product.variants[0].price * item.quantity).toFixed(2)} CHF
                   </p>
                 </div>
               ))}
               <div className="flex justify-between border-t border-primary-200 pt-2">
                 <p className="font-medium text-primary-500">Total</p>
                 <p className="font-medium text-primary-500">
-                  ${currentOrder.totalAmount.toFixed(2)}
+                  {currentOrder.totalAmount.toFixed(2)} CHF
                 </p>
               </div>
               <div className="flex justify-between border-t border-primary-200 pt-2">

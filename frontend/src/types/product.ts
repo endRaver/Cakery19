@@ -23,7 +23,7 @@ export interface Product {
 export interface CartProduct {
   product: Product;
   quantity: number;
-  variant?: Variant;
+  variant: Variant;
 }
 
 export interface Message {
