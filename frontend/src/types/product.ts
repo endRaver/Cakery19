@@ -26,17 +26,6 @@ export interface CartProduct {
   variant?: Variant;
 }
 
-export interface User {
-  _id: string;
-  clerkId: string;
-  fullname: string;
-  imageUrl: string;
-  email: string;
-  createdAt?: string;
-  updatedAt?: string;
-  cartItems: CartProduct[];
-}
-
 export interface Message {
   _id: string;
   senderId: string;

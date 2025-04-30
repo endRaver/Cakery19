@@ -30,7 +30,7 @@ const CartsCheckoutSection = ({
       exit={{ opacity: 0, y: -50 }}
       transition={{ duration: 0.7 }}
     >
-      <section className="container mx-auto mt-20">
+      <section className="container mx-auto mb-10 mt-20">
         <div className="flex items-end justify-between">
           <h2 className="text-center text-2xl font-light text-primary-500 sm:text-3xl sm:leading-[46px]">
             BASKET

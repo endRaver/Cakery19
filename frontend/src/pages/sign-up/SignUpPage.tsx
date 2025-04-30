@@ -1,78 +1,56 @@
 import { useState } from "react";
-import { SignedOut, useSignUp } from "@clerk/clerk-react";
-import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
 
-import SignInOAuthButtons from "@/components/SignInOAuthButtons";
-import VerificationCodeDialog from "./components/VerificationCodeDialog";
 import FullWidthBanner from "@/components/FullWidthBanner";
+import { useUserStore } from "@/stores/useUserStore";
+import SignInOAuthButtons from "@/components/SignInOAuthButtons";
+import VerificationDialog from "./components/VerificationDialog";
+
+type AuthForm = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const { signUp, isLoaded } = useSignUp();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
-  const validateForm = () => {
-    if (!formData.email.trim()) {
-      toast.error("Email is required");
-      return false;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      toast.error("Invalid email format");
-      return false;
-    }
-    if (formData.password.length < 8) {
-      toast.error("Password must be at least 8 characters");
-      return false;
-    }
-    if (formData.password !== confirmPassword) {
-      toast.error("Passwords do not match");
-      return false;
-    }
+  const {
+    register,
+    handleSubmit,
+    setError,
+    reset,
+    formState: { errors },
+  } = useForm<AuthForm>();
 
-    return true;
-  };
+  const { handleSignup, loading } = useUserStore();
 
-  const handleSignUp = async () => {
-    setIsLoading(true);
-    if (!isLoaded) return;
-
+  const onSubmit = async ({ email, password, confirmPassword }: AuthForm) => {
     try {
-      // Create signup with email and password
-      const result = await signUp.create({
-        emailAddress: formData.email,
-        password: formData.password,
+      if (password !== confirmPassword) {
+        setError("confirmPassword", { message: "Mật khẩu không khớp" });
+        return;
+      }
+
+      const { success, message } = await handleSignup({
+        email,
+        password,
       });
 
-      // // Prepare email verification
-      await result.prepareEmailAddressVerification();
-      toast.success("Verification code sent. Please check your email.");
-
-      // Open the dialog after successful sign-up
-      setIsDialogOpen(true);
-    } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } };
-      const errorMessage = err?.response?.data?.message || "An unexpected error occurred.";
-      toast.error(errorMessage);
-    }
-    setIsLoading(false);
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const isValid = validateForm();
-    if (isValid) {
-      handleSignUp();
+      if (success) {
+        setOpenDialog(true);
+        reset();
+      } else {
+        setError("email", { message: message ?? "Failed to sign up" });
+      }
+    } catch {
+      setError("email", { message: "Failed to sign up" });
     }
   };
 
@@ -93,9 +71,7 @@ const SignUpPage = () => {
         <div className="flex-1 space-y-3">
           <h1 className="mb-2 text-center text-4xl font-medium">Create account</h1>
 
-          <SignedOut>
-            <SignInOAuthButtons />
-          </SignedOut>
+          <SignInOAuthButtons />
 
           <div className="flex items-center justify-center gap-1.5">
             <div className="h-[1px] w-full max-w-[320px] border-t border-primary-400"></div>
@@ -105,7 +81,7 @@ const SignUpPage = () => {
             <div className="h-[1px] w-full max-w-[320px] border-t border-primary-400"></div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             {/* Email input */}
             <div className="form-control space-y-1">
               <label className="label">
@@ -120,8 +96,13 @@ const SignUpPage = () => {
                   type="text"
                   className="input w-full border-b border-primary-200 bg-transparent py-1 pl-8 text-sm font-medium tracking-widest outline-none placeholder:text-xs placeholder:text-primary-100"
                   placeholder="YOUR EMAIL"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Invalid email format",
+                    },
+                  })}
                 />
               </div>
             </div>
@@ -140,8 +121,13 @@ const SignUpPage = () => {
                   type={showPassword ? "text" : "password"}
                   className="input w-full border-b border-primary-200 bg-transparent py-1 pl-8 text-sm font-medium tracking-widest outline-none placeholder:text-xs placeholder:text-primary-100"
                   placeholder="PASSWORD"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
                 />
 
                 <button
@@ -172,8 +158,13 @@ const SignUpPage = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   className="input w-full border-b border-primary-200 bg-transparent py-1 pl-8 text-sm font-medium tracking-widest outline-none placeholder:text-xs placeholder:text-primary-100"
                   placeholder="CONFIRM PASSWORD"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  {...register("confirmPassword", {
+                    required: "Confirm password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
                 />
 
                 <button
@@ -190,25 +181,38 @@ const SignUpPage = () => {
               </div>
             </div>
 
-            {/* <div id="clerk-captcha" /> */}
+            <div className="space-y-1">
+              {errors.email && (
+                <p className="mt-2.5 text-sm text-red-500">{errors.email.message}</p>
+              )}
+              {errors.password && (
+                <p className="mt-2.5 text-sm text-red-500">{errors.password.message}</p>
+              )}
+              {errors.confirmPassword && (
+                <p className="mt-2.5 text-sm text-red-500">{errors.confirmPassword.message}</p>
+              )}
+            </div>
+
             <Button
-              className="bg-primary_btn h-[35px] w-32 rounded-[2px] p-1 hover:bg-hover-outline_btn"
-              disabled={isLoading}
+              className="h-[35px] w-32 rounded-[2px] bg-primary_btn p-1 hover:bg-hover-outline_btn"
+              type="submit"
+              disabled={loading}
             >
               <p className="flex w-full items-center justify-center rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium">
-                {isLoading ? <Loader2 className="animate-spin" /> : "Sign Up"}
+                {loading ? <Loader2 className="animate-spin" /> : "Sign Up"}
               </p>
             </Button>
           </form>
+          <VerificationDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
 
           <div>
             <span className="text-sm tracking-wider">Already have an account? </span>
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="border-b border-transparent text-sm font-medium tracking-wider duration-300 hover:border-primary-500"
             >
               SIGN IN
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -217,8 +221,6 @@ const SignUpPage = () => {
         webpImage="/images/webp/menu_banner.webp"
         jpegImage="/images/menu_banner.jpg"
       />
-
-      <VerificationCodeDialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
     </main>
   );
 };

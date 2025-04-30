@@ -18,7 +18,7 @@ import AdminCreatePage from "./pages/admin/AdminCreatePage";
 import AdminEditPage from "./pages/admin/AdminEditPage";
 import ShoppingCartPage from "./pages/shopping-cart/ShoppingCartPage";
 import ScrollToTop from "./hooks/ScrollToTop";
-
+import ContactPage from "./pages/contact/ContactPage";
 function App() {
   const { user } = useUserStore();
 
@@ -42,6 +42,7 @@ function App() {
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/shop/:productId" element={<ProductDetailPage />} />
           <Route path="/faqs" element={<FaqsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route
             path="/cart"
             element={!isEmpty(user) ? <ShoppingCartPage /> : <Navigate to="/login" replace />}

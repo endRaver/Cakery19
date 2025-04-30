@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Lock, Mail, EyeOff, Eye, Loader2 } from "lucide-react";
@@ -46,11 +47,7 @@ const LoginPage = () => {
         <div className="flex-1 space-y-3">
           <h1 className="mb-2 text-center text-4xl font-medium">Log in to your account</h1>
 
-          {/* <SignedOut>
-          </SignedOut> */}
           <SignInOAuthButtons />
-
-          {/* <UserButton afterSignOutUrl="/login" /> */}
 
           <div className="flex items-center justify-center gap-1.5">
             <div className="h-[1px] w-full max-w-[320px] border-t border-primary-400"></div>
@@ -131,12 +128,12 @@ const LoginPage = () => {
               Forgot your password?
             </a>
 
-            <a
-              href="/sign-up"
+            <Link
+              to="/sign-up"
               className="w-fit border-b border-transparent text-sm tracking-wider duration-300 hover:border-primary-500"
             >
               CREATE AN ACCOUNT
-            </a>
+            </Link>
 
             <p className="text-justify text-sm">
               Log in to track orders, save favorites, and connect with us easily. Enjoy a seamless
