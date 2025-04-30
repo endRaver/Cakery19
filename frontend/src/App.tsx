@@ -8,7 +8,7 @@ import AdminPage from "./pages/admin/AdminPage";
 import MainLayout from "./layout/MainLayout";
 import AboutUsPage from "./pages/about-us/AboutUsPage";
 import ShopPage from "./pages/shop/ShopPage";
-import ProductDetailPage from "./pages/productDetail/ProductDetailPage";
+import ProductDetailPage from "./pages/product-detail/ProductDetailPage";
 import FaqsPage from "./pages/faqs/FaqsPage";
 import LoginPage from "./pages/login/LoginPage";
 import SignUpPage from "./pages/sign-up/SignUpPage";

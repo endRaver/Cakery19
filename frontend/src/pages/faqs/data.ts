@@ -26,7 +26,7 @@ export const productQuestions = [
   {
     question: "My cakes look different from the pictures, why is that ?",
     answer:
-      "They last for 72 hours in a cooling environment once picked up. Please refer to the cake guide attached to your desserts for the optimal storage.",
+      "Cakes ordered from my classic menu follow posted designs closely. Yet as decorations are from natural and/or seasonal products, each cake will have their own uniqueness.",
   },
 ];
 
