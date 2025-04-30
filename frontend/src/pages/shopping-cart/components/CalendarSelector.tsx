@@ -33,7 +33,7 @@ export default function CalendarSelector({
           mode="single"
           selected={date}
           onSelect={setDate}
-          fromDate={new Date()}
+          fromDate={new Date(new Date().setDate(new Date().getDate() + 1))}
           toDate={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 31)}
           className="rounded-md font-geometria"
         />
@@ -43,9 +43,10 @@ export default function CalendarSelector({
             <button
               key={slot}
               onClick={() => setSelectedSlot(slot)}
-              className={`h-fit w-full rounded border px-4 py-4 text-center text-xs font-medium leading-none tracking-widest md:px-6 ${
+              disabled={!date}
+              className={`h-fit w-full rounded border px-4 py-4 text-center text-xs font-medium leading-none tracking-widest duration-300 disabled:opacity-70 md:px-6 ${
                 selectedSlot === slot
-                  ? "border-primary-400 text-primary-100"
+                  ? "border-primary-400 text-primary-500"
                   : "border-primary-100 text-primary-300"
               }`}
             >

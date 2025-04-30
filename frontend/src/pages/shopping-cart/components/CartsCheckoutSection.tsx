@@ -51,7 +51,7 @@ const CartsCheckoutSection = ({
           <Loader2 className="h-16 w-16 animate-spin text-primary-400" />
         </div>
       ) : (
-        <section className="container mx-auto h-[500px]">
+        <section className="container mx-auto">
           {cartItems.length === 0 ? (
             <div className="my-20 flex items-center justify-center">
               <p className="text-center text-sm tracking-widest text-primary-200">

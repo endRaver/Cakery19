@@ -8,6 +8,7 @@ import { CacheManager } from "@/lib/cache";
 interface CartStore {
   isLoading: boolean;
   cartItems: CartItem[];
+  pickupDate: string;
 
   cartCache: CacheManager<CartItem[]>;
 
@@ -15,12 +16,14 @@ interface CartStore {
   handleAddToCart: (product: Product, variant: Variant, quantity?: number) => Promise<void>;
   handleRemoveFromCart: (productId: string) => Promise<void>;
   handleUpdateQuantity: (productId: string, quantity: number) => Promise<void>;
+  setPickupDate: (date: string) => void;
   resetCache: () => void;
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
   isLoading: false,
   cartItems: [],
+  pickupDate: "",
 
   cartCache: new CacheManager<CartItem[]>(),
 
@@ -120,6 +123,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
         toast.error(error.response?.data?.message ?? "Failed to update quantity");
       }
     }
+  },
+
+  setPickupDate: (date: string) => {
+    set({ pickupDate: date });
   },
 
   resetCache: () => {

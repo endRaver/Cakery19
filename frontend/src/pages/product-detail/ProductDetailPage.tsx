@@ -175,6 +175,7 @@ const ProductDetailPage = () => {
                     handleAddToCart(currentProduct, selectedVariant, quantity);
                     setQuantity(1);
                   }}
+                  disabled={isCartLoading}
                   className="w-full"
                 >
                   {isCartLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "ADD TO CART"}

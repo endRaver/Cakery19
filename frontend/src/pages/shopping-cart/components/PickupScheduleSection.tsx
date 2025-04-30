@@ -1,40 +1,49 @@
 import { motion } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import CalendarSelector from "./CalendarSelector";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import AnimatedButton from "@/components/AnimatedButton";
+import { useCartStore } from "@/stores/useCartStore";
+import { useOrderStore } from "@/stores/useOrderStore";
 
 const PickupScheduleSection = ({
   setDisplayScreen,
 }: {
   setDisplayScreen: (screen: "cart" | "pickup") => void;
 }) => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>();
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const { setPickupDate } = useCartStore();
+  const { handlePaymentCard } = useOrderStore();
+
+  const combineDateAndTimeSlot = useCallback(
+    (date: Date, slot: string): string => {
+      const regex = /(\d{1,2})\s*(A\.M\.|P\.M\.)/i;
+      const match = regex.exec(slot);
+      if (!match) return "";
+
+      let hour = parseInt(match[1], 10);
+      const period = match[2].toUpperCase();
+
+      if (period === "P.M." && hour !== 12) hour += 12;
+      if (period === "A.M." && hour === 12) hour = 0;
+
+      // Clone the date to avoid mutating the original
+      const combined = new Date(date);
+      combined.setHours(hour, 0, 0, 0);
+
+      setPickupDate(combined.toISOString());
+
+      return combined.toISOString();
+    },
+    [setPickupDate]
+  );
 
   useEffect(() => {
     if (date && selectedSlot) {
       combineDateAndTimeSlot(date, selectedSlot);
     }
-  }, [date, selectedSlot]);
-
-  function combineDateAndTimeSlot(date: Date, slot: string): string {
-    const regex = /(\d{1,2})\s*(A\.M\.|P\.M\.)/i;
-    const match = regex.exec(slot);
-    if (!match) return "";
-
-    let hour = parseInt(match[1], 10);
-    const period = match[2].toUpperCase();
-
-    if (period === "P.M." && hour !== 12) hour += 12;
-    if (period === "A.M." && hour === 12) hour = 0;
-
-    // Clone the date to avoid mutating the original
-    const combined = new Date(date);
-    combined.setHours(hour, 0, 0, 0);
-
-    return combined.toISOString();
-  }
+  }, [combineDateAndTimeSlot, date, selectedSlot]);
 
   const convertToLocalTime = (date: Date | undefined): string => {
     if (!date) return "";
@@ -96,7 +105,7 @@ const PickupScheduleSection = ({
 
         <div className="mt-10 flex justify-center">
           <AnimatedButton
-            onClick={() => {}}
+            onClick={handlePaymentCard}
             className="text-center"
             disabled={!date || !selectedSlot}
           >

@@ -2,16 +2,21 @@ import { Product } from '../models/product.model.js';
 
 export const getCartProducts = async (req, res) => {
   try {
-    const products = await Product.find({ _id: { $in: req.user.cartItems } })
-    // add quantity to each product
-    const cartItems = products.map(product => {
-      const item = req.user.cartItems.find((cartItem) => cartItem.id === product.id);
+    // Get unique product IDs from cart items
+    const uniqueProductIds = [...new Set(req.user.cartItems.map(item => item._id))];
+
+    // Get all unique products
+    const products = await Product.find({ _id: { $in: uniqueProductIds } });
+
+    // Create cart items with duplicates
+    const cartItems = req.user.cartItems.map(cartItem => {
+      const product = products.find(p => p._id.toString() === cartItem._id.toString());
       return {
         product: product.toJSON(),
-        quantity: item.quantity,
-        variant: item.variant
+        quantity: cartItem.quantity,
+        variant: cartItem.variant
       }
-    })
+    });
 
     res.status(200).json(cartItems);
   } catch (error) {
@@ -25,12 +30,13 @@ export const addToCart = async (req, res) => {
     const { productId, variant, quantity } = req.body;
     const user = req.user;
 
-    const existingItem = user.cartItems.find((item) => item.id === productId);
+    const existingItem = user.cartItems.find((item) =>
+      item._id.toString() === productId.toString()
+      && item.variant.size === variant.size
+      && item.variant.price === variant.price
+    );
 
-    if (existingItem
-      && existingItem.variant.size === variant.size
-      && existingItem.variant.price === variant.price
-    ) {
+    if (existingItem) {
       if (existingItem.quantity + quantity > 9) {
         return res.status(400).json({ message: 'Please clear your cart before adding more items' });
       }

@@ -19,6 +19,7 @@ import AdminEditPage from "./pages/admin/AdminEditPage";
 import ShoppingCartPage from "./pages/shopping-cart/ShoppingCartPage";
 import ScrollToTop from "./hooks/ScrollToTop";
 import ContactPage from "./pages/contact/ContactPage";
+import SuccessPaymentPage from "./pages/success-payment/SuccessPaymentPage";
 function App() {
   const { user } = useUserStore();
 
@@ -55,6 +56,7 @@ function App() {
             path="/sign-up"
             element={!isEmpty(user) ? <Navigate to="/" replace /> : <SignUpPage />}
           />
+          <Route path="/purchase-success" element={<SuccessPaymentPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Route>
