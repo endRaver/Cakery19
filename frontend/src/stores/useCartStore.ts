@@ -90,8 +90,6 @@ export const useCartStore = create<CartStore>((set, get) => ({
     try {
       await axiosInstance.delete(`/carts`, { data: { productId, variant } });
 
-      console.log(productId, variant);
-
       set((prevState) => {
         const newCart = prevState.cartItems.filter(
           (item) => !(item.product._id === productId && item.variant.size === variant.size)

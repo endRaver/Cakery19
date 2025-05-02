@@ -29,7 +29,7 @@ export const createCheckoutSession = async (req, res) => {
 
       return {
         price_data: {
-          currency: 'CHF',
+          currency: 'chf',
           product_data: {
             name: item.product.name + " (" + item.variant.size + ")",
             images: item.product.imageUrl && item.product.imageUrl.length > 0 ? [item.product.imageUrl[0]] : [],
@@ -45,7 +45,7 @@ export const createCheckoutSession = async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      currency: 'CHF',
+      currency: 'chf',
       success_url: `${process.env.CLIENT_URL}/purchase-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.CLIENT_URL}/cart`,
       metadata: {
@@ -228,7 +228,7 @@ async function createStripeCoupon(discount) {
     // Convert discount to appropriate format for Stripe
     let couponData = {
       duration: 'once',
-      currency: 'CHF',
+      currency: 'chf',
     };
     // For fixed amount discounts (discountType === 'fixed' or 'amount')
     const amountOff = Math.round(discount);

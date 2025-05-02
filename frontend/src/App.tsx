@@ -20,6 +20,8 @@ import ShoppingCartPage from "./pages/shopping-cart/ShoppingCartPage";
 import ScrollToTop from "./hooks/ScrollToTop";
 import ContactPage from "./pages/contact/ContactPage";
 import SuccessPaymentPage from "./pages/success-payment/SuccessPaymentPage";
+import EventPage from "./pages/event/EventPage";
+
 function App() {
   const { user } = useUserStore();
 
@@ -44,6 +46,7 @@ function App() {
           <Route path="/shop/:productId" element={<ProductDetailPage />} />
           <Route path="/faqs" element={<FaqsPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/event" element={<EventPage />} />
           <Route
             path="/cart"
             element={!isEmpty(user) ? <ShoppingCartPage /> : <Navigate to="/login" replace />}
