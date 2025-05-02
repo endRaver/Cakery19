@@ -1,7 +1,10 @@
+import Product from "../../models/product.model.js";
+import User from "../../models/user.model.js";
 import {
   VERIFICATION_EMAIL_TEMPLATE,
   PASSWORD_RESET_REQUEST_TEMPLATE,
-  PASSWORD_RESET_SUCCESS_TEMPLATE
+  PASSWORD_RESET_SUCCESS_TEMPLATE,
+  ORDER_SUCCESS_TEMPLATE
 } from "./emailTemplates.js";
 import { mailtrapClient, sender } from "./mailtrap.config.js";
 
@@ -80,5 +83,63 @@ export const sendResetSuccessEmail = async (email) => {
   } catch (error) {
     console.error('Error sending password reset success email:', error);
     throw new Error(`Failed to send password reset success email: ${error.message}`);
+  }
+}
+
+export const sendOrderSuccessEmail = async (email, order) => {
+  const recipient = [{ email }]
+
+  const customer = await User.findById(order.user);
+  const products = await Promise.all(order.products.map(async (item) => {
+    const productData = await Product.findById(item.product);
+    return {
+      ...productData._doc,
+      quantity: item.quantity,
+      variant: item.variant
+    };
+  }));
+
+  const orderItemsHtml = products.map((item) => `
+    <tr>
+      <td style="padding: 12px; border: 1px solid #ddd;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="${item.imageUrl[0]}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; padding-right: 12px;">
+          <div>
+            <div style="font-weight: bold;">${item.name} 
+            <p>${item.variant.size}</p>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 12px; text-align: center; border: 1px solid #ddd;">${item.quantity}</td>
+      <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">${item.variant.price.toFixed(2)} CHF</td>
+      <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">${(item.variant.price * item.quantity).toFixed(2)} CHF</td>
+    </tr>
+  `).join('');
+
+  const emailContent = ORDER_SUCCESS_TEMPLATE
+    .replace('{customerName}', customer.name)
+    .replace('{orderNumber}', order.orderNumber)
+    .replace('{orderDate}', new Date(order.createdAt).toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: 'numeric' }))
+    .replace('{orderItems}', orderItemsHtml)
+    .replace('{orderTotal}', order.totalAmount.toFixed(2))
+    .replace('{totalAmount}', order.totalAmount.toFixed(2))
+    .replace('{pickupDate}', new Date(order.pickupDate)
+      .toLocaleDateString('de-CH', { day: 'numeric', month: 'numeric', year: 'numeric' }) + ' at ' +
+      new Date(order.pickupDate).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true }).toUpperCase() + ' - ' +
+      new Date(new Date(order.pickupDate).getTime() + 60 * 60 * 1000).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true }).toUpperCase())
+
+  try {
+    const response = await mailtrapClient.send({
+      from: sender,
+      to: recipient,
+      subject: "Order Confirmation",
+      html: emailContent
+    });
+
+  console.log('Order success email sent successfully', response);
+  } catch (error) {
+    console.error('Error sending order success email:', error);
+    throw new Error(`Failed to send order success email: ${error.message}`);
   }
 }

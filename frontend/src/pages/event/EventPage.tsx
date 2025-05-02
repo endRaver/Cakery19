@@ -7,16 +7,16 @@ const EventPage = () => {
       {/* Hero Section - Split Design */}
       <div className="container mx-auto grid min-h-screen md:grid-cols-2">
         {/* Left Side - Video */}
-        <div className="relative h-[80vh] w-full overflow-hidden md:h-screen">
+        <div className="relative h-[80vh] w-full overflow-hidden md:h-80vh">
           <div
             className="absolute inset-0 scale-110 bg-cover bg-center"
-            style={{ backgroundImage: 'url("/images/event/PupilaPhotography_0210.jpg")' }}
+            style={{ backgroundImage: 'url("/images/event/PupilaPhotography_0154.jpg")' }}
           />
           <div className="absolute inset-0 flex h-full w-full items-center justify-center">
             <ReactPlayer
               url="/images/event/event_clip.MOV"
-              width="120%"
-              height="120%"
+              width="135%"
+              height="135%"
               playing
               loop
               muted

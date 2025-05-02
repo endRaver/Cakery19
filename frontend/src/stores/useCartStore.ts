@@ -98,7 +98,6 @@ export const useCartStore = create<CartStore>((set, get) => ({
       });
 
       get().resetCache();
-      toast.success("Product removed from cart");
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message ?? "Failed to remove product from cart");

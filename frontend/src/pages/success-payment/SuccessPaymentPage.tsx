@@ -11,20 +11,23 @@ const SuccessPaymentPage = () => {
   const { currentOrder, handleCheckoutSuccess, isLoading } = useOrderStore();
 
   useEffect(() => {
-    const sessionId = new URLSearchParams(window.location.search).get("session_id");
-    setIsProcessing(true);
+    const handleCheckout = async () => {
+      const sessionId = new URLSearchParams(window.location.search).get("session_id");
+      setIsProcessing(true);
 
-    if (sessionId) {
-      handleCheckoutSuccess(sessionId);
-    }
+      if (sessionId) {
+        await handleCheckoutSuccess(sessionId);
+      }
+      setIsProcessing(false);
+    };
 
-    setIsProcessing(false);
+    handleCheckout();
   }, [handleCheckoutSuccess]);
 
   if (isProcessing || isLoading)
     return (
       <div className="flex h-[500px] items-center justify-center">
-        <Loader2 className="h-20 w-20 animate-spin" color="#0b74e5" />
+        <Loader2 className="h-20 w-20 animate-spin" color="#5f5f4e " />
       </div>
     );
 
@@ -122,6 +125,13 @@ const SuccessPaymentPage = () => {
                   {new Date(currentOrder.pickupDate).toLocaleTimeString(undefined, {
                     hour: "2-digit",
                     hour12: true,
+                  })}{" "}
+                  -{" "}
+                  {new Date(
+                    new Date(currentOrder.pickupDate).getTime() + 60 * 60 * 1000
+                  ).toLocaleTimeString(undefined, {
+                    hour: "2-digit",
+                    hour12: true,
                   })}
                 </p>
               </div>
@@ -183,8 +193,8 @@ const SuccessPaymentPage = () => {
           className="mt-8 text-sm text-primary-400"
         >
           Need help? Contact me at{" "}
-          <a href="mailto:support@cakery19.com" className="text-primary-500 hover:underline">
-            support@cakery19.com
+          <a href="mailto:Cakery19.ch@gmail.com" className="text-primary-500 hover:underline">
+            Cakery19.ch@gmail.com
           </a>
         </motion.p>
       </motion.div>

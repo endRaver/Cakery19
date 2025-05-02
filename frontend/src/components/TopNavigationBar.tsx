@@ -226,7 +226,7 @@ const NavbarMobile = () => {
   return (
     <>
       <div
-        className={`fixed top-0 z-40 mx-auto w-full py-2 duration-500 ${scrollY > 200 && "shadow-lg"} bg-primary-50 ${scrollDirection === "down" && "!-top-[97px]"}`}
+        className={`fixed top-0 z-40 mx-auto w-full py-2 duration-500 ${scrollY > 200 && "shadow-lg"} bg-primary-50 shadow ${scrollDirection === "down" && "!-top-[97px]"}`}
       >
         <div className="mx-4 flex items-center justify-between sm:mx-8">
           <Button

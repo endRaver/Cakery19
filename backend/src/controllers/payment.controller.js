@@ -3,6 +3,7 @@ import { stripe } from "../lib/stripe.js";
 import Order from "../models/order.model.js";
 import User from "../models/user.model.js";
 import Product from "../models/product.model.js";
+import { sendOrderSuccessEmail } from "../lib/mailtrap/emails.js";
 
 // Helper function to convert CHF to rappen (smallest currency unit)
 const chfToRappen = (amount) => Math.round(amount * 100);
@@ -42,7 +43,7 @@ export const createCheckoutSession = async (req, res) => {
 
     // Create checkout session with at most one coupon
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+      payment_method_types: ['card', 'twint'],
       line_items: lineItems,
       mode: 'payment',
       currency: 'chf',
@@ -90,7 +91,7 @@ export const checkoutSuccess = async (req, res) => {
     // Check if order already exists for this session
     const existingOrder = await Order.findOne({ stripeSessionId: sessionId });
     if (existingOrder) {
-      console.log(`Order already exists for session ${sessionId}`);
+      // console.log(`Order already exists for session ${sessionId}`);
       return res.status(200).json({
         success: true,
         message: "Order already processed",
@@ -138,7 +139,8 @@ export const checkoutSuccess = async (req, res) => {
     });
 
     await newOrder.save();
-    console.log(`Created new order ${newOrder._id} for session ${sessionId}`);
+
+    await sendOrderSuccessEmail(user.email, newOrder);
 
     res.status(200).json({
       success: true,
@@ -146,7 +148,7 @@ export const checkoutSuccess = async (req, res) => {
       order: newOrder,
     });
   } catch (error) {
-    console.error("Error processing successful checkout:", error);
+    // console.error("Error processing successful checkout:", error);
     res.status(500).json({
       success: false,
       message: "Error processing successful checkout",
@@ -190,7 +192,7 @@ export const createCashOrder = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Payment successful, order created, and coupons deactivated if used.",
+      message: "Payment successful, order created, and email sent.",
       order: newOrder,
     });
   } catch (error) {
