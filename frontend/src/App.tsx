@@ -21,6 +21,7 @@ import ScrollToTop from "./hooks/ScrollToTop";
 import ContactPage from "./pages/contact/ContactPage";
 import SuccessPaymentPage from "./pages/success-payment/SuccessPaymentPage";
 import EventPage from "./pages/event/EventPage";
+import ResetPasswordPage from "./pages/reset-password/ResetPasswordPage";
 
 function App() {
   const { user } = useUserStore();
@@ -47,6 +48,7 @@ function App() {
           <Route path="/faqs" element={<FaqsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/event" element={<EventPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route
             path="/cart"
             element={!isEmpty(user) ? <ShoppingCartPage /> : <Navigate to="/login" replace />}

@@ -110,7 +110,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
       set({ user: null });
 
       get().clearAllCache();
-      toast.success("Đăng xuất thành công");
+      toast.success("Logged out successfully");
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message ?? "An error occurred");
@@ -173,7 +173,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
       });
       set({ user: response.data });
       get().userCache.set(cacheKey, response.data);
-      toast.success("Đăng nhập thành công");
+      toast.success("Login successfully");
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message ?? "An error occurred");
@@ -190,8 +190,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
         email,
       });
 
-      toast.success("Email đã được gửi đến bạn");
-      return { success: true, message: "Email đã được gửi đến bạn" };
+      return { success: true, message: "Password reset link has been sent to your email" };
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       return { success: false, message: axiosError.response?.data?.message };
@@ -208,7 +207,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
         code,
       });
 
-      return { success: true, message: "Email đã được xác thực" };
+      return { success: true, message: "Email has been verified" };
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       return { success: false, message: axiosError.response?.data?.message };
@@ -225,11 +224,11 @@ export const useUserStore = create<UserStore>((set, get) => ({
         password: newPassword,
       });
 
-      toast.success("Đặt lại mật khẩu thành công");
+      toast.success("Password reset successfully");
       return { success: true, message: response.data.message };
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
-      const errorMessage = axiosError.response?.data?.message ?? "Đã có lỗi xảy ra";
+      const errorMessage = axiosError.response?.data?.message ?? "An error occurred";
       toast.error(errorMessage);
       return { success: false, message: errorMessage };
     } finally {
@@ -251,7 +250,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
 
       get().clearAllCache();
       set({ user: response.data });
-      toast.success("Cập nhật thông tin thành công");
+      toast.success("Updated information successfully");
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message ?? "An error occurred");

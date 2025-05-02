@@ -59,7 +59,7 @@ export const signup = async (req, res) => {
       userExists.verificationTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000;
       await userExists.save();
 
-      sendVerificationEmail(userExists.email, userExists.verificationToken);
+      // sendVerificationEmail(userExists.email, userExists.verificationToken);
 
       return res.status(400).json({ message: 'Account already exists, please verify email' });
     }
@@ -74,12 +74,7 @@ export const signup = async (req, res) => {
       verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
     });
 
-    // authenticate user
-    // const { accessToken, refreshToken } = generateTokens(user._id);
-    // await storeRefreshToken(user._id, refreshToken);
-    // setCookies(res, accessToken, refreshToken);
-
-    sendVerificationEmail(user.email, verificationToken);
+    // sendVerificationEmail(user.email, verificationToken);
 
     res.status(201).json({
       success: true,
@@ -110,6 +105,7 @@ export const login = async (req, res) => {
 
     // Find user
     const user = await User.findOne({ email });
+
 
 
     // Check if user exists

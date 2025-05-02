@@ -1,37 +1,57 @@
 import { useState } from "react";
-import { toast } from "react-hot-toast";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+
+import { useUserStore } from "@/stores/useUserStore";
 
 import { Button } from "@/components/ui/button";
 import { Lock, Mail, EyeOff, Eye, Loader2 } from "lucide-react";
 
 import SignInOAuthButtons from "@/components/SignInOAuthButtons";
 import FullWidthBanner from "@/components/FullWidthBanner";
+import ResetPasswordModal from "./components/ResetPasswordModal";
+
+type AuthForm = {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+};
+
+export type FormResponse = {
+  success: boolean;
+  message: string;
+};
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    reset,
+    formState: { errors },
+  } = useForm<AuthForm>();
 
+  const { handleLogin, loading } = useUserStore();
+
+  const onSubmit = async (data: AuthForm) => {
     try {
-      setIsLoading(true);
-    } catch (error: unknown) {
-      const err = error as { errors?: { message: string }[] };
-      const errorMessage = err.errors?.[0]?.message || "Sign-in failed";
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
+      const res = (await handleLogin(data)) as unknown as FormResponse;
+      if (res.success) {
+        reset();
+        window.location.reload();
+      } else {
+        setError("email", { message: res.message });
+      }
+    } catch {
+      setError("email", { message: "Login failed" });
     }
   };
 
   return (
-    <main className="mt-10 space-y-10 text-primary-400">
+    <main className="my-10 space-y-10 text-primary-300">
       <section className="container mx-auto flex flex-col justify-between gap-10 md:flex-row">
         <picture className="flex-1">
           <source srcSet={`/images/webp/login_banner.webp`} type="image/webp" />
@@ -57,10 +77,10 @@ const LoginPage = () => {
             <div className="h-[1px] w-full max-w-[320px] border-t border-primary-400"></div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             {/* Email input */}
             <div className="form-control space-y-1">
-              <label className="label" htmlFor="email">
+              <label className="label">
                 <span className="label-text font-medium">E-mail</span>
               </label>
               <div className="relative">
@@ -72,15 +92,20 @@ const LoginPage = () => {
                   type="text"
                   className="input w-full border-b border-primary-200 bg-transparent py-1 pl-8 text-sm font-medium tracking-widest outline-none placeholder:text-xs placeholder:text-primary-100"
                   placeholder="YOUR EMAIL"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Invalid email format",
+                    },
+                  })}
                 />
               </div>
             </div>
 
             {/* Password input */}
             <div className="form-control space-y-1">
-              <label className="label" htmlFor="password">
+              <label className="label">
                 <span className="label-text font-medium">Password</span>
               </label>
               <div className="relative">
@@ -92,8 +117,13 @@ const LoginPage = () => {
                   type={showPassword ? "text" : "password"}
                   className="input w-full border-b border-primary-200 bg-transparent py-1 pl-8 text-sm font-medium tracking-widest outline-none placeholder:text-xs placeholder:text-primary-100"
                   placeholder="PASSWORD"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
                 />
 
                 <button
@@ -110,30 +140,55 @@ const LoginPage = () => {
               </div>
             </div>
 
+            <div className="flex items-center justify-between">
+              <label className="flex cursor-pointer items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-sm rounded-sm border-primary-200"
+                  {...register("rememberMe")}
+                />
+                <span className="text-sm">Remember me</span>
+              </label>
+
+              <button
+                type="button"
+                onClick={() => setIsForgotPasswordOpen(true)}
+                className="text-sm text-[#b3801a] hover:underline"
+              >
+                Forgot your password?
+              </button>
+            </div>
+
+            <div className="space-y-1">
+              {errors.email && (
+                <p className="mt-2.5 text-sm text-red-500">{errors.email.message}</p>
+              )}
+              {errors.password && (
+                <p className="mt-2.5 text-sm text-red-500">{errors.password.message}</p>
+              )}
+            </div>
+
             <Button
               className="h-[35px] w-32 rounded-[2px] bg-primary_btn p-1 hover:bg-hover-outline_btn"
-              disabled={isLoading}
+              type="submit"
+              disabled={loading}
             >
               <p className="flex w-full items-center justify-center rounded-[2px] border border-primary-50/40 px-5 py-1.5 text-xs font-medium">
-                {isLoading ? <Loader2 className="animate-spin" /> : "Login"}
+                {loading ? <Loader2 className="animate-spin" /> : "Login"}
               </p>
             </Button>
           </form>
 
-          <div className="flex w-fit flex-col gap-y-3">
-            <a
-              href="/sign-up"
-              className="w-fit border-b border-transparent text-sm tracking-wider text-[#b3801a] duration-300 hover:border-[#b3801a]"
-            >
-              Forgot your password?
-            </a>
-
-            <Link
-              to="/sign-up"
-              className="w-fit border-b border-transparent text-sm tracking-wider duration-300 hover:border-primary-500"
-            >
-              CREATE AN ACCOUNT
-            </Link>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-sm">Don't have an account?</span>
+              <Link
+                to="/sign-up"
+                className="border-b border-transparent text-sm font-medium tracking-wider duration-300 hover:border-primary-500"
+              >
+                CREATE AN ACCOUNT
+              </Link>
+            </div>
 
             <p className="text-justify text-sm">
               Log in to track orders, save favorites, and connect with us easily. Enjoy a seamless
@@ -146,6 +201,11 @@ const LoginPage = () => {
       <FullWidthBanner
         webpImage="/images/webp/menu_banner.webp"
         jpegImage="/images/menu_banner.jpg"
+      />
+
+      <ResetPasswordModal
+        isOpen={isForgotPasswordOpen}
+        onClose={() => setIsForgotPasswordOpen(false)}
       />
     </main>
   );
