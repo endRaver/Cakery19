@@ -160,7 +160,7 @@ export const checkoutSuccess = async (req, res) => {
     // Delete the cart session after successful order creation
     await CartSession.deleteOne({ stripeSessionId: sessionId });
 
-    // await sendOrderSuccessEmail(user.email, newOrder);
+    await sendOrderSuccessEmail(user.email, newOrder);
 
     res.status(200).json({
       success: true,
