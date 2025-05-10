@@ -36,6 +36,7 @@ const AdminCreatePage = () => {
       {
         size: "",
         price: 0,
+        excludeNuts: false,
         portionSize: {
           from: 0,
           to: 0,
@@ -56,6 +57,7 @@ const AdminCreatePage = () => {
         {
           size: "",
           price: 0,
+          excludeNuts: false,
           portionSize: {
             from: 0,
             to: 0,
@@ -74,6 +76,7 @@ const AdminCreatePage = () => {
         {
           size: "",
           price: 0,
+          excludeNuts: false,
           portionSize: {
             from: 0,
             to: 0,
