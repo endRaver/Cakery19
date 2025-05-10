@@ -16,7 +16,7 @@ const RecommendationProducts = ({ products }: { products: Product[] }) => {
         {map(products, (product, index) => (
           <CarouselItem
             key={product._id}
-            className="flex-shrink-0 basis-auto select-none overflow-hidden pl-0 sm:basis-1/2 lg:basis-1/3"
+            className="flex-shrink-0 basis-auto select-none overflow-hidden pl-0 sm:basis-1/2"
           >
             <Link to={`/shop/${createSlug(product.name)}?id=${product._id}`}>
               <motion.div

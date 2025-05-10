@@ -59,7 +59,7 @@ const TopbarLinkToolTip = ({
       </motion.div>
 
       {number !== undefined && number >= 1 && (
-        <span className="absolute bottom-0 left-0 flex h-3.5 w-3.5 cursor-default items-center justify-center rounded-full bg-primary-300 p-1 text-center text-[8px] leading-5 text-white">
+        <span className="absolute bottom-0 left-0 flex h-3.5 w-3.5 cursor-default items-center justify-center rounded-full bg-primary-300 p-1 text-center font-geometria text-[8px] leading-5 text-white">
           {number <= 99 ? number : "99+"}
         </span>
       )}

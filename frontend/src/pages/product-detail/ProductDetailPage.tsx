@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
+import { Button } from "@/components/ui/button";
 import { Variant } from "@/types/product";
+
 import { useCartStore } from "@/stores/useCartStore";
 import { useProductStore } from "@/stores/useProductStore";
-import { Button } from "@/components/ui/button";
+import { useUserStore } from "@/stores/useUserStore";
 
 import { gluten_free, nuts, plant_based, soy, sugar_free } from "@/assets/icons";
 import TagBreadcrumb from "./components/TagBreadcrumb";
@@ -20,6 +22,7 @@ import ProductDisplayMobileSkeleton from "@/components/skeletons/ProductDisplayM
 import ChangeQuantitySelection from "@/components/ChangeQuantitySelection";
 import AnimatedButton from "../../components/AnimatedButton";
 import { Loader2 } from "lucide-react";
+
 const buttonStyle =
   "px-5 py-2 rounded-md border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 font-normal tracking-wider";
 
@@ -27,6 +30,7 @@ const ProductDetailPage = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const windowWidth = useWindowWidth();
+  const navigate = useNavigate();
 
   const {
     isLoading,
@@ -35,6 +39,8 @@ const ProductDetailPage = () => {
     fetchProductsById,
     fetchProductsByCategory,
   } = useProductStore();
+
+  const { user } = useUserStore();
 
   const { handleAddToCart, isLoading: isCartLoading } = useCartStore();
 
@@ -171,6 +177,10 @@ const ProductDetailPage = () => {
               <div className="flex gap-3">
                 <AnimatedButton
                   onClick={() => {
+                    if (!user) {
+                      navigate("/login");
+                      return;
+                    }
                     if (!selectedVariant) return;
                     handleAddToCart(currentProduct, selectedVariant, quantity);
                     setQuantity(1);

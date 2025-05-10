@@ -23,7 +23,7 @@ import { useCartStore } from "@/stores/useCartStore";
 import { useUserStore } from "@/stores/useUserStore";
 
 const linkStyle =
-  "my-1 text-nowrap font-medium border border-transparent px-1.5 lg:px-3 py-1 text-sm leading-6 tracking-wider duration-300 ease-in-out ";
+  "my-1 text-nowrap font-bold border border-transparent px-1.5 lg:px-3 py-1 text-sm leading-6 tracking-wider duration-300 ease-in-out ";
 
 const getResponsiveHeight = (width: number) => {
   if (width > 1024) return "h-[140px]";
@@ -53,7 +53,7 @@ const TopNavigationBar = () => {
 const NavbarDesktop = () => {
   const location = useLocation().pathname;
   const isHome = location === "/";
-  const { scrollY, scrollDirection } = useScroll();
+  const { scrollY } = useScroll();
   const { user, handleLogout } = useUserStore();
   const { cartItems, handleGetCartItems } = useCartStore();
   const [cartQuantity, setCartQuantity] = useState(0);
@@ -74,12 +74,10 @@ const NavbarDesktop = () => {
 
   return (
     <div
-      className={`fixed top-0 z-50 mx-auto w-full duration-500 ${scrollY > 200 && "shadow-lg"} ${isTransparentHeader ? "bg-transparent" : "bg-primary-50"} ${scrollDirection === "down" && "!-top-[140px]"}`}
+      className={`fixed top-0 z-50 mx-auto w-full duration-500 ${scrollY > 160 && "shadow-lg"} ${isTransparentHeader ? "bg-transparent" : "bg-primary-50"}`}
     >
       <div className="container relative mx-auto flex justify-between gap-3 py-5">
-        <div
-          className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end border-y lg:gap-10 ${isTransparentHeader ? "border-transparent" : "border-primary-400"}`}
-        >
+        <div className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end lg:gap-10`}>
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -107,19 +105,21 @@ const NavbarDesktop = () => {
         </div>
 
         <NavLink to="/">
-          <img src={`${isTransparentHeader ? cakery_logo_light : cakery_logo_dark}`} alt="logo" />
+          <img
+            src={`${isTransparentHeader ? cakery_logo_light : cakery_logo_dark}`}
+            alt="logo"
+            className="size-[100px]"
+          />
         </NavLink>
 
-        <div
-          className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end border-y lg:gap-10 ${isTransparentHeader ? "border-transparent" : "border-primary-400"}`}
-        >
+        <div className={`my-2 flex h-fit flex-1 justify-center gap-4 self-end lg:gap-10`}>
           <NavLink
-            to="/about-us"
+            to="/about"
             className={({ isActive }) =>
               `${linkStyle} ${isTransparentHeader ? "text-primary-50 hover:border-b-primary-50" : "text-primary-500 hover:border-b-primary-500"} ${getActiveBorderStyle(isActive, isTransparentHeader)}`
             }
           >
-            ABOUT US
+            ABOUT
           </NavLink>
           <NavLink
             to="/faqs"
