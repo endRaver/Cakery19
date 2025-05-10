@@ -12,14 +12,14 @@ const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
 
   const handleIncrement = () => {
     if (cartProduct.quantity >= 9) return;
-    handleUpdateQuantity(cartProduct.product._id, cartProduct.quantity + 1);
+    handleUpdateQuantity(cartProduct, cartProduct.quantity + 1);
   };
 
   const handleDecrement = () => {
     if (cartProduct.quantity <= 1) {
       handleRemoveItem();
     } else {
-      handleUpdateQuantity(cartProduct.product._id, cartProduct.quantity - 1);
+      handleUpdateQuantity(cartProduct, cartProduct.quantity - 1);
     }
   };
 
@@ -28,7 +28,7 @@ const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
       "Are you sure you want to remove this item from the cart?"
     );
     if (confirmDelete) {
-      handleRemoveFromCart(cartProduct.product._id, cartProduct.variant);
+      handleRemoveFromCart(cartProduct);
     }
   };
 
@@ -59,6 +59,7 @@ const CartItem = ({ cartProduct }: { cartProduct: CartProduct }) => {
             {cartProduct.product.name}
           </h3>
           <p className="uppercase text-primary-200">Type: {cartProduct.variant?.size}</p>
+          {cartProduct.excludeNuts && <p className="uppercase text-primary-200">Exclude Nuts</p>}
           <p className="font-xl uppercase text-primary-400">
             {cartProduct.variant?.price.toFixed(2)} CHF
           </p>

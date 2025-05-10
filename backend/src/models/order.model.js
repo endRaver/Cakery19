@@ -42,6 +42,10 @@ const orderSchema = new mongoose.Schema({
           required: true,
         },
       },
+      excludeNuts: {
+        type: Boolean,
+        required: true,
+      },
     },
   ],
   status: {

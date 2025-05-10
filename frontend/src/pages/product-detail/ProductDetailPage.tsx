@@ -35,16 +35,14 @@ const ProductDetailPage = () => {
     fetchProductsById,
     fetchProductsByCategory,
   } = useProductStore();
-
   const { user } = useUserStore();
-
   const { handleAddToCart, isLoading: isCartLoading } = useCartStore();
 
   const [selectedVariant, setSelectedVariant] = useState<Variant | undefined>(
     currentProduct?.variants[0]
   );
-
   const [quantity, setQuantity] = useState(1);
+  const [excludeNuts, setExcludeNuts] = useState(false);
 
   const handleIncrement = () => {
     if (quantity >= 9) return;
@@ -114,7 +112,7 @@ const ProductDetailPage = () => {
               </div>
             )}
 
-            <div className="basic-full lg:max-w-[70%] space-y-8 lg:basis-[70%]">
+            <div className="basic-full w-full space-y-8 lg:max-w-[70%] lg:basis-[70%]">
               <div className="space-y-3 text-primary-400">
                 <h1 className="mb-2 text-2xl font-medium uppercase lg:text-[51px] lg:leading-[51px]">
                   {currentProduct.name}
@@ -140,16 +138,28 @@ const ProductDetailPage = () => {
                     </button>
                   ))}
                 </div>
+
+                <div className="mt-4 flex items-center gap-3">
+                  <button
+                    onClick={() => setExcludeNuts(!excludeNuts)}
+                    className={`flex items-center gap-2 rounded border px-4 py-2 transition-all ${
+                      excludeNuts
+                        ? "border-primary-300 text-primary-500"
+                        : "border-primary-75 text-primary-300"
+                    }`}
+                  >
+                    <img src={nuts} alt="nuts icon" className="h-5 w-5" />
+                    <span className="text-sm tracking-wider">
+                      {excludeNuts ? "Exclude Nuts" : "Include Nuts"}
+                    </span>
+                  </button>
+                </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center gap-2">
                   <img src={plant_based} alt="icon" />
                   <p className="text-nowrap text-sm tracking-wider text-[#ABAB70]">Plant-based</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <img src={nuts} alt="icon" />
-                  <p className="text-nowrap text-sm tracking-wider text-[#ABAB70]">Nuts</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <img src={gluten_free} alt="icon" />
@@ -175,7 +185,7 @@ const ProductDetailPage = () => {
                       return;
                     }
                     if (!selectedVariant) return;
-                    handleAddToCart(currentProduct, selectedVariant, quantity);
+                    handleAddToCart(currentProduct, selectedVariant, quantity, excludeNuts);
                     setQuantity(1);
                   }}
                   disabled={isCartLoading}

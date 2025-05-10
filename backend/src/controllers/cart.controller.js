@@ -14,7 +14,8 @@ export const getCartProducts = async (req, res) => {
       return {
         product: product.toJSON(),
         quantity: cartItem.quantity,
-        variant: cartItem.variant
+        variant: cartItem.variant,
+        excludeNuts: cartItem.excludeNuts,
       }
     });
 
@@ -27,13 +28,14 @@ export const getCartProducts = async (req, res) => {
 
 export const addToCart = async (req, res) => {
   try {
-    const { productId, variant, quantity } = req.body;
+    const { productId, variant, quantity, excludeNuts } = req.body;
     const user = req.user;
 
     const existingItem = user.cartItems.find((item) =>
       item._id.toString() === productId.toString()
       && item.variant.size === variant.size
       && item.variant.price === variant.price
+      && item.excludeNuts === excludeNuts
     );
 
     if (existingItem) {
@@ -46,6 +48,7 @@ export const addToCart = async (req, res) => {
         _id: productId,
         quantity: quantity,
         variant: variant,
+        excludeNuts: excludeNuts,
       });
     }
 
@@ -58,6 +61,7 @@ export const addToCart = async (req, res) => {
       ...product.toJSON(),
       quantity: quantity,
       variant: variant,
+      excludeNuts: excludeNuts,
     }
 
     res.status(200).json(cartItems);
@@ -69,14 +73,16 @@ export const addToCart = async (req, res) => {
 
 export const removeAllFromCart = async (req, res) => {
   try {
-    const { productId, variant } = req.body;
+    const { productId, variant, excludeNuts } = req.body;
     const user = req.user;
 
     if (!productId) {
       user.cartItems = [];
     } else {
       user.cartItems = user.cartItems.filter(
-        (item) => !(item.id === productId && item.variant.size === variant.size)
+        (item) => !(item.id === productId
+          && item.variant.size === variant.size
+          && item.excludeNuts === excludeNuts)
       );
     }
 
@@ -92,13 +98,18 @@ export const removeAllFromCart = async (req, res) => {
 export const updateQuantity = async (req, res) => {
   try {
     const { id: productId } = req.params;
-    const { quantity } = req.body;
+    const { quantity, variant, excludeNuts } = req.body;
     const user = req.user;
-    const existingItem = user.cartItems.find(item => item.id === productId);
+
+    const existingItem = user.cartItems.find(item => item.id === productId
+      && item.variant.size === variant.size
+      && item.excludeNuts === excludeNuts);
 
     if (existingItem) {
       if (quantity === 0) {
-        user.cartItems = user.cartItems.filter((item) => item.id !== productId);
+        user.cartItems = user.cartItems.filter((item) => item.id !== productId
+          && item.variant.size === variant.size
+          && item.excludeNuts === excludeNuts);
         await user.save();
         return res.status(200).json(user.cartItems);
       }

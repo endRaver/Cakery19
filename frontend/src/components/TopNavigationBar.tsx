@@ -67,9 +67,17 @@ const NavbarDesktop = () => {
   }, [handleGetCartItems, user]);
 
   useEffect(() => {
-    setCartQuantity(
-      cartItems ? cartItems.reduce((acc, item) => acc + (Number(item.quantity) || 0), 0) : 0
-    );
+    if (!cartItems) {
+      setCartQuantity(0);
+      return;
+    }
+
+    const total = cartItems.reduce((acc, item) => {
+      const quantity = Number(item.quantity);
+      return acc + (isNaN(quantity) ? 0 : quantity);
+    }, 0);
+
+    setCartQuantity(total);
   }, [cartItems]);
 
   return (

@@ -99,6 +99,7 @@ const SuccessPaymentPage = () => {
                     <div className="text-left">
                       <p className="font-medium text-primary-500">{item.product.name}</p>
                       <p className="text-sm text-primary-400">Type: {item.variant?.size}</p>
+                      {item.excludeNuts && <p className="text-sm text-primary-400">Exclude Nuts</p>}
                       <p className="text-sm text-primary-400">Quantity: {item.quantity}</p>
                     </div>
                   </div>

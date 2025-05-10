@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axios";
-import { CartItem, Product, Variant } from "@/types/product";
+import { CartProduct, Product, Variant } from "@/types/product";
 import { AxiosError } from "axios";
 import { create } from "zustand";
 import toast from "react-hot-toast";
@@ -7,15 +7,20 @@ import { CacheManager } from "@/lib/cache";
 
 interface CartStore {
   isLoading: boolean;
-  cartItems: CartItem[];
+  cartItems: CartProduct[];
   pickupDate: string;
 
-  cartCache: CacheManager<CartItem[]>;
+  cartCache: CacheManager<CartProduct[]>;
 
-  handleGetCartItems: () => Promise<CartItem[]>;
-  handleAddToCart: (product: Product, variant: Variant, quantity?: number) => Promise<void>;
-  handleRemoveFromCart: (productId: string, variant: Variant) => Promise<void>;
-  handleUpdateQuantity: (productId: string, quantity: number) => Promise<void>;
+  handleGetCartItems: () => Promise<CartProduct[]>;
+  handleAddToCart: (
+    product: Product,
+    variant: Variant,
+    quantity?: number,
+    excludeNuts?: boolean
+  ) => Promise<void>;
+  handleRemoveFromCart: (cartProduct: CartProduct) => Promise<void>;
+  handleUpdateQuantity: (cartProduct: CartProduct, quantity: number) => Promise<void>;
   setPickupDate: (date: string) => void;
   resetCache: () => void;
 }
@@ -25,7 +30,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   cartItems: [],
   pickupDate: "",
 
-  cartCache: new CacheManager<CartItem[]>(),
+  cartCache: new CacheManager<CartProduct[]>(),
 
   handleGetCartItems: async () => {
     const cacheKey = "cart";
@@ -55,7 +60,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
     }
   },
 
-  handleAddToCart: async (product: Product, variant: Variant, quantity?: number) => {
+  handleAddToCart: async (
+    product: Product,
+    variant: Variant,
+    quantity?: number,
+    excludeNuts?: boolean
+  ) => {
     set({ isLoading: true });
 
     try {
@@ -63,17 +73,16 @@ export const useCartStore = create<CartStore>((set, get) => ({
         productId: product._id,
         variant: variant,
         quantity: quantity ?? 1,
+        excludeNuts: excludeNuts ?? false,
       });
 
+      get().resetCache();
       set((prevState) => {
         const newCart = [...prevState.cartItems, response.data];
         return { cartItems: newCart };
       });
 
-      await get().handleGetCartItems();
-      get().resetCache();
       toast.success("Product added to cart");
-
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -84,20 +93,30 @@ export const useCartStore = create<CartStore>((set, get) => ({
     }
   },
 
-  handleRemoveFromCart: async (productId: string, variant: Variant) => {
+  handleRemoveFromCart: async (cartProduct: CartProduct) => {
     set({ isLoading: true });
 
     try {
-      await axiosInstance.delete(`/carts`, { data: { productId, variant } });
-
-      set((prevState) => {
-        const newCart = prevState.cartItems.filter(
-          (item) => !(item.product._id === productId && item.variant.size === variant.size)
-        );
-        return { cartItems: newCart };
+      await axiosInstance.delete(`/carts`, {
+        data: {
+          productId: cartProduct.product._id,
+          variant: cartProduct.variant,
+          excludeNuts: cartProduct.excludeNuts,
+        },
       });
 
       get().resetCache();
+      set((prevState) => {
+        const newCart = prevState.cartItems.filter(
+          (item) =>
+            !(
+              item.product._id === cartProduct.product._id &&
+              item.variant.size === cartProduct.variant.size &&
+              item.excludeNuts === cartProduct.excludeNuts
+            )
+        );
+        return { cartItems: newCart };
+      });
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message ?? "Failed to remove product from cart");
@@ -107,15 +126,22 @@ export const useCartStore = create<CartStore>((set, get) => ({
     }
   },
 
-  handleUpdateQuantity: async (productId: string, quantity: number) => {
+  handleUpdateQuantity: async (cartProduct: CartProduct, quantity: number) => {
     try {
-      await axiosInstance.put(`/carts/${productId}`, { quantity });
+      await axiosInstance.put(`/carts/${cartProduct.product._id}`, {
+        quantity,
+        variant: cartProduct.variant,
+        excludeNuts: cartProduct.excludeNuts,
+      });
 
       get().resetCache();
-
       set((prevState) => {
         const newCart = prevState.cartItems.map((item) =>
-          item.product._id === productId ? { ...item, quantity } : item
+          item.product._id === cartProduct.product._id &&
+          item.variant.size === cartProduct.variant.size &&
+          item.excludeNuts === cartProduct.excludeNuts
+            ? { ...item, quantity }
+            : item
         );
         return { cartItems: newCart };
       });

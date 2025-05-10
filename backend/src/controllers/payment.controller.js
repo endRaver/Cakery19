@@ -3,6 +3,7 @@ import { stripe } from "../lib/stripe.js";
 import Order from "../models/order.model.js";
 import User from "../models/user.model.js";
 import Product from "../models/product.model.js";
+import CartSession from "../models/cartSession.model.js";
 import { sendOrderSuccessEmail } from "../lib/mailtrap/emails.js";
 
 // Helper function to convert CHF to rappen (smallest currency unit)
@@ -32,7 +33,7 @@ export const createCheckoutSession = async (req, res) => {
         price_data: {
           currency: 'chf',
           product_data: {
-            name: item.product.name + " (" + item.variant.size + ")",
+            name: item.product.name + " (" + item.variant.size + ")" + (item.excludeNuts ? " | Exclude Nuts" : ""),
             images: item.product.imageUrl && item.product.imageUrl.length > 0 ? [item.product.imageUrl[0]] : [],
           },
           unit_amount: chfToRappen(amount),
@@ -41,7 +42,7 @@ export const createCheckoutSession = async (req, res) => {
       }
     });
 
-    // Create checkout session with at most one coupon
+    // Create checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card', 'twint'],
       line_items: lineItems,
@@ -51,15 +52,19 @@ export const createCheckoutSession = async (req, res) => {
       cancel_url: `${process.env.CLIENT_URL}/cart`,
       metadata: {
         userId: req.user._id.toString(),
-        cartItems: JSON.stringify(
-          cartItems.map((item) => ({
-            id: item.product._id,
-            quantity: item.quantity,
-            variant: item.variant
-          }))
-        ),
-        pickupDate: pickupDate,
       }
+    });
+
+    // Store cart data in CartSession
+    await CartSession.create({
+      stripeSessionId: session.id,
+      cartItems: cartItems.map(item => ({
+        productId: item.product._id,
+        quantity: item.quantity,
+        variantId: item.variant._id,
+        excludeNuts: item.excludeNuts
+      })),
+      pickupDate: pickupDate
     });
 
     // Send response with session ID and amounts
@@ -91,7 +96,6 @@ export const checkoutSuccess = async (req, res) => {
     // Check if order already exists for this session
     const existingOrder = await Order.findOne({ stripeSessionId: sessionId });
     if (existingOrder) {
-      // console.log(`Order already exists for session ${sessionId}`);
       return res.status(200).json({
         success: true,
         message: "Order already processed",
@@ -120,27 +124,43 @@ export const checkoutSuccess = async (req, res) => {
       });
     }
 
-    const cartItems = JSON.parse(session.metadata.cartItems);
-    const storeProducts = await Product.find({ _id: { $in: cartItems.map(product => product.id) } });
+    // Retrieve cart data from CartSession
+    const cartSession = await CartSession.findOne({ stripeSessionId: sessionId });
+    if (!cartSession) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart session not found"
+      });
+    }
+
+    const storeProducts = await Product.find({
+      _id: { $in: cartSession.cartItems.map(item => item.productId) }
+    });
 
     // Create a new Order
     const newOrder = new Order({
       user: user,
-      products: cartItems.map((product) => ({
-        product: storeProducts.find(p => p._id.equals(product.id)),
-        quantity: product.quantity,
-        variant: product.variant
+      products: cartSession.cartItems.map((item) => ({
+        product: storeProducts.find(p => p._id.equals(item.productId)),
+        quantity: item.quantity,
+        variant: storeProducts
+          .find(p => p._id.equals(item.productId))
+          ?.variants.find(v => v._id.equals(item.variantId)),
+        excludeNuts: item.excludeNuts
       })),
       status: 'confirmed',
       paymentMethod: session.payment_method_types[0],
       totalAmount: totalAmountInChf,
-      pickupDate: session.metadata.pickupDate,
+      pickupDate: cartSession.pickupDate,
       stripeSessionId: sessionId,
     });
 
     await newOrder.save();
 
-    await sendOrderSuccessEmail(user.email, newOrder);
+    // Delete the cart session after successful order creation
+    await CartSession.deleteOne({ stripeSessionId: sessionId });
+
+    // await sendOrderSuccessEmail(user.email, newOrder);
 
     res.status(200).json({
       success: true,
@@ -148,7 +168,7 @@ export const checkoutSuccess = async (req, res) => {
       order: newOrder,
     });
   } catch (error) {
-    // console.error("Error processing successful checkout:", error);
+    console.error("Error processing successful checkout:", error);
     res.status(500).json({
       success: false,
       message: "Error processing successful checkout",

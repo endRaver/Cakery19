@@ -7,6 +7,7 @@ export interface Variant {
   size: string;
   price: number;
   portionSize: PortionSize;
+  excludeNuts: boolean;
 }
 
 export interface Product {
@@ -24,6 +25,7 @@ export interface CartProduct {
   product: Product;
   quantity: number;
   variant: Variant;
+  excludeNuts: boolean;
 }
 
 export interface Message {
@@ -36,10 +38,4 @@ export interface Message {
   };
   createdAt: string;
   updatedAt: string;
-}
-
-export interface CartItem {
-  product: Product;
-  quantity: number;
-  variant: Variant;
 }

@@ -168,7 +168,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
         set({ currentOrder: order });
 
         order.products.forEach((product) => {
-          useCartStore.getState().handleRemoveFromCart(product.product._id, product.variant);
+          useCartStore.getState().handleRemoveFromCart(product);
         });
       }
     } catch (error) {
