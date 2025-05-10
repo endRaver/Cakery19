@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Button } from "@/components/ui/button";
 import { Variant } from "@/types/product";
 
 import { useCartStore } from "@/stores/useCartStore";
@@ -22,9 +21,6 @@ import ProductDisplayMobileSkeleton from "@/components/skeletons/ProductDisplayM
 import ChangeQuantitySelection from "@/components/ChangeQuantitySelection";
 import AnimatedButton from "../../components/AnimatedButton";
 import { Loader2 } from "lucide-react";
-
-const buttonStyle =
-  "px-5 py-2 rounded-md border border-primary-400 bg-transparent text-sm text-primary-400 hover:bg-primary-200 hover:text-primary-50 font-normal tracking-wider";
 
 const ProductDetailPage = () => {
   const [searchParams] = useSearchParams();
@@ -81,13 +77,13 @@ const ProductDetailPage = () => {
   if (isLoading)
     return (
       <main className="mb-10 space-y-8 lg:space-y-10">
-        {windowWidth <= 640 && <ProductDisplayMobileSkeleton />}
+        {windowWidth <= 880 && <ProductDisplayMobileSkeleton />}
 
         <section className="container mx-auto space-y-10">
-          {windowWidth > 640 && <BreadCrumbSkeleton />}
+          {windowWidth > 880 && <BreadCrumbSkeleton />}
 
           <div className="flex flex-col gap-x-4 gap-y-8 md:flex-row lg:gap-x-10 2xl:gap-x-20">
-            {windowWidth > 640 && (
+            {windowWidth > 880 && (
               <div className="flex-1 space-y-6">
                 <ProductDisplaySkeleton />
               </div>
@@ -104,47 +100,44 @@ const ProductDetailPage = () => {
   if (!isLoading && currentProduct)
     return (
       <main className="mb-10 space-y-8 lg:space-y-10">
-        {windowWidth <= 640 && (
+        {windowWidth <= 880 && (
           <ProductImageDisplayMobile productImages={currentProduct.imageUrl} />
         )}
 
         <section className="container mx-auto space-y-10">
-          {windowWidth > 640 && <TagBreadcrumb product={currentProduct} />}
+          {windowWidth > 880 && <TagBreadcrumb product={currentProduct} />}
 
-          <div className="flex flex-col gap-x-4 gap-y-8 md:flex-row lg:gap-x-10 2xl:gap-x-20">
-            {windowWidth > 640 && (
-              <div className="flex-1 space-y-6">
+          <div className="flex gap-x-4 gap-y-8 md:flex-row lg:gap-x-10 2xl:gap-x-20">
+            {windowWidth > 880 && (
+              <div className="basis-full space-y-6 lg:basis-[100%]">
                 <ProductImageDisplay product={currentProduct} />
               </div>
             )}
 
-            {/* Product details */}
-            <div className="flex-1 space-y-8">
+            <div className="basic-full lg:max-w-[70%] space-y-8 lg:basis-[70%]">
               <div className="space-y-3 text-primary-400">
-                <h1 className="mb-2 text-4xl font-medium uppercase lg:text-[51px] lg:leading-[51px]">
+                <h1 className="mb-2 text-2xl font-medium uppercase lg:text-[51px] lg:leading-[51px]">
                   {currentProduct.name}
                 </h1>
 
                 <p className="text-lg">
                   {selectedVariant?.price ? selectedVariant.price.toFixed(2) : "N/A"} CHF
                 </p>
-
-                <p className="text-sm tracking-wider">{currentProduct.description}</p>
               </div>
 
               <div className="space-y-2.5">
-                <h6 className="text-lg font-medium text-primary-500">Sizes</h6>
-
                 <div className="flex gap-2">
                   {currentProduct.variants.map((variant, index) => (
-                    <Button
-                      variant="outline"
-                      className={`${buttonStyle} ${selectedVariant === variant && "bg-primary-300 text-white"}`}
+                    <button
+                      className={`flex h-20 w-28 flex-col items-center justify-center rounded border bg-transparent text-primary-300 ${selectedVariant === variant ? "border-primary-300 font-semibold text-primary-500" : "border-primary-75 font-normal text-primary-300"} transition-all`}
                       onClick={() => setSelectedVariant(variant)}
                       key={index}
                     >
-                      {variant.size}
-                    </Button>
+                      <span className="text-lg">
+                        {variant.portionSize.from}/{variant.portionSize.to}
+                      </span>
+                      <span className="mt-1 text-xs tracking-widest">PERSONS</span>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -204,6 +197,17 @@ const ProductDetailPage = () => {
                   <li>• Collect at the store</li>
                   <li>• Order Before 10PM today and collect tomorrow from 10AM</li>
                 </ul>
+              </div>
+
+              <div className="mt-4">
+                <h6 className="text-2xl font-bold text-[#bd8f68]">Description</h6>
+                <p className="mt-2 text-sm tracking-wider">{currentProduct.description}</p>
+                <h6 className="mt-2 font-medium text-primary-500">Portion size</h6>
+                {currentProduct.variants.map((variant) => (
+                  <p className="text-sm tracking-wider" key={variant.size}>
+                    {variant.portionSize.from}/{variant.portionSize.to} persons {variant.size}
+                  </p>
+                ))}
               </div>
             </div>
           </div>

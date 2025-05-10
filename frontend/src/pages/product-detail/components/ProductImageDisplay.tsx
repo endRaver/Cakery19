@@ -12,23 +12,12 @@ const ProductImageDisplay = ({ product }: { product: Product }) => {
   const imageWidth = 400;
 
   return (
-    <>
-      <picture>
-        <source srcSet={selectedImage.replace(".jpg", ".webp")} type="image/webp" />
-        <img
-          src={selectedImage}
-          alt={product.name}
-          loading="eager"
-          className="fade-in-image h-[480px] w-full rounded-lg object-cover object-center xl:h-[592px]"
-          onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
-        />
-      </picture>
-
-      <div className="flex gap-2.5">
+    <div className="grid w-full grid-cols-[60px_auto] gap-8 lg:grid-cols-[80px_auto] xl:grid-cols-[110px_auto]">
+      <div className="flex w-full flex-col gap-3">
         {product.imageUrl.map((image) => (
           <button
             key={image}
-            className={`cursor-pointer border-2 p-1 duration-300 hover:border-primary-300 ${selectedImage === image ? "border-primary-300" : "border-primary-75"}`}
+            className={`aspect-square w-full overflow-hidden border-2 p-1 duration-300 hover:border-primary-300 ${selectedImage === image ? "border-primary-300" : "border-primary-75"}`}
             onMouseOver={() => setSelectedImage(image)}
             onFocus={() => setSelectedImage(image)}
           >
@@ -38,14 +27,27 @@ const ProductImageDisplay = ({ product }: { product: Product }) => {
                 src={optimizeImageUrl(image, imageWidth)}
                 alt={product.name}
                 loading="eager"
-                className="fade-in-image aspect-square h-[80px] object-cover object-center xl:h-[130px]"
+                className="fade-in-image aspect-square h-full w-full object-cover object-center"
                 onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
               />
             </picture>
           </button>
         ))}
       </div>
-    </>
+
+      <div className="flex w-full items-center justify-center">
+        <picture>
+          <source srcSet={selectedImage.replace(".jpg", ".webp")} type="image/webp" />
+          <img
+            src={selectedImage}
+            alt={product.name}
+            loading="eager"
+            className="fade-in-image aspect-square w-full rounded-sm object-cover object-center"
+            onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+          />
+        </picture>
+      </div>
+    </div>
   );
 };
 

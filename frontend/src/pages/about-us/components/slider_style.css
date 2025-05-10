@@ -34,7 +34,7 @@
 }
 
 .swiper-pagination .swiper-pagination-bullet-active {
-  background: #9B9B87;
+  background: #F3F3F1;
   transition: 0.3s ease-in-out;
   width: 20px;
   border-radius: 10px;

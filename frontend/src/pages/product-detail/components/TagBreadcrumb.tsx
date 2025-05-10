@@ -10,7 +10,7 @@ const TagBreadcrumb = ({ product }: { product: Product }) => {
   };
 
   return (
-    <div className="flex items-center text-sm tracking-wider text-primary-400">
+    <div className="flex items-center text-sm tracking-wider mt-4 text-primary-400">
       <AnimatedUnderline>
         <Link to={"/shop"} className="capitalize">
           Shop

@@ -39,16 +39,18 @@ const ProductImageDisplayMobile = ({ productImages }: { productImages: string[] 
       >
         {productImages.map((image, index) => (
           <SwiperSlide key={index}>
-            <picture>
-              <source srcSet={image} type="image/webp" />
-              <img
-                src={image}
-                alt={image}
-                loading="eager"
-                className="fade-in-image relative flex h-[390px] w-full flex-col overflow-hidden object-cover object-center shadow-xl"
-                onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
-              />
-            </picture>
+            <div className="relative aspect-square w-full overflow-hidden shadow-xl">
+              <picture>
+                <source srcSet={image} type="image/webp" />
+                <img
+                  src={image}
+                  alt={image}
+                  loading="eager"
+                  className="fade-in-image h-full w-full object-cover object-center"
+                  onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+                />
+              </picture>
+            </div>
           </SwiperSlide>
         ))}
 
@@ -56,21 +58,23 @@ const ProductImageDisplayMobile = ({ productImages }: { productImages: string[] 
         {productImages.length < 3 &&
           productImages.map((image, index) => (
             <SwiperSlide key={index}>
-              <picture>
-                <source srcSet={image} type="image/webp" />
-                <img
-                  src={image}
-                  alt={image}
-                  loading="eager"
-                  className="fade-in-image relative flex h-[390px] w-full flex-col overflow-hidden object-cover object-center shadow-xl"
-                  onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
-                />
-              </picture>
+              <div className="relative aspect-square w-full overflow-hidden shadow-xl">
+                <picture>
+                  <source srcSet={image} type="image/webp" />
+                  <img
+                    src={image}
+                    alt={image}
+                    loading="eager"
+                    className="fade-in-image h-full w-full object-cover object-center"
+                    onLoad={(e) => (e.target as HTMLImageElement).classList.add("loaded")}
+                  />
+                </picture>
+              </div>
             </SwiperSlide>
           ))}
 
         <div className="slider-controller">
-          <div className="swiper-pagination"></div>
+          <div className="swiper-pagination" />
         </div>
       </Swiper>
     </div>
